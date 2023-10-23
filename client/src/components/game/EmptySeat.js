@@ -1,18 +1,17 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const EmptySeat = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 120px;
-  height: 120px;
+  width: 85px;
+  height: 85px;
   padding: 1rem;
-  border-radius: 100%;
-  background: rgba(247, 242, 220, 0.8);
-  border: 5px solid #6297b5;
+  border-radius: 85px;
+  background: rgb(255 255 255 / 18%);
+  border: 2px solid #000;
   transition: all 0.1s;
-
   p {
     margin-bottom: 0;
   }

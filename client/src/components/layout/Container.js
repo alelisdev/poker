@@ -1,21 +1,19 @@
-import styled, { css } from 'styled-components';
-import PropTypes from 'prop-types';
+import styled, { css } from "styled-components";
+import PropTypes from "prop-types";
 
 const Container = styled.div`
+  justify-content: ${(props) => props.justifyContent};
+  font-family: "IBM Plex Mono", monospace;
+  height: 100vh;
   display: ${(props) => props.display};
   position: relative;
   flex-direction: ${(props) => props.flexDirection};
-  justify-content: ${(props) => props.justifyContent};
   align-items: ${(props) => props.alignItems};
-  max-width: 1440px;
   margin: ${(props) => props.margin};
-  padding: ${(props) => props.padding};
 
   @media screen and (max-width: 1024px) {
     justify-content: ${(props) =>
-      props.contentCenteredMobile ? 'center' : 'space-between'};
-    padding-left: 1rem;
-    padding-right: 1rem;
+      props.contentCenteredMobile ? "center" : "space-between"};
   }
 
   ${(props) =>
@@ -49,12 +47,12 @@ Container.defaultProps = {
   contentCenteredMobile: false,
   fluid: false,
   fullHeight: false,
-  margin: '0 auto',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  flexDirection: 'row',
-  padding: '0 2rem',
-  display: 'flex',
+  margin: "0 auto",
+  justifyContent: "space-between",
+  alignItems: "center",
+  flexDirection: "row",
+  padding: "0 2rem",
+  display: "flex",
 };
 
 export default Container;

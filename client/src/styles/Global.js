@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
   :root {
@@ -12,8 +12,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     padding: 0;
     scrollbar-width: thin;
-    scrollbar-color: ${(props) => props.theme.colors.secondaryCta} ${(props) =>
-  props.theme.colors.lightBg};
+    scrollbar-color: #11141D;
     box-sizing: inherit;
   }
 
@@ -23,17 +22,17 @@ const GlobalStyles = createGlobalStyle`
   }
 
   *::-webkit-scrollbar {
-    width: 0.75rem;
+    width: 0.45rem;
     transition: all 0.3s ease-out;
   }
 
   *::-webkit-scrollbar-track {
-    background: ${(props) => props.theme.colors.lightBg};
+    background: #323846;
   }
 
   *::-webkit-scrollbar-thumb {
-    background-color: ${(props) => props.theme.colors.secondaryCta};
-    border-radius: ${(props) => props.theme.other.stdBorderRadius};
+    background-color: #181A26;
+    border-radius: 12px;
   }
 
   *::-webkit-scrollbar-thumb:hover {
@@ -51,11 +50,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
-    background-color: ${(props) => props.theme.colors.lightestBg};
-    color: ${(props) => props.theme.colors.fontColorDark};
-    font-family: ${(props) => props.theme.fonts.fontFamilySansSerif};
-    line-height: ${(props) => props.theme.fonts.fontLineHeight};
-    font-weight: 400;
+    background-color: #11141D;
   }
 
   hr {

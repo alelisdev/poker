@@ -1,11 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import table from '../../assets/game/table.svg';
+import React from "react";
+import styled from "styled-components";
+import table from "../../assets/img/bord1.png";
 
 const StyledPokerTable = styled.img`
+  width: 63%;
+  height: 77%;
+  position: absolute;
+  top: 13%;
   display: block;
   pointer-events: none;
-  width: 95%;
   margin: 0 auto;
 `;
 

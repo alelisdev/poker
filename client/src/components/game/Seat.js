@@ -1,33 +1,74 @@
-import React, { useContext, useEffect } from 'react';
-import Button from '../buttons/Button';
-import modalContext from '../../context/modal/modalContext';
-import globalContext from '../../context/global/globalContext';
-import { ButtonGroup } from '../forms/ButtonGroup';
-import { Form } from '../forms/Form';
-import { FormGroup } from '../forms/FormGroup';
-import { Input } from '../forms/Input';
-import gameContext from '../../context/game/gameContext';
-import { PositionedUISlot } from './PositionedUISlot';
-import { InfoPill } from './InfoPill';
-import PokerCard from './PokerCard';
-import ChipsAmountPill from './ChipsAmountPill';
-import ColoredText from '../typography/ColoredText';
-import PokerChip from '../icons/PokerChip';
-import { EmptySeat } from './EmptySeat';
-import { OccupiedSeat } from './OccupiedSeat';
-import { Hand } from './Hand';
-import { NameTag } from './NameTag';
-import contentContext from '../../context/content/contentContext';
-import Markdown from 'react-remarkable';
-import DealerButton from '../icons/DealerButton';
-import { StyledSeat } from './StyledSeat';
+import React, { useContext, useEffect } from "react";
+import Button from "../buttons/Button";
+import modalContext from "../../context/modal/modalContext";
+import globalContext from "../../context/global/globalContext";
+import { ButtonGroup } from "../forms/ButtonGroup";
+import { Form } from "../forms/Form";
+import { FormGroup } from "../forms/FormGroup";
+import { Input } from "../forms/Input";
+import gameContext from "../../context/game/gameContext";
+import { PositionedUISlot } from "./PositionedUISlot";
+import { InfoPill } from "./InfoPill";
+import PokerCard from "./PokerCard";
+import ChipsAmountPill from "./ChipsAmountPill";
+import ColoredText from "../typography/ColoredText";
+import PokerChip from "../icons/PokerChip";
+import { EmptySeat } from "./EmptySeat";
+import { OccupiedSeat } from "./OccupiedSeat";
+import { Hand } from "./Hand";
+import contentContext from "../../context/content/contentContext";
+import Markdown from "react-remarkable";
+import DealerButton from "../icons/DealerButton";
+import { StyledSeat } from "./StyledSeat";
+import SitButton from "../buttons/SitButton";
+import styled from "styled-components";
+
+const AccountItem = styled.div`
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 115px;
+  position: absolute;
+  border: 2px solid #181a26;
+  background: #212531;
+  border-radius: 4px;
+  z-index: 55;
+`;
+
+const NameTag = styled.div`
+  color: #fff;
+  font-family: IBM Plex Mono;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px;
+  width: 100%;
+  height: 31px;
+  border-radius: 4px;
+  background: #181a26;
+`;
+
+const BlanaceTag = styled.div`
+  width: 100%;
+  padding: 0.15rem 2rem;
+  background: #212531;
+  height: 31px;
+  border-radius: 3px;
+  color: #fff;
+  font-family: IBM Plex Mono;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px;
+`;
 
 export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
   const { openModal, closeModal } = useContext(modalContext);
   const { chipsAmount } = useContext(globalContext);
   const { standUp, seatId, rebuy } = useContext(gameContext);
   const { getLocalizedString } = useContext(contentContext);
-
   const seat = currentTable.seats[seatNumber];
   const maxBuyin = currentTable.limit;
   const minBuyIn = currentTable.minBet * 2 * 10;
@@ -50,7 +91,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
               onSubmit={(e) => {
                 e.preventDefault();
 
-                const amount = +document.getElementById('amount').value;
+                const amount = +document.getElementById("amount").value;
 
                 if (
                   amount &&
@@ -74,13 +115,13 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
               </FormGroup>
               <ButtonGroup>
                 <Button primary type="submit" fullWidth>
-                  {getLocalizedString('game_rebuy-modal_confirm')}
+                  ReBuy into game
                 </Button>
               </ButtonGroup>
             </Form>
           ),
-          getLocalizedString('game_rebuy-modal_header'),
-          getLocalizedString('game_rebuy-modal_cancel'),
+          `ReBuy`,
+          `Cancel`,
           () => {
             standUp();
             closeModal();
@@ -88,7 +129,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
           () => {
             standUp();
             closeModal();
-          },
+          }
         );
       }
     }
@@ -100,17 +141,14 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
       {!seat ? (
         <>
           {!isPlayerSeated ? (
-            <Button
-              small
+            <SitButton
               onClick={() => {
                 openModal(
                   () => (
                     <Form
                       onSubmit={(e) => {
                         e.preventDefault();
-
-                        const amount = +document.getElementById('amount').value;
-
+                        const amount = +document.getElementById("amount").value;
                         if (
                           amount &&
                           amount >= minBuyIn &&
@@ -120,7 +158,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                           sitDown(
                             currentTable.id,
                             seatNumber,
-                            parseInt(amount),
+                            parseInt(amount)
                           );
                           closeModal();
                         }
@@ -137,48 +175,38 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                       </FormGroup>
                       <ButtonGroup>
                         <Button primary type="submit" fullWidth>
-                          {getLocalizedString('game_buyin-modal_confirm')}
+                          {getLocalizedString("Buy into game")}
                         </Button>
                       </ButtonGroup>
                     </Form>
                   ),
-                  getLocalizedString('game_buyin-modal_header'),
-                  getLocalizedString('game_buyin-modal_cancel'),
+                  getLocalizedString("Buy In"),
+                  getLocalizedString("No thanks!")
                 );
               }}
             >
-              {getLocalizedString('game_sitdown-btn')}
-            </Button>
+              Sit Down
+            </SitButton>
           ) : (
             <EmptySeat>
-              <Markdown>{getLocalizedString('game_table_empty-seat')}</Markdown>
+              <Markdown></Markdown>
             </EmptySeat>
           )}
         </>
       ) : (
         <PositionedUISlot
           style={{
-            display: 'flex',
-            textAlign: 'center',
-            justifyContent: 'center',
-            alignItems: 'center',
+            display: "flex",
+            textAlign: "center",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
-          <PositionedUISlot top="-6.25rem" left="-75px" origin="top center">
-            <NameTag>
-              <ColoredText primary textAlign="center">
-                {seat.player.name}
-                <br />
-                {seat.stack && (
-                  <ColoredText secondary>
-                    <PokerChip width="15" height="15" />{' '}
-                    {new Intl.NumberFormat(
-                      document.documentElement.lang,
-                    ).format(seat.stack)}
-                  </ColoredText>
-                )}
-              </ColoredText>
-            </NameTag>
+          <PositionedUISlot right="3.5rem" bottom="-1.5rem">
+            <AccountItem>
+              <NameTag>{seat.player.name}</NameTag>
+              {seat.stack && <BlanaceTag>${seat.stack}</BlanaceTag>}
+            </AccountItem>
           </PositionedUISlot>
           <PositionedUISlot>
             <OccupiedSeat seatNumber={seatNumber} hasTurn={seat.turn} />
@@ -186,10 +214,10 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
           <PositionedUISlot
             left="4vh"
             style={{
-              display: 'flex',
-              textAlign: 'center',
-              justifyContent: 'center',
-              alignItems: 'center',
+              display: "flex",
+              textAlign: "center",
+              justifyContent: "center",
+              alignItems: "center",
             }}
             origin="center right"
           >
@@ -209,18 +237,19 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
 
           {currentTable.button === seatNumber && (
             <PositionedUISlot
-              right="35px"
-              origin="center left"
-              style={{ zIndex: '55' }}
+              top="-4rem"
+              left="-4.5rem"
+              style={{ zIndex: "55" }}
             >
               <DealerButton />
             </PositionedUISlot>
           )}
 
           <PositionedUISlot
-            top="6vh"
-            style={{ minWidth: '150px', zIndex: '55' }}
-            origin="bottom center"
+            style={{ zIndex: "55" }}
+            right="3.5rem"
+            bottom="-1.5rem"
+            origin="top left"
           >
             <ChipsAmountPill chipsAmount={seat.bet} />
             {!currentTable.handOver && seat.lastAction && (

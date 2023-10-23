@@ -1,6 +1,5 @@
-import React from 'react';
-import bgImage from '../../assets/img/bg.jpg';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const StyledTiledBackgroundImage = styled.div`
   display: none;
@@ -15,7 +14,6 @@ const StyledTiledBackgroundImage = styled.div`
     -webkit-filter: grayscale(100%);
     filter: grayscale(100%);
     opacity: 0.5;
-    background-image: url(${bgImage});
     background-repeat: repeat;
     background-size: 600px;
   }

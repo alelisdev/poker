@@ -1,21 +1,19 @@
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const config = require('../config');
-const { validationResult } = require('express-validator');
-const { WelcomeMail } = require('../mails');
-const User = require('../models/User');
-const sendEmail = require('../helpers/sendMail');
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const config = require("../config");
+const { validationResult } = require("express-validator");
+const { WelcomeMail } = require("../mails");
+const User = require("../models/User");
+const sendEmail = require("../helpers/sendMail");
 
 // @route   POST api/users
 // @desc    Register User
 // @access  Public
 exports.register = async (req, res) => {
-  const errors = validationResult(req);
-
+  const errors = validationResult(req.body);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
-
   const { name, email, password } = req.body;
 
   try {
@@ -26,7 +24,7 @@ exports.register = async (req, res) => {
       return res.status(400).json({
         errors: [
           {
-            msg: 'Invalid credentials',
+            msg: "Invalid credentials",
           },
         ],
       });
@@ -59,10 +57,10 @@ exports.register = async (req, res) => {
       (err, token) => {
         if (err) throw err;
         return res.json({ token });
-      },
+      }
     );
   } catch (err) {
     console.error(err.message);
-    return res.status(500).json({ msg: 'Internal server error' });
+    return res.status(500).json({ msg: "Internal server error" });
   }
 };

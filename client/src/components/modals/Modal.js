@@ -1,11 +1,11 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import CloseButton from '../buttons/CloseButton';
-import HeadingWithLogo from '../typography/HeadingWithLogo';
-import Button from '../buttons/Button';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import Text from '../typography/Text';
+import React from "react";
+import ReactDOM from "react-dom";
+import CloseButton from "../buttons/CloseButton";
+import HeadingWithLogo from "../typography/HeadingWithLogo";
+import Button from "../buttons/Button";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import Text from "../typography/Text";
 
 const ModalWrapper = styled.div`
   position: fixed;
@@ -25,10 +25,10 @@ const StyledModal = styled.div`
   z-index: 101;
   max-width: 480px;
   min-width: 264px;
-  width: '100%';
+  width: "100%";
   text-align: center;
-  background-color: ${(props) => props.theme.colors.lightestBg};
-  border-radius: ${(props) => props.theme.other.stdBorderRadius};
+  background-color: #181a26;
+  border-radius: 14px;
   padding: 1.5rem;
   margin: 0 1rem;
   box-shadow: ${(props) => props.theme.other.cardDropShadow};
@@ -69,7 +69,7 @@ const Modal = ({ children, headingText, btnText, onClose, onBtnClicked }) => {
     <ModalWrapper
       id="wrapper"
       onClick={(e) => {
-        if (e.target.id === 'wrapper') {
+        if (e.target.id === "wrapper") {
           onClose();
         }
       }}
@@ -79,9 +79,7 @@ const Modal = ({ children, headingText, btnText, onClose, onBtnClicked }) => {
           <CloseButton clickHandler={onClose} />
         </IconWrapper>
         <ModalContent>
-          <HeadingWithLogo textCentered hideIconOnMobile={false}>
-            {headingText}
-          </HeadingWithLogo>
+          {headingText}
           {children ? (
             children
           ) : (
@@ -98,7 +96,7 @@ const Modal = ({ children, headingText, btnText, onClose, onBtnClicked }) => {
         </ModalContent>
       </StyledModal>
     </ModalWrapper>,
-    document.getElementById('modal'),
+    document.getElementById("modal")
   );
 };
 
@@ -110,8 +108,8 @@ Modal.propTypes = {
 };
 
 Modal.defaultProps = {
-  headingText: 'Modal',
-  btnText: 'Call to Action',
+  headingText: "Modal",
+  btnText: "Call to Action",
 };
 
 const initialModalData = {
@@ -125,8 +123,8 @@ const initialModalData = {
       soluta excepturi?
     </Text>
   ),
-  headingText: 'Modal',
-  btnText: 'Button',
+  headingText: "Modal",
+  btnText: "Button",
 };
 
 export default Modal;

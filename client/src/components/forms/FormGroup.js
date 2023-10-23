@@ -1,10 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const FormGroup = styled.div`
+  margin-bottom: ${(props) => props.mb};
   position: relative;
   display: flex;
-  width: 100%;
   flex-direction: column;
   justify-content: flex-start;
-  margin: 0.25rem 0;
 `;

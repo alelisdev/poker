@@ -1,9 +1,9 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const Label = styled.label`
+  color: #fff;
   text-align: left;
-  display: inline-block;
-  padding-left: 0.25rem;
-  margin: 0.25rem 0;
-  font-size: ${(props) => props.theme.fonts.fontSizeParagraph};
+  line-height: 16.99px;
+  font-size: 11.33px;
+  font-weight: 500;
 `;

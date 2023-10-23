@@ -9,16 +9,17 @@ const Button = styled.button`
   padding: 0.75rem 1.5rem;
   outline: none;
   border: 2px solid rgba(0, 0, 0, 0);
-  border-radius: ${(props) => props.theme.other.stdBorderRadius};
-  background-color: ${(props) => props.theme.colors.goldenColor};
+  border-radius: 4px;
   color: ${(props) => props.theme.colors.fontColorDark};
   font-family: ${(props) => props.theme.fonts.fontFamilySansSerif};
   font-weight: 400;
   font-size: 1.3rem;
   line-height: 1.3rem;
+  height: 50px;
   min-width: 150px;
   cursor: pointer;
   transition: all 0.3s;
+  width: 314px;
 
   &:visited {
     background-color: ${(props) => props.theme.colors.goldenColorDarker};
@@ -45,6 +46,8 @@ const Button = styled.button`
   ${(props) =>
     props.primary &&
     css`
+      background: linear-gradient(90deg, #da367f 0.04%, #f95e42 105.73%);
+      font-size: 15px;
       color: ${(props) => props.theme.colors.primaryCta};
       padding: ${(props) => {
         if (props.large) return "calc(1rem - 2px) calc(2rem - 2px)";
@@ -54,7 +57,6 @@ const Button = styled.button`
 
       &,
       &:visited {
-        background-color: ${(props) => props.theme.colors.primaryCta};
         color: ${(props) => props.theme.colors.fontColorLight};
       }
 

@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
-import contentContext from '../../context/content/contentContext';
-import Button from '../buttons/Button';
-import { BetSlider } from './BetSlider';
-import { UIWrapper } from './UIWrapper';
+import React from "react";
+import { BetSlider } from "./BetSlider";
+import { UIWrapper } from "./UIWrapper";
+import GameUIButton from "../buttons/GameUIButton";
 
 export const GameUI = ({
   currentTable,
@@ -15,62 +14,136 @@ export const GameUI = ({
   check,
   call,
 }) => {
-  const { getLocalizedString } = useContext(contentContext);
-
   return (
     <UIWrapper>
-      <BetSlider
-        currentTable={currentTable}
-        seatId={seatId}
-        bet={bet}
-        setBet={setBet}
-      />
-      <Button small onClick={() => raise(bet + currentTable.seats[seatId].bet)}>
-        {getLocalizedString('game_ui_bet')} {bet}
-      </Button>
-      <Button small secondary onClick={standUp}>
-        {getLocalizedString('game_ui_stand-up')}
-      </Button>
-      <Button small secondary onClick={fold}>
-        {getLocalizedString('game_ui_fold')}
-      </Button>
-      <Button
-        small
-        secondary
-        disabled={
-          currentTable.callAmount !== currentTable.seats[seatId].bet &&
-          currentTable.callAmount > 0
-        }
-        onClick={check}
-      >
-        {getLocalizedString('game_ui_check')}
-      </Button>
-      <Button
-        small
-        disabled={
-          currentTable.callAmount === 0 ||
-          currentTable.seats[seatId].bet >= currentTable.callAmount
-        }
-        onClick={call}
-      >
-        {getLocalizedString('game_ui_call')}{' '}
-        {currentTable.callAmount &&
-        currentTable.seats[seatId].bet < currentTable.callAmount &&
-        currentTable.callAmount <= currentTable.seats[seatId].stack
-          ? currentTable.callAmount - currentTable.seats[seatId].bet
-          : ''}
-      </Button>
-      <Button
-        small
-        onClick={() =>
-          raise(
-            currentTable.seats[seatId].stack + currentTable.seats[seatId].bet,
-          )
-        }
-      >
-        {getLocalizedString('game_ui_all-in')} (
-        {currentTable.seats[seatId].stack})
-      </Button>
+      <div className="row">
+        <GameUIButton
+          width="33%"
+          height="48.03px"
+          fill={false}
+          radius="7px"
+          onClick={() => raise(bet + currentTable.seats[seatId].bet)}
+        >
+          Bet {bet}
+        </GameUIButton>
+        <GameUIButton
+          width="33%"
+          height="48.03px"
+          fill={false}
+          radius="7px"
+          onClick={standUp}
+        >
+          Stand Up
+        </GameUIButton>
+        <GameUIButton
+          width="33%"
+          height="48.03px"
+          fill={false}
+          radius="7px"
+          onClick={() =>
+            raise(
+              currentTable.seats[seatId].stack + currentTable.seats[seatId].bet
+            )
+          }
+        >
+          All In ({currentTable.seats[seatId].stack})
+        </GameUIButton>
+        <GameUIButton
+          width="33%"
+          height="48.03px"
+          fill={false}
+          radius="7px"
+          onClick={() =>
+            raise(
+              currentTable.seats[seatId].stack + currentTable.seats[seatId].bet
+            )
+          }
+        >
+          POT 1.75$
+        </GameUIButton>
+      </div>
+      <div className="row">
+        <GameUIButton
+          width="60.05px"
+          height="48.03px"
+          fill={false}
+          radius="7px"
+          // onClick={() => raise(bet + currentTable.seats[seatId].bet)}
+        >
+          MIN
+        </GameUIButton>
+        <GameUIButton
+          width="40.47px"
+          height="40.47px"
+          fill={true}
+          radius="98px"
+          // onClick={() => raise(bet + currentTable.seats[seatId].bet)}
+        >
+          -
+        </GameUIButton>
+        <BetSlider
+          currentTable={currentTable}
+          seatId={seatId}
+          bet={bet}
+          setBet={setBet}
+        />
+        <GameUIButton
+          width="40.47px"
+          height="40.47px"
+          fill={true}
+          radius="98px"
+          // onClick={() => raise(bet + currentTable.seats[seatId].bet)}
+        >
+          +
+        </GameUIButton>
+        <GameUIButton
+          width="60.05px"
+          height="48.03px"
+          fill={false}
+          radius="7px"
+          // onClick={() => raise(bet + currentTable.seats[seatId].bet)}
+        >
+          MAX
+        </GameUIButton>
+      </div>
+      <div className="row">
+        <GameUIButton
+          width="33%"
+          height="48.03px"
+          fill={false}
+          radius="7px"
+          onClick={fold}
+        >
+          Fold
+        </GameUIButton>
+        <GameUIButton
+          width="33%"
+          height="48.03px"
+          fill={false}
+          radius="7px"
+          onClick={check}
+        >
+          Check
+        </GameUIButton>
+        <GameUIButton
+          width="33%"
+          height="48.03px"
+          fill={false}
+          radius="7px"
+          disabled={
+            currentTable.callAmount === 0 ||
+            currentTable.seats[seatId].bet >= currentTable.callAmount
+          }
+          onClick={call}
+        >
+          Call
+          {currentTable.callAmount &&
+          currentTable.seats[seatId].bet < currentTable.callAmount &&
+          currentTable.callAmount <= currentTable.seats[seatId].stack
+            ? currentTable.callAmount - currentTable.seats[seatId].bet
+            : ""}
+        </GameUIButton>
+      </div>
     </UIWrapper>
   );
 };

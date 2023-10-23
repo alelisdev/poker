@@ -1,25 +1,190 @@
-import React from 'react';
-import theme from '../../styles/theme';
-import PropTypes from 'prop-types';
+import React from "react";
+import theme from "../../styles/theme";
+import PropTypes from "prop-types";
 
 const PokerChip = ({ width, height }) => (
   <svg
-    width={width}
-    height={height}
-    viewBox="0 0 38 38"
+    width="20"
+    height="21"
+    viewBox="0 0 20 21"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g clipPath="url(#clip0)">
+    <g filter="url(#filter0_d_423_709)">
+      <ellipse
+        cx="9.58824"
+        cy="13.7059"
+        rx="8.58824"
+        ry="4.29412"
+        fill="url(#paint0_linear_423_709)"
+      />
       <path
-        d="M38 19C38 29.5018 29.5018 38 19 38C8.49815 38 -3.05176e-05 29.5018 -3.05176e-05 19C-3.05176e-05 8.49818 8.49815 0 19 0C29.5018 0 38 8.49818 38 19ZM20.7272 5.28545C24.4063 5.75182 27.7572 7.68636 30.0027 10.64L33.0082 8.91273C31.5888 6.91155 29.7595 5.23568 27.6419 3.99671C25.5244 2.75774 23.1672 1.98409 20.7272 1.72727V5.28545ZM4.99179 8.91273L7.99724 10.64C9.11069 9.17669 10.5043 7.94963 12.0967 7.03033C13.6892 6.11103 15.4487 5.51788 17.2727 5.28545V1.72727C14.8328 1.98409 12.4756 2.75774 10.358 3.99671C8.24043 5.23568 6.41109 6.91155 4.99179 8.91273ZM3.26452 26.0818L6.2527 24.3545C5.54295 22.6586 5.17745 20.8385 5.17745 19C5.17745 17.1615 5.54295 15.3414 6.2527 13.6455L3.26452 11.9182C2.24872 14.1409 1.72299 16.5562 1.72299 19C1.72299 21.4438 2.24872 23.8591 3.26452 26.0818ZM17.2727 32.7145C15.4487 32.4821 13.6892 31.889 12.0967 30.9697C10.5043 30.0504 9.11069 28.8233 7.99724 27.36L4.99179 29.0873C6.41109 31.0885 8.24043 32.7643 10.358 34.0033C12.4756 35.2423 14.8328 36.0159 17.2727 36.2727V32.7145ZM33.0082 29.0873L30.0027 27.36C28.8893 28.8233 27.4957 30.0504 25.9032 30.9697C24.3108 31.889 22.5513 32.4821 20.7272 32.7145V36.1691C25.65 35.6682 30.1236 33.0945 33.0082 29.0873ZM34.7354 26.0818C36.7909 21.5909 36.7909 16.4091 34.7354 11.9182L31.7472 13.6455C32.457 15.3414 32.8225 17.1615 32.8225 19C32.8225 20.8385 32.457 22.6586 31.7472 24.3545L34.7354 26.0818ZM24.1818 19L19 10.3636L13.8182 19L19 27.6364L24.1818 19Z"
-        fill={theme.colors.primaryCta}
+        d="M9.58824 18.5C12.0206 18.5 14.2474 18.0081 15.8846 17.1895C17.492 16.3858 18.6765 15.1831 18.6765 13.7059C18.6765 12.2287 17.492 11.0259 15.8846 10.2222C14.2474 9.40364 12.0206 8.91174 9.58824 8.91174C7.15587 8.91174 4.92905 9.40364 3.29183 10.2222C1.68451 11.0259 0.5 12.2287 0.5 13.7059C0.5 15.1831 1.68451 16.3858 3.29183 17.1895C4.92905 18.0081 7.15587 18.5 9.58824 18.5Z"
+        stroke="#FDFFFF"
+      />
+    </g>
+    <g filter="url(#filter1_d_423_709)">
+      <ellipse
+        cx="9.58824"
+        cy="9.88891"
+        rx="8.58824"
+        ry="4.29412"
+        fill="url(#paint1_linear_423_709)"
+      />
+      <path
+        d="M9.58824 14.683C12.0206 14.683 14.2474 14.1911 15.8846 13.3725C17.492 12.5689 18.6765 11.3661 18.6765 9.88891C18.6765 8.4117 17.492 7.20895 15.8846 6.40529C14.2474 5.58668 12.0206 5.09479 9.58824 5.09479C7.15587 5.09479 4.92905 5.58668 3.29183 6.40529C1.68451 7.20895 0.5 8.4117 0.5 9.88891C0.5 11.3661 1.68451 12.5689 3.29183 13.3725C4.92905 14.1911 7.15587 14.683 9.58824 14.683Z"
+        stroke="#FDFFFF"
+      />
+    </g>
+    <g filter="url(#filter2_d_423_709)">
+      <ellipse
+        cx="9.58824"
+        cy="6.07189"
+        rx="8.58824"
+        ry="4.29412"
+        fill="url(#paint2_linear_423_709)"
+      />
+      <path
+        d="M9.58824 10.866C12.0206 10.866 14.2474 10.3741 15.8846 9.5555C17.492 8.75185 18.6765 7.54909 18.6765 6.07189C18.6765 4.59469 17.492 3.39193 15.8846 2.58828C14.2474 1.76966 12.0206 1.27777 9.58824 1.27777C7.15587 1.27777 4.92905 1.76966 3.29183 2.58828C1.68451 3.39193 0.5 4.59469 0.5 6.07189C0.5 7.54909 1.68451 8.75185 3.29183 9.5555C4.92905 10.3741 7.15587 10.866 9.58824 10.866Z"
+        stroke="#FDFFFF"
       />
     </g>
     <defs>
-      <clipPath id="clip0">
-        <rect width="38" height="38" fill="white" />
-      </clipPath>
+      <filter
+        id="filter0_d_423_709"
+        x="0"
+        y="8.41174"
+        width="19.1763"
+        height="12.5883"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feOffset dy="2" />
+        <feComposite in2="hardAlpha" operator="out" />
+        <feColorMatrix
+          type="matrix"
+          values="0 0 0 0 0.0745098 0 0 0 0 0.305882 0 0 0 0 0.278431 0 0 0 1 0"
+        />
+        <feBlend
+          mode="normal"
+          in2="BackgroundImageFix"
+          result="effect1_dropShadow_423_709"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="effect1_dropShadow_423_709"
+          result="shape"
+        />
+      </filter>
+      <filter
+        id="filter1_d_423_709"
+        x="0"
+        y="4.59479"
+        width="19.1763"
+        height="12.5883"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feOffset dy="2" />
+        <feComposite in2="hardAlpha" operator="out" />
+        <feColorMatrix
+          type="matrix"
+          values="0 0 0 0 0.0745098 0 0 0 0 0.305882 0 0 0 0 0.278431 0 0 0 1 0"
+        />
+        <feBlend
+          mode="normal"
+          in2="BackgroundImageFix"
+          result="effect1_dropShadow_423_709"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="effect1_dropShadow_423_709"
+          result="shape"
+        />
+      </filter>
+      <filter
+        id="filter2_d_423_709"
+        x="0"
+        y="0.777771"
+        width="19.1763"
+        height="12.5883"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feOffset dy="2" />
+        <feComposite in2="hardAlpha" operator="out" />
+        <feColorMatrix
+          type="matrix"
+          values="0 0 0 0 0.0745098 0 0 0 0 0.305882 0 0 0 0 0.278431 0 0 0 1 0"
+        />
+        <feBlend
+          mode="normal"
+          in2="BackgroundImageFix"
+          result="effect1_dropShadow_423_709"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="effect1_dropShadow_423_709"
+          result="shape"
+        />
+      </filter>
+      <linearGradient
+        id="paint0_linear_423_709"
+        x1="9.58824"
+        y1="9.41174"
+        x2="9.58824"
+        y2="18"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#0DFFB4" />
+        <stop offset="1" stop-color="#007977" />
+      </linearGradient>
+      <linearGradient
+        id="paint1_linear_423_709"
+        x1="9.58824"
+        y1="5.59479"
+        x2="9.58824"
+        y2="14.183"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#0DFFB4" />
+        <stop offset="1" stop-color="#007977" />
+      </linearGradient>
+      <linearGradient
+        id="paint2_linear_423_709"
+        x1="9.58824"
+        y1="1.77777"
+        x2="9.58824"
+        y2="10.366"
+        gradientUnits="userSpaceOnUse"
+      >
+        <stop stop-color="#0DFFB4" />
+        <stop offset="1" stop-color="#007977" />
+      </linearGradient>
     </defs>
   </svg>
 );
@@ -30,8 +195,8 @@ PokerChip.propTypes = {
 };
 
 PokerChip.defaultProps = {
-  width: '40',
-  height: '40',
+  width: "40",
+  height: "40",
 };
 
 export default PokerChip;

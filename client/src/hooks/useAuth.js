@@ -1,35 +1,27 @@
-import { useEffect, useState, useContext } from 'react';
-import Axios from 'axios';
-import setAuthToken from '../helpers/setAuthToken';
-import globalContext from '../context/global/globalContext';
+import { useEffect, useState, useContext } from "react";
+import Axios from "axios";
+import setAuthToken from "../helpers/setAuthToken";
+import globalContext from "../context/global/globalContext";
 
 const useAuth = () => {
   localStorage.token && setAuthToken(localStorage.token);
-
-  const {
-    setId,
-    setIsLoading,
-    setUserName,
-    setEmail,
-    setChipsAmount,
-  } = useContext(globalContext);
+  const { setId, setIsLoading, setUserName, setEmail, setChipsAmount } =
+    useContext(globalContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
     setIsLoading(true);
-
     const token = localStorage.token;
     token && loadUser(token);
-
     setIsLoading(false);
     // eslint-disable-next-line
   }, []);
 
-  const register = async (name, email, password) => {
+  const register = async ({ name, email, password }) => {
     setIsLoading(true);
     try {
-      const res = await Axios.post('/api/users', {
+      const res = await Axios.post("/api/users", {
         name,
         email,
         password,
@@ -38,7 +30,7 @@ const useAuth = () => {
       const token = res.data.token;
 
       if (token) {
-        localStorage.setItem('token', token);
+        localStorage.setItem("token", token);
         setAuthToken(token);
         await loadUser(token);
       }
@@ -48,18 +40,18 @@ const useAuth = () => {
     setIsLoading(false);
   };
 
-  const login = async (emailAddress, password) => {
+  const login = async ({ email, password }) => {
     setIsLoading(true);
     try {
-      const res = await Axios.post('/api/auth', {
-        email: emailAddress,
+      const res = await Axios.post("/api/auth", {
+        email: email,
         password,
       });
 
       const token = res.data.token;
 
       if (token) {
-        localStorage.setItem('token', token);
+        localStorage.setItem("token", token);
         setAuthToken(token);
         await loadUser(token);
       }
@@ -71,9 +63,9 @@ const useAuth = () => {
 
   const loadUser = async (token) => {
     try {
-      const res = await Axios.get('/api/auth', {
+      const res = await Axios.get("/api/auth", {
         headers: {
-          'x-auth-token': token,
+          "x-auth-token": token,
         },
       });
 
@@ -91,7 +83,7 @@ const useAuth = () => {
   };
 
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
     setId(null);
     setUserName(null);

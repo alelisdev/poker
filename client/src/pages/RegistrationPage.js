@@ -1,32 +1,40 @@
-import React, { useRef, useContext } from "react";
+import React, { useContext, useState } from "react";
 import Container from "../components/layout/Container";
-import { Redirect, Link } from "react-router-dom";
-import HeadingWithLogo from "../components/typography/HeadingWithLogo";
+import { Redirect, useHistory } from "react-router-dom";
 import Button from "../components/buttons/Button";
 import { Input } from "../components/forms/Input";
 import { Form } from "../components/forms/Form";
 import { FormGroup } from "../components/forms/FormGroup";
 import { ButtonGroup } from "../components/forms/ButtonGroup";
-import { Label } from "../components/forms/Label";
 import RelativeWrapper from "../components/layout/RelativeWrapper";
 import ShowPasswordButton from "../components/buttons/ShowPasswordButton";
 import useScrollToTopOnPageLoad from "../hooks/useScrollToTopOnPageLoad";
 import authContext from "../context/auth/authContext";
-import { TiledBackgroundImage } from "../components/decoration/TiledBackgroundImage";
+import LogoIcon from "../components/logo/LogoIcon";
+import { LinkButton } from "../components/forms/LinkButton";
+
+const INITIAL_STATE = {
+  email: "",
+  name: "",
+  password: "",
+};
 
 const RegistrationPage = () => {
   const { register, isLoggedIn } = useContext(authContext);
+  const [data, setData] = useState(INITIAL_STATE);
+  const history = useHistory();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   useScrollToTopOnPageLoad();
-
-  const emailRef = useRef(null);
-  const passwordRef = useRef(null);
-  const nicknameRef = useRef(null);
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevState) => ({ ...prevState, [name]: value }));
+  };
 
   if (isLoggedIn) return <Redirect to="/" />;
   return (
     <RelativeWrapper>
-      <TiledBackgroundImage />
       <Container
         fullHeight
         flexDirection="column"
@@ -35,64 +43,67 @@ const RegistrationPage = () => {
         padding="6rem 2rem 2rem 2rem"
         contentCenteredMobile
       >
+        <LogoIcon />
         <Form
           onSubmit={(e) => {
             e.preventDefault();
-
-            const name = nicknameRef.current.value;
-            const email = emailRef.current.value;
-            const password = passwordRef.current.value;
-
             if (
-              name &&
-              email &&
-              password &&
-              name.length >= 5 &&
-              name.length <= 12 &&
-              email.length >= 0 &&
-              password.length >= 6
+              data.name.length >= 5 &&
+              data.name.length <= 12 &&
+              data.email.length >= 0 &&
+              data.password.length >= 6
             ) {
-              register(name, email, password);
+              register({ ...data });
             }
           }}
         >
-          <HeadingWithLogo textCentered hideIconOnMobile={false}>
-            Registration
-          </HeadingWithLogo>
-          <FormGroup>
-            <Label htmlFor="email">E-mail</Label>
-            <Input type="email" name="email" ref={emailRef} required />
+          <FormGroup mb="18px">
+            <Input
+              type="email"
+              name="email"
+              value={data.email}
+              onChange={handleChange}
+              required
+              placeholder="Email"
+            />
           </FormGroup>
-          <FormGroup>
-            <Label htmlFor="nickname">Nickname</Label>
+          <FormGroup mb="18px">
             <Input
               type="text"
-              name="nickname"
+              name="name"
               autoComplete="off"
-              ref={nicknameRef}
+              value={data.name}
+              onChange={handleChange}
+              placeholder="Nickname"
               minLength="5"
               maxLength="12"
               required
             />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="password">Password</Label>
-            <ShowPasswordButton passwordRef={passwordRef} />
+            <ShowPasswordButton
+              showPassword={showPassword}
+              setShowPassword={setShowPassword}
+            />
             <Input
-              type="password"
+              type={`${showPassword ? `text` : `password`}`}
               name="password"
+              placeholder="Password"
+              value={data.password}
+              onChange={handleChange}
               minLength="6"
               autoComplete="new-password"
-              ref={passwordRef}
               required
             />
           </FormGroup>
           <ButtonGroup>
-            <Button primary type="submit" fullWidth>
-              Complete Registration
+            <Button primary type="submit">
+              Register
             </Button>
-            <Link to="/login">I already have an account!</Link>
           </ButtonGroup>
+          <LinkButton onClick={() => history.push("/login")}>
+            I already have an account!
+          </LinkButton>
         </Form>
       </Container>
     </RelativeWrapper>

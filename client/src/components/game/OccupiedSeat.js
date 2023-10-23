@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import userImages from './userImages';
-import { EmptySeat } from './EmptySeat';
+import React from "react";
+import styled from "styled-components";
+import userImages from "./userImages";
+import { EmptySeat } from "./EmptySeat";
 
 const StyledOccupiedSeat = styled(EmptySeat)`
   position: relative;
@@ -10,7 +10,7 @@ const StyledOccupiedSeat = styled(EmptySeat)`
   background-size: cover;
   background-repeat: no-repeat;
   padding: 0;
-  border: ${({ hasTurn }) => (hasTurn ? `none` : `5px solid #6297b5`)};
+  border: ${({ hasTurn }) => (hasTurn ? `none` : `2px solid #000`)};
   transition: all 0.3s;
   transform-origin: center center;
   -webkit-backface-visibility: hidden;
@@ -113,7 +113,7 @@ export const OccupiedSeat = ({ hasTurn, seatNumber }) => (
   <StyledOccupiedSeat
     hasTurn={hasTurn}
     seatNumber={seatNumber}
-    className={hasTurn ? 'hasTurn' : ''}
+    className={hasTurn ? "hasTurn" : ""}
   >
     {hasTurn && (
       <div className="circle-timer">

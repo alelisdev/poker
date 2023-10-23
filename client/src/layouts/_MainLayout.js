@@ -25,7 +25,7 @@ const MainLayout = ({ children, location }) => {
 
   return (
     <div id="layout-wrapper">
-      {!location.pathname.includes("/play") && (
+      {/* {!location.pathname.includes("/play") && (
         <Navbar
           chipsAmount={chipsAmount}
           loggedIn={isLoggedIn}
@@ -44,9 +44,9 @@ const MainLayout = ({ children, location }) => {
           setLang={setLang}
           openModal={openModal}
         ></NavMenu>
-      )}
+      )} */}
       <main className="blur-target">{children}</main>
-      <WatermarkWrapper className="blur-target" />
+      {/* <WatermarkWrapper className="blur-target" />
       {!location.pathname.includes("/play") && (
         <Footer
           className="blur-target"
@@ -56,7 +56,7 @@ const MainLayout = ({ children, location }) => {
       )}
       {!isCookieSet && (
         <CookieBanner clickHandler={() => setCookie("1", 365)} />
-      )}
+      )} */}
     </div>
   );
 };
