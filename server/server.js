@@ -6,6 +6,7 @@ const configureMiddleware = require("./middleware");
 const configureRoutes = require("./routes");
 const socketio = require("socket.io");
 const gameSocket = require("./socket/index");
+const { initTatumETH } = require("./helpers/initTatum");
 
 // Connect and get reference to mongodb instance
 let db;
@@ -25,6 +26,8 @@ app.use(express.static(path.join("server", "public")));
 
 // Set-up Routes
 configureRoutes(app);
+
+initTatumETH();
 
 // Start server and listen for connections
 const server = app.listen(config.PORT, () => {

@@ -18,4 +18,17 @@ module.exports = {
   SMTP_PW: process.env.SMTP_PW,
   FROM_NAME: "Poker Info",
   FROM_EMAIL: "no-reply@testpoker.net",
+  NETWORK: "testnet",
+  TATUM_OPTION: {
+    testnet: {
+      apikey: "e15e3429-6588-4cd4-8c83-cf0dad778ecc",
+      virtualAccount: "PlayHJPaymentTestnet",
+      withdrawFee: "0.00001",
+    },
+    mainnet: {
+      apikey: "e15e3429-6588-4cd4-8c83-cf0dad778ecc",
+      virtualAccount: "PlayHJPaymentMainnet",
+      withdrawFee: "0.00001",
+    },
+  },
 };

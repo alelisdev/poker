@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import globalContext from "../context/global/globalContext";
 import styled from "styled-components";
 import { ReactComponent as IconNavbar } from "../assets/icons/nav-icon.svg";
@@ -9,6 +9,7 @@ import { ReactComponent as IconNotify } from "../assets/icons/notify-icon.svg";
 import { ReactComponent as IconSetting } from "../assets/icons/setting-icon.svg";
 import { ReactComponent as IconAvatar } from "../assets/icons/avatar-icon.svg";
 import { ReactComponent as IconArrow } from "../assets/icons/arrow-icon.svg";
+import WalletModal from "../components/WalletModal";
 
 const HeaderWrapper = styled.div`
   display: flex;
@@ -98,6 +99,11 @@ const Bar = styled.div`
 
 const Header = (props) => {
   const { userName } = useContext(globalContext);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleShowDepositeModal = () => {
+    setIsOpen(true);
+  };
 
   return (
     <HeaderWrapper>
@@ -124,7 +130,7 @@ const Header = (props) => {
       )}
       <FlexWrapper gap="30px">
         <FlexWrapper gap="10px">
-          <IconWrapper>
+          <IconWrapper onClick={handleShowDepositeModal}>
             <IconWallet />
           </IconWrapper>
           <IconWrapper>
@@ -145,6 +151,7 @@ const Header = (props) => {
           <IconArrow />
         </FlexWrapper>
       </FlexWrapper>
+      {isOpen && <WalletModal isOpen={isOpen} setIsOpen={setIsOpen} />}
     </HeaderWrapper>
   );
 };
