@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 const Loader = () => (
   <>
@@ -39,7 +39,7 @@ const Loader = () => (
       viewBox="0 0 264 25"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ marginTop: '3rem' }}
+      style={{ marginTop: "3rem" }}
     >
       <path
         d=" M19.5312 1.71875C19.9583 1.71875 20.1719 1.94271 20.1719 2.39062C20.1719 2.61979 20.099 2.88542 19.9531

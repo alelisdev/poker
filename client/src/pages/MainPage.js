@@ -19,7 +19,7 @@ import GameTable from "../components/Table";
 import Tabs from "../components/Tabs";
 import BottomCard from "../components/BottomCard";
 import SearchIcon from "../components/icons/SearchIcon";
-import socketContext from '../context/websocket/socketContext';
+import socketContext from "../context/websocket/socketContext";
 import { CREATE_TABLE } from "../pokergame/actions";
 // import Text from "../components/typography/Text";
 
@@ -236,8 +236,6 @@ const SearchInput = styled.input`
 `;
 
 const MainPage = ({ history }) => {
-  // const { userName } = useContext(globalContext);
-  // const { getLocalizedString } = useContext(contentContext);
   const tableDataInit = [
     {
       count: 4,
@@ -345,12 +343,8 @@ const MainPage = ({ history }) => {
   const [tableData, setTableData] = useState(tableDataInit);
 
   useEffect(() => {
-    if(tables !== null)
-      setTableData(tables)
-  }, [tables])
-
-
-
+    if (tables !== null) setTableData(tables);
+  }, [tables]);
 
   const cardsData = [
     {
@@ -405,9 +399,9 @@ const MainPage = ({ history }) => {
   // const { openModal } = useContext(modalContext);
 
   const createGame = async () => {
-    history.push("/play")
-    socket.emit(CREATE_TABLE)
-  }
+    history.push("/play");
+    socket.emit(CREATE_TABLE);
+  };
 
   useScrollToTopOnPageLoad();
   return (
@@ -415,7 +409,6 @@ const MainPage = ({ history }) => {
       flexDirection="column"
       alignItems="center"
       justifyContent="start"
-      padding="6rem 2rem 2rem 2rem"
     >
       <Header dashboard={true} />
       <MainWrapper>
@@ -554,7 +547,7 @@ const MainPage = ({ history }) => {
             </PlayerContents>
           </PlayerNames>
           <GamePanel>
-            <img src={GamePanImage} alt="game-pan" height="227px" />
+            <img src={GamePanImage} alt="game-pan" height="212px" />
           </GamePanel>
         </SideWrapper>
       </MainWrapper>

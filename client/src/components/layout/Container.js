@@ -10,6 +10,7 @@ const Container = styled.div`
   flex-direction: ${(props) => props.flexDirection};
   align-items: ${(props) => props.alignItems};
   margin: ${(props) => props.margin};
+  padding: ${(props) => props.padding};
 
   @media screen and (max-width: 1024px) {
     justify-content: ${(props) =>
@@ -51,7 +52,7 @@ Container.defaultProps = {
   justifyContent: "space-between",
   alignItems: "center",
   flexDirection: "row",
-  padding: "0 2rem",
+  padding: "0",
   display: "flex",
 };
 

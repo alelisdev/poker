@@ -33,19 +33,7 @@ const Landing = () => {
             textCenteredOnMobile
             dangerouslySetInnerHTML={{
               __html:
-                'Join the world’s most <span style="color: #FFF">classy<br />online poker</span> experience!\n',
-            }}
-          />
-        </Markdown>
-
-        <Markdown>
-          <MarketingHeadline
-            as="h3"
-            headingClass="h6"
-            textCenteredOnMobile
-            dangerouslySetInnerHTML={{
-              __html:
-                'You receive <span style="color: #24516a">30.000 free chips</span> on registration.',
+                '<span style="color: #FFF">Join the world’s most <br />online poker experience!\n</span>',
             }}
           />
         </Markdown>
@@ -73,6 +61,9 @@ const Landing = () => {
 };
 
 const CenteredBlockWithAnimation = styled(CenteredBlock)`
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
   opacity: 0;
   -webkit-animation-duration: 0.3s;
   animation-duration: 0.3s;
@@ -177,8 +168,7 @@ const Wrapper = styled.div`
     margin-top: 1.5rem;
 
     & ${Button}:not(:first-child) {
-      margin-left: 1rem;
-      margin-top: 0;
+      margin-top: 10;
     }
   }
 `;

@@ -8,11 +8,11 @@ export const InfoPill = styled.div`
   align-items: center;
   padding: 0.3rem 1rem;
   text-align: center;
-  background: #0f0f0f;
+  background: #3d3d3d;
   margin: 0.5rem 0;
-  font-weight: 600;
+  font-weight: 400;
   font-family: IBM Plex Mono;
   color: #fff;
-  border-radius: 20px;
+  border-radius: 8px;
   z-index: 10;
 `;

@@ -26,8 +26,8 @@ const theme = {
   // Fonts
   fonts: {
     // Font Familys
-    fontFamilySerif: "'Playfair Display', serif",
-    fontFamilySansSerif: "'Roboto', sans-serif",
+    fontFamilySerif: "Poppins, serif",
+    fontFamilySansSerif: "'Poppins', sans-serif",
     // Font Sizes
     fontLineHeight: "1.4",
     fontSizeRoot: "1em",

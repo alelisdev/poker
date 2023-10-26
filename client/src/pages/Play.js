@@ -9,7 +9,6 @@ import { Seat } from "../components/game/Seat";
 import Text from "../components/typography/Text";
 import modalContext from "../context/modal/modalContext";
 import { withRouter } from "react-router-dom";
-import { TableInfoWrapper } from "../components/game/TableInfoWrapper";
 import { InfoPill } from "../components/game/InfoPill";
 import { GameUI } from "../components/game/GameUI";
 import { GameStateInfo } from "../components/game/GameStateInfo";
@@ -18,11 +17,9 @@ import contentContext from "../context/content/contentContext";
 import Header from "../layouts/Header";
 import styled from "styled-components";
 import PlayBGImage from "../assets/img/playbg.png";
-import GradientButton from "../components/GradientButton";
 import { ReactComponent as IconStar } from "../assets/icons/star-icon.svg";
 import { ReactComponent as IconMArrorw } from "../assets/icons/multiarrow-icon.svg";
 import SwitchButton from "../components/SwitchButton";
-import { BetSlider } from "../components/game/BetSlider";
 import globalContext from "../context/global/globalContext";
 
 const PlayContainer = styled.div`
@@ -32,16 +29,17 @@ const PlayContainer = styled.div`
   height: 100vh;
   display: flex;
   flex-direction: column;
+  font-family: IBM Plex Mono;
 `;
 
 const GamePanelContainer = styled.div`
-  height: calc(100vh - 240px - 76px);
+  height: calc(100vh - 220px - 76px);
 `;
 
 const GameInfoContainer = styled.div`
   display: flex;
   gap: 16px;
-  height: 240px;
+  height: 220px;
 `;
 
 const GameChatWrapper = styled.div`
@@ -66,31 +64,6 @@ const ChatTitle = styled.div`
   font-weight: 500;
   line-height: normal;
   border-bottom: solid 1px #2e2e2e;
-`;
-
-const GameSettingWrapper = styled.div`
-  margin-right: 21px;
-  margin-bottom: 21px;
-  justify-content: space-between;
-  display: flex;
-  flex-direction: column;
-  background-color: transparent;
-  width: 33%;
-  & .row {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    align-items: center;
-  }
-
-  & .row input::-webkit-slider-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    -webkit-appearance: none;
-    cursor: ew-resize;
-    background: linear-gradient(180deg, #dc387b 0%, #f55949 100%);
-  }
 `;
 
 const GameMiddleWrapper = styled.div`
@@ -144,16 +117,6 @@ const GameMiddleWrapper = styled.div`
   }
 `;
 
-const InputSlider = styled.input`
-  border: solid 2px #fff;
-  border-radius: 8px;
-  height: 3px;
-  width: 50%;
-  outline: none;
-  transition: background 450ms ease-in;
-  -webkit-appearance: none;
-`;
-
 const GameLeaveButton = styled.button`
   width: 99px;
   height: 43px;
@@ -168,7 +131,7 @@ const GameLeaveButton = styled.button`
   float: right;
   position: absolute;
   right: 31px;
-  top: 0px;
+  top: 10px;
   color: #fff;
   border: 0px;
   cursor: pointer;
@@ -259,7 +222,7 @@ const Play = ({ history }) => {
         : setBet(currentTable.minBet));
   }, [currentTable]);
 
-  console.log("currentTable", currentTable)
+  console.log("currentTable", currentTable);
 
   const handleChangeSlider = (e) => {
     setSlValue(e.target.value);
@@ -274,22 +237,20 @@ const Play = ({ history }) => {
       {/* {currentTable && (
         <>
           {!isPlayerSeated && (
-            <TableInfoWrapper>
-              <Text textAlign="right">
-                <strong>{currentTable.name}</strong> | <strong>Limit: </strong>
-                {new Intl.NumberFormat(document.documentElement.lang).format(
-                  currentTable.limit
-                )}{" "}
-                | <strong>Blinds</strong>
-                {new Intl.NumberFormat(document.documentElement.lang).format(
-                  currentTable.minBet
-                )}{" "}
-                /{" "}
-                {new Intl.NumberFormat(document.documentElement.lang).format(
-                  currentTable.minBet * 2
-                )}
-              </Text>
-            </TableInfoWrapper>
+            <Text textAlign="right">
+              <strong>{currentTable.name}</strong> | <strong>Limit: </strong>
+              {new Intl.NumberFormat(document.documentElement.lang).format(
+                currentTable.limit
+              )}{" "}
+              | <strong>Blinds</strong>
+              {new Intl.NumberFormat(document.documentElement.lang).format(
+                currentTable.minBet
+              )}{" "}
+              /{" "}
+              {new Intl.NumberFormat(document.documentElement.lang).format(
+                currentTable.minBet * 2
+              )}
+            </Text>
           )}
         </>
       )} */}
@@ -298,14 +259,14 @@ const Play = ({ history }) => {
         <PokerTableWrapper>
           <GameLeaveButton onClick={leaveTable}>Leave</GameLeaveButton>
           <PokerTable />
-          <PositionedUISlot top="2%" scale="0.55" origin="top center">
+          <PositionedUISlot top="-12px" scale="0.55" origin="top center">
             <IconMArrorw />
           </PositionedUISlot>
           {currentTable && (
             <>
               <PositionedUISlot
                 top="6%"
-                left="18%"
+                left="20%"
                 scale="0.55"
                 origin="top center"
               >
@@ -326,7 +287,7 @@ const Play = ({ history }) => {
               </PositionedUISlot>
               <PositionedUISlot
                 top="6%"
-                right="18%"
+                right="20%"
                 scale="0.55"
                 origin="top right"
               >
@@ -339,7 +300,7 @@ const Play = ({ history }) => {
               </PositionedUISlot>
               <PositionedUISlot
                 bottom="6%"
-                right="18%"
+                right="20%"
                 scale="0.55"
                 origin="bottom right"
               >
@@ -352,7 +313,7 @@ const Play = ({ history }) => {
               </PositionedUISlot>
               <PositionedUISlot
                 bottom="6%"
-                left="18%"
+                left="20%"
                 scale="0.55"
                 origin="bottom left"
               >
@@ -394,7 +355,8 @@ const Play = ({ history }) => {
                     {!isPlayerSeated && (
                       <InfoPill>Sit down to join the game!</InfoPill>
                     )}
-                    { currentTable.winMessages?.length > 0 && (
+                    {console.log(currentTable.winMessages)}
+                    {currentTable.winMessages?.length > 0 && (
                       <InfoPill>
                         {
                           currentTable.winMessages[

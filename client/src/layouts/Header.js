@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import globalContext from "../context/global/globalContext";
 import styled from "styled-components";
 import { ReactComponent as IconNavbar } from "../assets/icons/nav-icon.svg";
 import { ReactComponent as IconHome } from "../assets/icons/home-icon.svg";
@@ -96,6 +97,8 @@ const Bar = styled.div`
 `;
 
 const Header = (props) => {
+  const { userName } = useContext(globalContext);
+
   return (
     <HeaderWrapper>
       <FlexWrapper gap="15px">
@@ -135,7 +138,7 @@ const Header = (props) => {
         <FlexWrapper gap="10px">
           <IconAvatar />
           <ProfileWrapper>
-            <NameWrapper>Taz Kingston</NameWrapper>
+            <NameWrapper>{userName}</NameWrapper>
             <AMDWrapper>158.60 AMD</AMDWrapper>
             <USDWrapper>$ 2.90</USDWrapper>
           </ProfileWrapper>
