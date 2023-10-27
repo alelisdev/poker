@@ -193,20 +193,30 @@ const WalletModal = (props) => {
     {
       name: "ETH",
     },
+    {
+      name: "SOL",
+    },
   ];
   const { id } = useContext(globalContext);
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = {
-        coinType: currency,
-        userId: id,
-      };
-      const res = await Axios.post("/api/payments/deposit-address", data);
-      if (res.data.status === true) setDepositeAddress(res.data?.data?.address);
-    };
 
-    fetchData();
+  useEffect(() => {
+    loadDepositeAddress();
   }, [currency]);
+
+  const loadDepositeAddress = async () => {
+    const request = {
+      coinType: currency,
+      type: "native",
+      userId: id,
+    };
+    const response = await Axios.post("/api/payments/deposit-address", request);
+    console.log(response);
+    if (response.status === 200) {
+      setDepositeAddress(response.data.data.address);
+    } else {
+      setDepositeAddress("");
+    }
+  };
 
   const handleCopyClipboard = () => {};
 

@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const { ObjectId } = require("mongodb");
 const WalletModel = require("../models/Wallet");
+const UserModel = require("../models/User");
+const TransactionsModel = require("../models/Transactions");
 const tatumController = require("../controllers/tatum");
 
 const AssetList = [
@@ -13,7 +15,7 @@ const AssetList = [
 
 const getDepositAddressFromAccount = async (req, res) => {
   try {
-    let { coinType, userId } = req.body;
+    let { coinType, type, userId } = req.body;
     if (coinType) {
       let walletData = await WalletModel.findOne({
         userId,
@@ -25,8 +27,6 @@ const getDepositAddressFromAccount = async (req, res) => {
         let response = await tatumController.getDepositAddressFromAccount({
           coinType,
         });
-        console.log("response", response);
-
         if (response !== null) {
           let data = await new WalletModel({
             address: response.address,
@@ -61,6 +61,78 @@ const getDepositAddressFromAccount = async (req, res) => {
   }
 };
 
+const tatumWebhook = async (req, res) => {
+  try {
+    let {
+      address,
+      amount,
+      counterAddress,
+      asset,
+      blockNumber,
+      txId,
+      type,
+      subscriptionType,
+      tokenId,
+    } = req.body;
+    let currency = { coinType: "", type: "" };
+    console.log("webhook here");
+    // if (type === "native") {
+    currency = {
+      coinType: "ETH",
+      type: type,
+    };
+    // } else {
+    //   const matchedAsset = AssetList.find(
+    //     (item) => item.asset.toLowerCase() === asset.toLowerCase()
+    //   );
+    //   currency = { coinType: matchedAsset.coinType, type: matchedAsset.type };
+    //   if (tokenId === null) {
+    //     let tempAddr = counterAddress;
+    //     counterAddress = address;
+    //     address = tempAddr;
+    //   }
+    // }
+
+    let txData = await TransactionsModel.findOne({ txId });
+    if (!txData) {
+      console.log("New Tatum Webhook ===>");
+      console.log(req.body);
+      await new TransactionsModel({
+        txId,
+        amount,
+        from: counterAddress,
+        to: address,
+        date: new Date(),
+        blockNumber,
+        subscriptionType,
+        currency,
+      }).save();
+      let walletData = await WalletModel.findOne({ address: address });
+      if (walletData) {
+        let userData = await UserModel.findOne({
+          _id: walletData.userId,
+        });
+        let balanceData = userData.balance.data.find(
+          (data) =>
+            data.coinType === currency.coinType && data.type === currency.type
+        );
+        balanceData.balance += Number(amount);
+        await UserModel.findOneAndUpdate(
+          { _id: walletData.userId },
+          { balance: userData.balance }
+        );
+      }
+    }
+  } catch (err) {
+    console.error({
+      title: "cryptoController - tatumWebhook",
+      message: err.message,
+    });
+    return res.json({ status: false, data: null, message: "Server Error" });
+  }
+};
+
 module.exports = {
   getDepositAddressFromAccount,
+  tatumWebhook,
 };

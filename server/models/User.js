@@ -1,5 +1,12 @@
-const config = require('../config');
-const mongoose = require('mongoose');
+const config = require("../config");
+const mongoose = require("mongoose");
+
+const balanceObject = {
+  data: [
+    { coinType: "ETH", balance: 0, chain: "ETH", type: "native" },
+    { coinType: "SOL", balance: 0, chain: "SOL", type: "native" },
+  ],
+};
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -24,10 +31,12 @@ const UserSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  balance: { type: Object, default: balanceObject },
+  currency: { type: Object, default: { coinType: "ETH", type: "native" } },
   created: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = User = mongoose.model('user', UserSchema);
+module.exports = User = mongoose.model("user", UserSchema);

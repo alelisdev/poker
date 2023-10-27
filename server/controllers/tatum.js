@@ -1,6 +1,7 @@
 const Axios = require("axios");
 const config = require("../config");
 const SettingModel = require("../models/Setting");
+const Tatum = require("@tatumio/tatum");
 
 const TatumAxios = Axios.create();
 TatumAxios.defaults.timeout = 100000;
@@ -13,6 +14,33 @@ TatumAxios.defaults.headers.post["Content-Type"] = "application/json";
 const NativeData = {
   "erc-20": "ETH",
   solana: "SOL",
+};
+
+const createSubscription = async (data, subscriptionType) => {
+  try {
+    console.log("data", data);
+    const { address, chain, url } = data;
+    const request = {
+      type: subscriptionType,
+      attr: {
+        address,
+        chain,
+        url,
+      },
+    };
+    console.log(request);
+    const response = await TatumAxios.post(
+      "/subscription?testnetType=ethereum-sepolia",
+      JSON.stringify(request)
+    );
+    console.log("response", response);
+  } catch (err) {
+    console.error({
+      title: "tatumController - createSubscription",
+      message: err.message,
+    });
+    return null;
+  }
 };
 
 const getNativeData = async (data) => {
@@ -119,6 +147,7 @@ const getDepositAddressFromAccount = async (data) => {
       key: `${coinType}WalletInfo`,
     });
     if (accountInfo) {
+      console.log("accountInfo", accountInfo);
       const chain = getNetworkFromCoinType(coinType);
       const addressData = await TatumAxios.post(
         `/offchain/account/${accountInfo.dataObject.virtualAccount.id}/address`
@@ -128,6 +157,14 @@ const getDepositAddressFromAccount = async (data) => {
         chain,
         mnemonic: accountInfo.dataObject.mnemonic,
       });
+      await createSubscription(
+        {
+          url: config.SUBSCRIBE_URL,
+          chain: addressData.data.currency,
+          address: addressData.data.address,
+        },
+        "ADDRESS_TRANSACTION"
+      );
       return { ...addressData.data, ...privateKey };
     } else {
       console.log({

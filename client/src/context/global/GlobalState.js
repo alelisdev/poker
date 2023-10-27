@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
-import GlobalContext from './globalContext';
+import React, { useState } from "react";
+import GlobalContext from "./globalContext";
 
 const GlobalState = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [id, setId] = useState(null);
   const [userName, setUserName] = useState(null);
   const [email, setEmail] = useState(null);
+  const [blance, setBalance] = useState(null);
   const [chipsAmount, setChipsAmount] = useState(null);
   const [tables, setTables] = useState([]);
   const [players, setPlayers] = useState(null);

@@ -31,4 +31,7 @@ module.exports = {
       withdrawFee: "0.00001",
     },
   },
+  SUBSCRIBE_URL: "https://dashboard.tatum.io/webhook-handler",
+  // SUBSCRIBE_URL: "http://127.0.0.1:5000/webhook-handler",
+  DEV_MDOE: true,
 };
