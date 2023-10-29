@@ -158,7 +158,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                           sitDown(
                             currentTable.id,
                             seatNumber,
-                            parseInt(amount)
+                            parseFloat(amount).toFixed(4)
                           );
                           closeModal();
                         }
@@ -175,7 +175,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                       </FormGroup>
                       <ButtonGroup>
                         <Button primary type="submit" fullWidth>
-                          {getLocalizedString("Buy into game")}
+                          Buy into Game
                         </Button>
                       </ButtonGroup>
                     </Form>

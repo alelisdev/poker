@@ -32,7 +32,7 @@ const config = require("../config");
 //   1: new Table(1, "Table 1", 10000),
 // };
 
-const tables = {}
+const tables = {};
 
 const players = {};
 
@@ -55,13 +55,13 @@ function getCurrentTables() {
     smallBlind: table.minBet,
     bigBlind: table.minBet * 2,
   }));
-  console.log("fetchedTables", fetchedTables)
+  console.log("fetchedTables", fetchedTables);
   const result = [];
   fetchedTables.filter((table, id) => {
-    if(table.players) result.push(table)
-  })
-  console.log("result", result)
-  return result
+    if (table.players) result.push(table);
+  });
+  console.log("result", result);
+  return result;
 }
 
 const init = (socket, io) => {
@@ -101,7 +101,7 @@ const init = (socket, io) => {
         tables: getCurrentTables(),
         players: getCurrentPlayers(),
         socketId: socket.id,
-      }
+      };
 
       socket.emit(RECEIVE_LOBBY_INFO, data);
       socket.broadcast.emit(PLAYERS_UPDATED, getCurrentPlayers());
@@ -109,8 +109,8 @@ const init = (socket, io) => {
   });
 
   socket.on(CREATE_TABLE, () => {
-    const tableId = Object.values(tables).length+1;
-    tables[tableId] = new Table(tableId, `Table ${tableId}`, 10000)
+    const tableId = Object.values(tables).length + 1;
+    tables[tableId] = new Table(tableId, `Table ${tableId}`, 1000);
     const player = players[socket.id];
 
     tables[tableId].addPlayer(player);
@@ -126,7 +126,7 @@ const init = (socket, io) => {
       let message = `${player.name} joined the table.`;
       broadcastToTable(tables[tableId], message);
     }
-  })
+  });
 
   socket.on(JOIN_TABLE, (tableId) => {
     const table = tables[tableId];

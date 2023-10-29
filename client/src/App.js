@@ -12,53 +12,50 @@ import GoogleAnalytics from "./components/analytics/GoogleAnalytics";
 import "./App.css";
 
 const App = () => {
-  const { isLoading, chipsAmount, setChipsAmount, setIsLoading } =
+  const { isLoading, chipsAmount, balance, setChipsAmount, setIsLoading } =
     useContext(globalContext);
-  const { getLocalizedString } = useContext(contentContext);
   const { openModal, closeModal } = useContext(modalContext);
   const { isLoading: contentIsLoading } = useContext(contentContext);
+
+  console.log(balance);
 
   function showFreeChipsModal() {
     openModal(
       () => (
         <Text textAlign="center">
-          Oh noes, it seems like you're running out of chips! But don't worry,
-          here's a fresh batch of chips for you so you can continue playing!
+          Sorry, You should deposite to play the Poker!
         </Text>
       ),
       `Refuel`,
-      `Get Your Free Chips`,
+      `OK`,
       handleFreeChipsRequest
     );
   }
 
   const handleFreeChipsRequest = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
+    // try {
+    //   const token = localStorage.token;
 
-    try {
-      const token = localStorage.token;
+    //   const res = await Axios.get("/api/chips/free", {
+    //     headers: {
+    //       "x-auth-token": token,
+    //     },
+    //   });
+    //   const { chipsAmount } = res.data;
+    //   setChipsAmount(chipsAmount);
+    // } catch (error) {
+    //   alert(error);
+    // } finally {
+    closeModal();
+    // }
 
-      const res = await Axios.get("/api/chips/free", {
-        headers: {
-          "x-auth-token": token,
-        },
-      });
-
-      const { chipsAmount } = res.data;
-
-      setChipsAmount(chipsAmount);
-    } catch (error) {
-      alert(error);
-    } finally {
-      closeModal();
-    }
-
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   useEffect(() => {
     chipsAmount !== null &&
-      chipsAmount < 1000 &&
+      // chipsAmount < 1000 &&
       !isLoading &&
       !contentIsLoading &&
       setTimeout(showFreeChipsModal, 2000);

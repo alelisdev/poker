@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import styled from 'styled-components';
-import CloseIcon from '../icons/CloseIcon';
+import React from "react";
+import PropTypes from "prop-types";
+import styled from "styled-components";
+import CloseIcon from "../icons/CloseIcon";
 
 const StyledCloseIcon = styled.div`
   display: inline-block;

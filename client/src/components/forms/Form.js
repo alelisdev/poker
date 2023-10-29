@@ -9,8 +9,9 @@ export const Form = styled.form`
   text-align: center;
   font-family: "Poppins", sans-serif;
   input {
-    font-weight: 500;
-    font-size: 14.33px;
+    color: #000;
+    font-weight: 800;
+    font-size: 16px;
     line-height: 21.49px;
   }
 `;

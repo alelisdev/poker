@@ -5,8 +5,15 @@ import globalContext from "../context/global/globalContext";
 
 const useAuth = () => {
   localStorage.token && setAuthToken(localStorage.token);
-  const { setId, setIsLoading, setUserName, setEmail, setChipsAmount, setBalance } =
-    useContext(globalContext);
+  const {
+    setId,
+    setIsLoading,
+    setUserName,
+    setEmail,
+    setChipsAmount,
+    setBalance,
+    curCurrency,
+  } = useContext(globalContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -75,7 +82,13 @@ const useAuth = () => {
       setUserName(name);
       setEmail(email);
       setBalance(balance?.data);
-      setChipsAmount(chipsAmount);
+      setChipsAmount(
+        balance?.data?.find(
+          (item) =>
+            item.coinType === curCurrency.coinType &&
+            item.type === curCurrency.type
+        ).balance
+      );
     } catch (error) {
       localStorage.removeItem(token);
       alert(error);

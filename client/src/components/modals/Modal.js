@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import CloseButton from "../buttons/CloseButton";
-import HeadingWithLogo from "../typography/HeadingWithLogo";
 import Button from "../buttons/Button";
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -45,6 +44,9 @@ const StyledModal = styled.div`
 
 const ModalContent = styled.div`
   display: flex;
+  color: #fff;
+  font-family: IBM Plex Mono;
+  font-weight: 600;
   flex-direction: column;
   justify-content: center;
   align-items: center;
