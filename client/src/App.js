@@ -34,6 +34,7 @@ const App = () => {
 
   const handleFreeChipsRequest = async () => {
     setIsLoading(true);
+
     try {
       const token = localStorage.token;
 
@@ -42,6 +43,7 @@ const App = () => {
           "x-auth-token": token,
         },
       });
+
       const { chipsAmount } = res.data;
 
       setChipsAmount(chipsAmount);

@@ -7,7 +7,6 @@ const GlobalState = ({ children }) => {
   const [userName, setUserName] = useState(null);
   const [email, setEmail] = useState(null);
   const [balance, setBalance] = useState(null);
-  const [nativeToken, setNativeToken] = useState("ETH");
   const [chipsAmount, setChipsAmount] = useState(null);
   const [tables, setTables] = useState([]);
   const [players, setPlayers] = useState(null);
@@ -23,8 +22,6 @@ const GlobalState = ({ children }) => {
         setEmail,
         balance,
         setBalance,
-        nativeToken,
-        setNativeToken,
         chipsAmount,
         setChipsAmount,
         id,
