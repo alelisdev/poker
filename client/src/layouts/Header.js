@@ -98,7 +98,7 @@ const Bar = styled.div`
 `;
 
 const Header = (props) => {
-  const { userName, chipsAmount, curCurrency } = useContext(globalContext);
+  const { userName, balance } = useContext(globalContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleShowDepositeModal = () => {
@@ -145,7 +145,7 @@ const Header = (props) => {
           <IconAvatar />
           <ProfileWrapper>
             <NameWrapper>{userName}</NameWrapper>
-            <AMDWrapper>{`${chipsAmount} ${curCurrency.coinType}`}</AMDWrapper>
+            <AMDWrapper>{ balance && balance[0].balance + " " + balance[0].coinType}</AMDWrapper>
             <USDWrapper>$ 2.90</USDWrapper>
           </ProfileWrapper>
           <IconArrow />

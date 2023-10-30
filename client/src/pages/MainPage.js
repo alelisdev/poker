@@ -511,7 +511,7 @@ const MainPage = ({ history }) => {
               }}
               onClick={createGame}
             >
-              Get Referral Code
+              Get Referal Code
             </div>
           </BoounsItem>
           <PlayerNames>

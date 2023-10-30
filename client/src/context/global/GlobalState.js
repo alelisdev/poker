@@ -3,10 +3,6 @@ import GlobalContext from "./globalContext";
 
 const GlobalState = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [curCurrency, setCurCurrency] = useState({
-    coinType: "ETH",
-    type: "native",
-  });
   const [id, setId] = useState(null);
   const [userName, setUserName] = useState(null);
   const [email, setEmail] = useState(null);
@@ -34,8 +30,6 @@ const GlobalState = ({ children }) => {
         setTables,
         players,
         setPlayers,
-        curCurrency,
-        setCurCurrency,
       }}
     >
       {children}

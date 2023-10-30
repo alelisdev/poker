@@ -1,5 +1,5 @@
-import React from "react";
-import theme from "../../styles/theme";
+import React from 'react';
+import theme from '../../styles/theme';
 
 const CloseIcon = () => (
   <svg
@@ -13,6 +13,7 @@ const CloseIcon = () => (
       cx="20"
       cy="20"
       r="19"
+      fill={theme.colors.playingCardBgLighter}
       fillOpacity="0.8"
       stroke={theme.colors.secondaryCta}
       strokeWidth="2"
