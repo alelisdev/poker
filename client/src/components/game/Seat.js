@@ -66,7 +66,7 @@ const BlanaceTag = styled.div`
 
 export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
   const { openModal, closeModal } = useContext(modalContext);
-  const { chipsAmount } = useContext(globalContext);
+  const { chipsAmount, curCurrency } = useContext(globalContext);
   const { standUp, seatId, rebuy } = useContext(gameContext);
   const { getLocalizedString } = useContext(contentContext);
   const seat = currentTable.seats[seatNumber];
@@ -205,7 +205,12 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
           <PositionedUISlot right="3.5rem" bottom="-1.5rem">
             <AccountItem>
               <NameTag>{seat.player.name}</NameTag>
-              {seat.stack && <BlanaceTag>${seat.stack}</BlanaceTag>}
+              {seat.stack && (
+                <BlanaceTag>
+                  {seat.stack}
+                  {curCurrency.coinType}
+                </BlanaceTag>
+              )}
             </AccountItem>
           </PositionedUISlot>
           <PositionedUISlot>
