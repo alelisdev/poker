@@ -14,7 +14,6 @@ import "./App.css";
 const App = () => {
   const { isLoading, chipsAmount, setChipsAmount, setIsLoading } =
     useContext(globalContext);
-  const { getLocalizedString } = useContext(contentContext);
   const { openModal, closeModal } = useContext(modalContext);
   const { isLoading: contentIsLoading } = useContext(contentContext);
 
@@ -34,24 +33,20 @@ const App = () => {
 
   const handleFreeChipsRequest = async () => {
     setIsLoading(true);
-
-    try {
-      const token = localStorage.token;
-
-      const res = await Axios.get("/api/chips/free", {
-        headers: {
-          "x-auth-token": token,
-        },
-      });
-
-      const { chipsAmount } = res.data;
-
-      setChipsAmount(chipsAmount);
-    } catch (error) {
-      alert(error);
-    } finally {
-      closeModal();
-    }
+    // try {
+    //   const token = localStorage.token;
+    //   const res = await Axios.get("/api/chips/free", {
+    //     headers: {
+    //       "x-auth-token": token,
+    //     },
+    //   });
+    //   const { chipsAmount } = res.data;
+    //   setChipsAmount(chipsAmount);
+    // } catch (error) {
+    //   alert(error);
+    // } finally {
+    //   closeModal();
+    // }
 
     setIsLoading(false);
   };

@@ -222,8 +222,6 @@ const Play = ({ history }) => {
         : setBet(currentTable.minBet));
   }, [currentTable]);
 
-  console.log("currentTable", currentTable);
-
   const handleChangeSlider = (e) => {
     setSlValue(e.target.value);
   };

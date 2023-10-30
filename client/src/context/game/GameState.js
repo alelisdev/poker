@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from "react";
+import { withRouter } from "react-router-dom";
 import {
   CALL,
   CHECK,
@@ -13,11 +13,11 @@ import {
   TABLE_JOINED,
   TABLE_LEFT,
   TABLE_UPDATED,
-} from '../../pokergame/actions';
-import authContext from '../auth/authContext';
-import socketContext from '../websocket/socketContext';
-import GameContext from './gameContext';
-import globalContext from '../global/globalContext';
+} from "../../pokergame/actions";
+import authContext from "../auth/authContext";
+import socketContext from "../websocket/socketContext";
+import GameContext from "./gameContext";
+import globalContext from "../global/globalContext";
 
 const GameState = ({ history, children }) => {
   const { socket } = useContext(socketContext);
@@ -57,8 +57,8 @@ const GameState = ({ history, children }) => {
 
   useEffect(() => {
     if (socket) {
-      window.addEventListener('unload', leaveTable);
-      window.addEventListener('close', leaveTable);
+      window.addEventListener("unload", leaveTable);
+      window.addEventListener("close", leaveTable);
 
       socket.on(TABLE_UPDATED, ({ table, message, from }) => {
         console.log(TABLE_UPDATED, table, message, from);
@@ -74,7 +74,7 @@ const GameState = ({ history, children }) => {
       socket.on(TABLE_LEFT, ({ tables, tableId }) => {
         console.log(TABLE_LEFT, tables, tableId);
         setCurrentTable(null);
-        setTables(tables)
+        setTables(tables);
         loadUser(localStorage.token);
         setMessages([]);
       });
@@ -94,7 +94,7 @@ const GameState = ({ history, children }) => {
       currentTableRef.current &&
       currentTableRef.current.id &&
       socket.emit(LEAVE_TABLE, currentTableRef.current.id);
-    history.push('/');
+    history.push("/");
   };
 
   const sitDown = (tableId, seatId, amount) => {
@@ -117,7 +117,6 @@ const GameState = ({ history, children }) => {
 
   const addMessage = (message) => {
     setMessages((prevMessages) => [...prevMessages, message]);
-    console.log(message);
   };
 
   const fold = () => {

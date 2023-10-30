@@ -210,7 +210,6 @@ const WalletModal = (props) => {
       userId: id,
     };
     const response = await Axios.post("/api/payments/deposit-address", request);
-    console.log(response);
     if (response.status === 200) {
       setDepositeAddress(response.data.data.address);
     } else {
