@@ -5,8 +5,15 @@ import globalContext from "../context/global/globalContext";
 
 const useAuth = () => {
   localStorage.token && setAuthToken(localStorage.token);
-  const { setId, setIsLoading, setUserName, setEmail, setChipsAmount, setBalance } =
-    useContext(globalContext);
+  const {
+    setId,
+    setIsLoading,
+    setUserName,
+    setEmail,
+    setChipsAmount,
+    setBalance,
+    nativeToken,
+  } = useContext(globalContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -68,13 +75,12 @@ const useAuth = () => {
           "x-auth-token": token,
         },
       });
-
       const { _id, name, email, chipsAmount, balance } = res.data;
       setIsLoggedIn(true);
       setId(_id);
       setUserName(name);
       setEmail(email);
-      setBalance(balance?.data);
+      setBalance(balance.data.find((item) => item.coinType === nativeToken));
       setChipsAmount(chipsAmount);
     } catch (error) {
       localStorage.removeItem(token);

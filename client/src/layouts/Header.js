@@ -145,7 +145,9 @@ const Header = (props) => {
           <IconAvatar />
           <ProfileWrapper>
             <NameWrapper>{userName}</NameWrapper>
-            <AMDWrapper>{ balance && balance[0].balance + " " + balance[0].coinType}</AMDWrapper>
+            <AMDWrapper>
+              {balance && balance.balance} {balance && balance.coinType}
+            </AMDWrapper>
             <USDWrapper>$ 2.90</USDWrapper>
           </ProfileWrapper>
           <IconArrow />
