@@ -25,7 +25,6 @@ const {
   DISCONNECT,
   TABLE_UPDATED,
   WINNER,
-  BALANCE_UPDATED,
 } = require("../pokergame/actions");
 const config = require("../config");
 
@@ -111,7 +110,7 @@ const init = (socket, io) => {
 
   socket.on(CREATE_TABLE, () => {
     const tableId = Object.values(tables).length + 1;
-    tables[tableId] = new Table(tableId, `Table ${tableId}`, 0.06);
+    tables[tableId] = new Table(tableId, `Table ${tableId}`, 1000);
     const player = players[socket.id];
 
     tables[tableId].addPlayer(player);

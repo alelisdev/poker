@@ -79,9 +79,9 @@ const tatumWebhook = async (req, res) => {
     console.log("webhook here");
     if (type === "native") {
       currency = {
-        coinType: "ETH",
+        coinType: 'ETH',
         type: type,
-      };
+      }
     } else {
       const matchedAsset = AssetList.find(
         (item) => item.asset.toLowerCase() === asset.toLowerCase()
