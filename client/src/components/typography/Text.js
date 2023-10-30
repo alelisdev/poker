@@ -1,7 +1,8 @@
-import styled from 'styled-components';
-import PropTypes from 'prop-types';
+import styled from "styled-components";
+import PropTypes from "prop-types";
 
 const Text = styled.p`
+  color: #fff;
   font-family: ${(props) => props.theme.fontFamilySansSerif};
   text-align: ${(props) => props.textAlign};
   font-size: ${(props) =>
@@ -13,11 +14,11 @@ const Text = styled.p`
 
 Text.propTypes = {
   fontSize: PropTypes.string,
-  textAlign: PropTypes.oneOf(['left', 'center', 'right']),
+  textAlign: PropTypes.oneOf(["left", "center", "right"]),
 };
 
 Text.defaultProps = {
-  textAlign: 'left',
+  textAlign: "left",
 };
 
 export default Text;

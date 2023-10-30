@@ -74,21 +74,21 @@ const ProfileWrapper = styled.div`
 `;
 
 const NameWrapper = styled.span`
-  font-weight: 400;
+  font-weight: 600;
   color: #ffffff;
-  font-size: 12px;
+  font-size: 14px;
 `;
 
 const AMDWrapper = styled.span`
-  font-weight: 400;
+  font-weight: 600;
   color: #ff6b00;
-  font-size: 10px;
+  font-size: 12px;
 `;
 
 const USDWrapper = styled.span`
-  font-weight: 400;
+  font-weight: 600;
   color: #878282;
-  font-size: 10px;
+  font-size: 12px;
 `;
 
 const Bar = styled.div`
@@ -98,7 +98,7 @@ const Bar = styled.div`
 `;
 
 const Header = (props) => {
-  const { userName, balance } = useContext(globalContext);
+  const { userName, chipsAmount, nativeToken } = useContext(globalContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleShowDepositeModal = () => {
@@ -145,7 +145,9 @@ const Header = (props) => {
           <IconAvatar />
           <ProfileWrapper>
             <NameWrapper>{userName}</NameWrapper>
-            <AMDWrapper>{ balance && balance[0].balance + " " + balance[0].coinType}</AMDWrapper>
+            <AMDWrapper>
+              {chipsAmount} {nativeToken}
+            </AMDWrapper>
             <USDWrapper>$ 2.90</USDWrapper>
           </ProfileWrapper>
           <IconArrow />

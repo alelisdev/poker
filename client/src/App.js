@@ -21,18 +21,19 @@ const App = () => {
     openModal(
       () => (
         <Text textAlign="center">
-          Oh noes, it seems like you're running out of chips! But don't worry,
-          here's a fresh batch of chips for you so you can continue playing!
+          Oh noes, it seems like you're running out of balance! You should
+          deposit some balance into your account so you can continue playing!
         </Text>
       ),
-      `Refuel`,
-      `Get Your Free Chips`,
+      `Deposit`,
+      `OK`,
       handleFreeChipsRequest
     );
   }
 
   const handleFreeChipsRequest = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
+    closeModal();
     // try {
     //   const token = localStorage.token;
     //   const res = await Axios.get("/api/chips/free", {
@@ -48,7 +49,7 @@ const App = () => {
     //   closeModal();
     // }
 
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   useEffect(() => {

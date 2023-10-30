@@ -10,8 +10,8 @@ const useAuth = () => {
     setIsLoading,
     setUserName,
     setEmail,
+    nativeToken,
     setChipsAmount,
-    setBalance,
   } = useContext(globalContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -53,7 +53,6 @@ const useAuth = () => {
         email: email,
         password,
       });
-
       const token = res.data.token;
 
       if (token) {
@@ -74,14 +73,14 @@ const useAuth = () => {
           "x-auth-token": token,
         },
       });
-
-      const { _id, name, email, chipsAmount, balance } = res.data;
-      console.log(res.data.balance.data);
+      const { _id, name, email, balance } = res.data;
       setIsLoggedIn(true);
       setId(_id);
       setUserName(name);
       setEmail(email);
-      setChipsAmount(chipsAmount);
+      setChipsAmount(
+        balance.data.find((coin) => coin.coinType === nativeToken).balance
+      );
     } catch (error) {
       localStorage.removeItem(token);
       alert(error);
@@ -95,7 +94,6 @@ const useAuth = () => {
     setUserName(null);
     setEmail(null);
     setChipsAmount(null);
-    setBalance(null);
   };
 
   return [isLoggedIn, login, logout, register, loadUser];

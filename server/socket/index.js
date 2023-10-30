@@ -289,9 +289,17 @@ const init = (socket, io) => {
   });
 
   async function updatePlayerBankroll(player, amount) {
-    const user = await User.findById(player.id);
-    user.chipsAmount += amount;
-    await user.save();
+    let userData = await User.findOne({
+      _id: player.id,
+    });
+    let balanceData = userData.balance.data.find(
+      (data) => data.coinType === "ETH"
+    );
+    balanceData.balance += Number(amount);
+    await User.findOneAndUpdate(
+      { _id: player.id },
+      { balance: userData.balance }
+    );
 
     players[socket.id].bankroll += amount;
     io.to(socket.id).emit(PLAYERS_UPDATED, getCurrentPlayers());

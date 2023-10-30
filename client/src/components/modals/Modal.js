@@ -21,10 +21,12 @@ const ModalWrapper = styled.div`
 `;
 
 const StyledModal = styled.div`
+  color: #fff;
   position: relative;
   z-index: 101;
   max-width: 480px;
   min-width: 264px;
+  font-family: IBM Plex Mono;
   width: "100%";
   text-align: center;
   background-color: #181a26;
@@ -48,7 +50,6 @@ const ModalContent = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-
   & > *:not(:last-child) {
     margin-bottom: 2rem;
   }
