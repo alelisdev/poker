@@ -54,11 +54,10 @@ const App = () => {
 
   useEffect(() => {
     chipsAmount !== null &&
-      chipsAmount < 1000 &&
+      chipsAmount < 0.01 &&
       !isLoading &&
       !contentIsLoading &&
       setTimeout(showFreeChipsModal, 2000);
-
     // eslint-disable-next-line
   }, [chipsAmount, isLoading, contentIsLoading]);
 

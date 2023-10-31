@@ -1,6 +1,5 @@
 import React from "react";
 import PokerChip from "../icons/PokerChip";
-import { Input } from "../forms/Input";
 import styled from "styled-components";
 import PropTypes from "prop-types";
 
@@ -25,13 +24,17 @@ const IconWrapper = styled.label`
   top: 0px;
 `;
 
-const ChipsAmountPill = ({ chipsAmount }) => {
+const ChipsAmountPill = ({ chipsAmount, nativeToken }) => {
+  console.log(nativeToken);
   return (
     <Wrapper>
       <IconWrapper htmlFor="chipsAmount">
         <PokerChip width="30" height="30" />
       </IconWrapper>
-      <span>{chipsAmount}$</span>
+      <span>
+        {parseFloat(chipsAmount).toFixed(4)}
+        {nativeToken}
+      </span>
     </Wrapper>
   );
 };

@@ -12,7 +12,7 @@ const Wrapper = styled.div`
   width: 100%;
 `;
 
-export const GameStateInfo = ({ currentTable }) => {
+export const GameStateInfo = ({ currentTable, nativeToken }) => {
   return (
     <Wrapper>
       {currentTable.players.length <= 1 || currentTable.handOver ? (
@@ -30,6 +30,7 @@ export const GameStateInfo = ({ currentTable }) => {
       {!!currentTable.mainPot && (
         <ChipsAmountPill
           chipsAmount={currentTable.mainPot}
+          nativeToken={nativeToken}
           style={{ minWidth: "150px" }}
         />
       )}
@@ -38,6 +39,7 @@ export const GameStateInfo = ({ currentTable }) => {
         currentTable.sidePots.map((sidePot) => (
           <ChipsAmountPill
             chipsAmount={sidePot.amount}
+            nativeToken={nativeToken}
             style={{ minWidth: "150px" }}
           />
         ))}

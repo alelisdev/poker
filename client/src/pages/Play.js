@@ -194,7 +194,7 @@ const Play = ({ history }) => {
     raise,
   } = useContext(gameContext);
   const { getLocalizedString } = useContext(contentContext);
-  const { tables } = useContext(globalContext);
+  const { tables, nativeToken } = useContext(globalContext);
   const [slValue, setSlValue] = useState(40);
   const [bet, setBet] = useState(0);
 
@@ -367,7 +367,10 @@ const Play = ({ history }) => {
                 )}
               </PositionedUISlot>
               {currentTable.winMessages.length === 0 && (
-                <GameStateInfo currentTable={currentTable} />
+                <GameStateInfo
+                  currentTable={currentTable}
+                  nativeToken={nativeToken}
+                />
               )}
             </>
           )}

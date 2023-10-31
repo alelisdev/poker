@@ -24,7 +24,7 @@ export const GameUI = ({
           radius="7px"
           onClick={() => raise(bet + currentTable.seats[seatId].bet)}
         >
-          Bet {bet}
+          Bet {parseFloat(bet).toFixed(4)}
         </GameUIButton>
         <GameUIButton
           width="33%"
@@ -46,7 +46,7 @@ export const GameUI = ({
             )
           }
         >
-          All In ({currentTable.seats[seatId].stack})
+          All In ({parseFloat(currentTable.seats[seatId].stack).toFixed(4)})
         </GameUIButton>
         <GameUIButton
           width="33%"

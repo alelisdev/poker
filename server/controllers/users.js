@@ -60,7 +60,7 @@ exports.register = async (req, res) => {
       }
     );
   } catch (err) {
-    console.error(err.message);
+    console.error("POST api/users", err.message);
     return res.status(500).json({ msg: "Internal server error" });
   }
 };

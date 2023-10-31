@@ -52,7 +52,6 @@ const NameTag = styled.div`
 
 const BlanaceTag = styled.div`
   width: 100%;
-  padding: 0.15rem 2rem;
   background: #212531;
   height: 31px;
   border-radius: 3px;
@@ -66,7 +65,8 @@ const BlanaceTag = styled.div`
 
 export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
   const { openModal, closeModal } = useContext(modalContext);
-  const { chipsAmount } = useContext(globalContext);
+  const { chipsAmount, nativeToken } = useContext(globalContext);
+  console.log("nativeToken", nativeToken);
   const { standUp, seatId, rebuy } = useContext(gameContext);
   const { getLocalizedString } = useContext(contentContext);
   const seat = currentTable.seats[seatNumber];
@@ -90,9 +90,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
             <Form
               onSubmit={(e) => {
                 e.preventDefault();
-
                 const amount = +document.getElementById("amount").value;
-
                 if (
                   amount &&
                   amount >= minBuyIn &&
@@ -158,7 +156,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                           sitDown(
                             currentTable.id,
                             seatNumber,
-                            parseInt(amount)
+                            parseFloat(amount)
                           );
                           closeModal();
                         }
@@ -205,7 +203,9 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
           <PositionedUISlot right="3.5rem" bottom="-1.5rem">
             <AccountItem>
               <NameTag>{seat.player.name}</NameTag>
-              {seat.stack && <BlanaceTag>${seat.stack}</BlanaceTag>}
+              {seat.stack && (
+                <BlanaceTag>{parseFloat(seat.stack).toFixed(4)}ETH</BlanaceTag>
+              )}
             </AccountItem>
           </PositionedUISlot>
           <PositionedUISlot>
@@ -251,7 +251,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
             bottom="-1.5rem"
             origin="top left"
           >
-            <ChipsAmountPill chipsAmount={seat.bet} />
+            <ChipsAmountPill chipsAmount={seat.bet} nativeToken={nativeToken} />
             {!currentTable.handOver && seat.lastAction && (
               <InfoPill>{seat.lastAction}</InfoPill>
             )}

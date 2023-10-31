@@ -1,27 +1,26 @@
-import React, { useState, useEffect, useContext } from 'react';
-import authContext from '../auth/authContext';
-import SocketContext from './socketContext';
-import io from 'socket.io-client';
+import React, { useState, useEffect, useContext } from "react";
+import authContext from "../auth/authContext";
+import SocketContext from "./socketContext";
+import io from "socket.io-client";
 import {
   DISCONNECT,
   FETCH_LOBBY_INFO,
   PLAYERS_UPDATED,
   RECEIVE_LOBBY_INFO,
   TABLES_UPDATED,
-} from '../../pokergame/actions';
-import globalContext from '../global/globalContext';
-import config from '../../clientConfig';
+} from "../../pokergame/actions";
+import globalContext from "../global/globalContext";
+import config from "../../clientConfig";
 
 const WebSocketProvider = ({ children }) => {
   const { isLoggedIn } = useContext(authContext);
   const { setTables, setPlayers } = useContext(globalContext);
-
   const [socket, setSocket] = useState(null);
   const [socketId, setSocketId] = useState(null);
 
   useEffect(() => {
-    window.addEventListener('beforeunload', cleanUp);
-    window.addEventListener('beforeclose', cleanUp);
+    window.addEventListener("beforeunload", cleanUp);
+    window.addEventListener("beforeclose", cleanUp);
     return () => cleanUp();
     // eslint-disable-next-line
   }, []);
@@ -50,7 +49,7 @@ const WebSocketProvider = ({ children }) => {
 
   function connect() {
     const socket = io(config.socketURI, {
-      transports: ['websocket'],
+      transports: ["websocket"],
       upgrade: false,
     });
     registerCallbacks(socket);
@@ -68,7 +67,7 @@ const WebSocketProvider = ({ children }) => {
     });
 
     socket.on(PLAYERS_UPDATED, (players) => {
-      console.log(PLAYERS_UPDATED, players);
+      // console.log(PLAYERS_UPDATED, players);
       setPlayers(players);
     });
 

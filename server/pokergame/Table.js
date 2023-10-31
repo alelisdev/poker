@@ -1,9 +1,9 @@
-const _ = require('underscore');
-const lodash = require('lodash');
-const Hand = require('pokersolver').Hand;
-const Seat = require('./Seat');
-const Deck = require('./Deck');
-const SidePot = require('./SidePot');
+const _ = require("underscore");
+const lodash = require("lodash");
+const Hand = require("pokersolver").Hand;
+const Seat = require("./Seat");
+const Deck = require("./Deck");
+const SidePot = require("./SidePot");
 
 class Table {
   constructor(id, name, limit, maxPlayers = 5) {
@@ -47,7 +47,7 @@ class Table {
 
   removePlayer(socketId) {
     this.players = this.players.filter(
-      (player) => player && player.socketId !== socketId,
+      (player) => player && player.socketId !== socketId
     );
     this.standPlayer(socketId);
   }
@@ -66,7 +66,7 @@ class Table {
 
   rebuyPlayer(seatId, amount) {
     if (!this.seats[seatId]) {
-      throw new Error('No seated player to rebuy');
+      throw new Error("No seated player to rebuy");
     }
     this.seats[seatId].stack += amount;
   }
@@ -99,12 +99,12 @@ class Table {
   }
   unfoldedPlayers() {
     return Object.values(this.seats).filter(
-      (seat) => seat != null && !seat.folded,
+      (seat) => seat != null && !seat.folded
     );
   }
   activePlayers() {
     return Object.values(this.seats).filter(
-      (seat) => seat != null && !seat.sittingOut,
+      (seat) => seat != null && !seat.sittingOut
     );
   }
   nextUnfoldedPlayer(player, places) {
@@ -223,7 +223,7 @@ class Table {
     winner && winner.winHand(this.pot);
     winner &&
       this.winMessages.push(
-        `${winner.player.name} wins $${this.pot.toFixed(2)}`,
+        `${winner.player.name} wins ETH${this.pot.toFixed(4)}`
       );
     this.endHand();
   }
@@ -245,8 +245,8 @@ class Table {
   }
   updateHistory() {
     this.history.push({
-      pot: +this.pot.toFixed(2),
-      mainPot: +this.mainPot.toFixed(2),
+      pot: +this.pot.toFixed(4),
+      mainPot: +this.mainPot.toFixed(4),
       sidePots: this.sidePots.slice(),
       board: this.board.slice(),
       seats: this.cleanSeatsForHistory(),
@@ -264,8 +264,8 @@ class Table {
           id: seat.player.id,
           username: seat.player.name,
         };
-        seat.bet = +seat.bet.toFixed(2);
-        seat.stack = +seat.stack.toFixed(2);
+        seat.bet = +seat.bet.toFixed(4);
+        seat.stack = +seat.stack.toFixed(4);
       }
     }
     return cleanSeats;
@@ -316,7 +316,7 @@ class Table {
       if (seat && !seat.folded && seat.stack > 0) {
         if (
           (this.callAmount &&
-            seat.bet.toFixed(2) !== this.callAmount.toFixed(2)) ||
+            seat.bet.toFixed(4) !== this.callAmount.toFixed(4)) ||
           (!this.callAmount && !seat.checked)
         ) {
           return false;
@@ -330,15 +330,15 @@ class Table {
 
     // everyone but one person is all in and the last person called:
     const seatsToAct = seats.filter(
-      (seat) => seat && !seat.folded && seat.stack > 0,
+      (seat) => seat && !seat.folded && seat.stack > 0
     );
     if (seatsToAct.length === 0) return true;
-    return seatsToAct.length === 1 && seatsToAct[0].lastAction === 'CALL';
+    return seatsToAct.length === 1 && seatsToAct[0].lastAction === "CALL";
   }
   playersAllInThisTurn() {
     const seats = Object.values(this.seats);
     return seats.filter(
-      (seat) => seat && !seat.folded && seat.bet > 0 && seat.stack === 0,
+      (seat) => seat && !seat.folded && seat.bet > 0 && seat.stack === 0
     );
   }
   calculateSidePots() {
@@ -421,13 +421,13 @@ class Table {
 
     const findHandOwner = (cards) => {
       const participant = participants.find((participant) =>
-        lodash.isEqual(participant.solverCards.sort(), cards),
+        lodash.isEqual(participant.solverCards.sort(), cards)
       );
       return participant.seatId;
     };
 
     const solverWinners = Hand.winners(
-      participants.map((p) => Hand.solve(p.solverCards)),
+      participants.map((p) => Hand.solve(p.solverCards))
     );
 
     const winners = solverWinners.map((winner) => {
@@ -446,7 +446,7 @@ class Table {
       seat.winHand(winAmount);
       if (winAmount > 0) {
         this.winMessages.push(
-          `${seat.player.name} wins $${winAmount.toFixed(2)} with ${handDesc}`,
+          `${seat.player.name} wins ETH${winAmount.toFixed(4)} with ${handDesc}`
         );
       }
     }
@@ -457,8 +457,8 @@ class Table {
     const newCards = cards.map((card) => {
       const suit = card.suit.slice(0, 1);
       let rank;
-      if (card.rank === '10') {
-        rank = 'T';
+      if (card.rank === "10") {
+        rank = "T";
       } else {
         rank =
           card.rank.length > 1
@@ -536,7 +536,7 @@ class Table {
 
       return {
         seatId: seat.id,
-        message: `${seat.player.name} calls $${addedToPot.toFixed(2)}`,
+        message: `${seat.player.name} calls ETH${addedToPot.toFixed(4)}`,
       };
     } else {
       return null;
@@ -576,7 +576,7 @@ class Table {
 
       return {
         seatId: seat.id,
-        message: `${seat.player.name} raises to $${amount.toFixed(2)}`,
+        message: `${seat.player.name} raises to ETH${amount.toFixed(4)}`,
       };
     } else {
       return null;

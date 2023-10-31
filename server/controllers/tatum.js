@@ -4,7 +4,7 @@ const SettingModel = require("../models/Setting");
 const Tatum = require("@tatumio/tatum");
 
 const TatumAxios = Axios.create();
-TatumAxios.defaults.timeout = 100000;
+TatumAxios.defaults.timeout = 50000;
 TatumAxios.defaults.baseURL = "https://api.tatum.io/v3";
 TatumAxios.defaults.headers.common["x-api-key"] =
   config.TATUM_OPTION[config.NETWORK].apikey;

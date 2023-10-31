@@ -12,6 +12,9 @@ const useAuth = () => {
     setEmail,
     nativeToken,
     setChipsAmount,
+    setBalance,
+    setEthPrice,
+    setSolPrice,
   } = useContext(globalContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -78,8 +81,13 @@ const useAuth = () => {
       setId(_id);
       setUserName(name);
       setEmail(email);
-      setChipsAmount(
+      setBalance(
         balance.data.find((coin) => coin.coinType === nativeToken).balance
+      );
+      setChipsAmount(
+        parseFloat(
+          balance.data.find((coin) => coin.coinType === nativeToken).balance
+        ).toFixed(4)
       );
     } catch (error) {
       localStorage.removeItem(token);

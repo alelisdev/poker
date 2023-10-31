@@ -8,8 +8,11 @@ const GlobalState = ({ children }) => {
   const [nativeToken, setNativeToken] = useState("ETH");
   const [email, setEmail] = useState(null);
   const [chipsAmount, setChipsAmount] = useState(null);
+  const [balance, setBalance] = useState(null);
   const [tables, setTables] = useState([]);
   const [players, setPlayers] = useState(null);
+  const [ethPrice, setEthPrice] = useState(1);
+  const [solPrice, setSolPrice] = useState(1);
 
   return (
     <GlobalContext.Provider
@@ -30,6 +33,12 @@ const GlobalState = ({ children }) => {
         setTables,
         players,
         setPlayers,
+        balance,
+        setBalance,
+        solPrice,
+        setSolPrice,
+        ethPrice,
+        setEthPrice,
       }}
     >
       {children}

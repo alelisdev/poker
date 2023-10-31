@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import globalContext from "../context/global/globalContext";
 import styled from "styled-components";
 import { ReactComponent as IconNavbar } from "../assets/icons/nav-icon.svg";
@@ -99,11 +99,14 @@ const Bar = styled.div`
 
 const Header = (props) => {
   const { userName, chipsAmount, nativeToken } = useContext(globalContext);
+  const [usdPrice, setUSDPrice] = useState(1841.24);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleShowDepositeModal = () => {
     setIsOpen(true);
   };
+
+  useEffect(() => {}, [chipsAmount, nativeToken]);
 
   return (
     <HeaderWrapper>
@@ -148,7 +151,9 @@ const Header = (props) => {
             <AMDWrapper>
               {chipsAmount} {nativeToken}
             </AMDWrapper>
-            <USDWrapper>$ 2.90</USDWrapper>
+            <USDWrapper>
+              $ {parseFloat(chipsAmount * usdPrice).toFixed(3)}
+            </USDWrapper>
           </ProfileWrapper>
           <IconArrow />
         </FlexWrapper>
