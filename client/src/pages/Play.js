@@ -252,7 +252,7 @@ const Play = ({ history }) => {
           )}
         </>
       )} */}
-      <Header dashboard={false} />
+      <Header showIcon={false} />
       <GamePanelContainer>
         <PokerTableWrapper>
           <GameLeaveButton onClick={leaveTable}>Leave</GameLeaveButton>

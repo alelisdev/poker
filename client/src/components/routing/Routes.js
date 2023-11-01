@@ -8,6 +8,7 @@ import Play from "../../pages/Play";
 import ProtectedRoute from "./ProtectedRoute";
 import StaticPage from "../../pages/StaticPage";
 import NotFoundPage from "../../pages/NotFoundPage";
+import PaymentsPage from "../../pages/Payments";
 import contentContext from "../../context/content/contentContext";
 
 const Routes = () => {
@@ -18,6 +19,7 @@ const Routes = () => {
       <Route path="/" exact component={HomePage} />
       <Route path="/register" component={RegistrationPage} />
       <Route path="/login" component={LoginPage} />
+      <Route path="/payments" component={PaymentsPage} />
       <Route path="/dashboard" component={Dashboard} />
       {staticPages &&
         staticPages.map((page) => (

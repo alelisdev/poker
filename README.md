@@ -15,7 +15,6 @@ The server part of the application is a Node- / Express-Backend. The Frontend is
   - State Management is handled with the **Context-API** (built into React core-library)
   - **Styled Components** were used to create all of the custom CSS
 - Communication with the Backend is handled with **Axios** (REST-API) & **Socket.io** (Game logic)
-- All localized strings and static page content (e.g. privacy policy) is stored in **Contentful** (cloud-based Headless-CMS) and retrieved via their Content Delivery API
 
 ### Backend:
 

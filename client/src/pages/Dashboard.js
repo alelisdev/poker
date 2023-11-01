@@ -1,16 +1,16 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import Container from '../components/layout/Container';
-import HeadingWithLogo from '../components/typography/HeadingWithLogo';
-import Button from '../components/buttons/Button';
-import { FormGroup } from '../components/forms/FormGroup';
-import { Label } from '../components/forms/Label';
-import { Input } from '../components/forms/Input';
-import styled from 'styled-components';
-import { Form } from '../components/forms/Form';
-import RelativeWrapper from '../components/layout/RelativeWrapper';
-import globalContext from '../context/global/globalContext';
-import contentContext from '../context/content/contentContext';
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import Container from "../components/layout/Container";
+import HeadingWithLogo from "../components/typography/HeadingWithLogo";
+import Button from "../components/buttons/Button";
+import { FormGroup } from "../components/forms/FormGroup";
+import { Label } from "../components/forms/Label";
+import { Input } from "../components/forms/Input";
+import styled from "styled-components";
+import { Form } from "../components/forms/Form";
+import RelativeWrapper from "../components/layout/RelativeWrapper";
+import globalContext from "../context/global/globalContext";
+import contentContext from "../context/content/contentContext";
 
 const Wrapper = styled.div`
   display: grid;
@@ -36,19 +36,6 @@ const Wrapper = styled.div`
   }
 `;
 
-// const DangerButton = styled(Button)`
-//   background-color: ${(props) => props.theme.colors.dangerColorLighter};
-//   color: ${(props) => props.theme.colors.fontColorLight};
-
-//   &:visited,
-//   &:hover,
-//   &:active,
-//   &:focus {
-//     background-color: ${(props) => props.theme.colors.dangerColor};
-//     color: ${(props) => props.theme.colors.fontColorLight};
-//   }
-// `;
-
 const Dashboard = () => {
   const { getLocalizedString } = useContext(contentContext);
   const { userName, email } = useContext(globalContext);
@@ -70,34 +57,34 @@ const Dashboard = () => {
           </HeadingWithLogo>
           <Wrapper>
             <FormGroup>
-              <Label>{getLocalizedString('dashboard-nickname_lbl_txt')}</Label>
+              <Label>{getLocalizedString("dashboard-nickname_lbl_txt")}</Label>
               <Input value={userName} />
               <Button primary>
-                {getLocalizedString('dashboard-nickname_btn_txt')}
+                {getLocalizedString("dashboard-nickname_btn_txt")}
               </Button>
             </FormGroup>
             <FormGroup>
-              <Label>{getLocalizedString('dashboard-email_lbl_txt')}</Label>
+              <Label>{getLocalizedString("dashboard-email_lbl_txt")}</Label>
               <Input type="email" value={email} />
               <Button primary>
-                {getLocalizedString('dashboard-email_btn_txt')}
+                {getLocalizedString("dashboard-email_btn_txt")}
               </Button>
             </FormGroup>
-            <FormGroup style={{ gridColumnStart: '1', gridColumnEnd: '3' }}>
+            <FormGroup style={{ gridColumnStart: "1", gridColumnEnd: "3" }}>
               <Button primary>
-                {getLocalizedString('dashboard-reset_pw_btn_text')}
+                {getLocalizedString("dashboard-reset_pw_btn_text")}
               </Button>
               <Button>
-                {getLocalizedString('dashboard-delete_acct_btn_text')}
+                {getLocalizedString("dashboard-delete_acct_btn_text")}
               </Button>
             </FormGroup>
             <Button
               as={Link}
               to="/"
               secondary
-              style={{ gridColumnStart: '1', gridColumnEnd: '3' }}
+              style={{ gridColumnStart: "1", gridColumnEnd: "3" }}
             >
-              {getLocalizedString('static_page-back_btn_txt')}
+              {getLocalizedString("static_page-back_btn_txt")}
             </Button>
           </Wrapper>
         </Form>

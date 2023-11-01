@@ -410,7 +410,7 @@ const MainPage = ({ history }) => {
       alignItems="center"
       justifyContent="start"
     >
-      <Header dashboard={true} />
+      <Header showIcon={true} />
       <MainWrapper>
         <SideWrapper width="72%">
           <CardContainer>

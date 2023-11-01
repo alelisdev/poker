@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import Axios from "axios";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import MainLayout from "./layouts/_MainLayout";
 import LoadingScreen from "./components/loading/LoadingScreen";
 import globalContext from "./context/global/globalContext";
@@ -12,8 +12,8 @@ import GoogleAnalytics from "./components/analytics/GoogleAnalytics";
 import "./App.css";
 
 const App = () => {
-  const { isLoading, chipsAmount, setChipsAmount, setIsLoading } =
-    useContext(globalContext);
+  const { isLoading, chipsAmount } = useContext(globalContext);
+  const history = useHistory();
   const { openModal, closeModal } = useContext(modalContext);
   const { isLoading: contentIsLoading } = useContext(contentContext);
 
@@ -32,24 +32,8 @@ const App = () => {
   }
 
   const handleFreeChipsRequest = async () => {
-    // setIsLoading(true);
     closeModal();
-    // try {
-    //   const token = localStorage.token;
-    //   const res = await Axios.get("/api/chips/free", {
-    //     headers: {
-    //       "x-auth-token": token,
-    //     },
-    //   });
-    //   const { chipsAmount } = res.data;
-    //   setChipsAmount(chipsAmount);
-    // } catch (error) {
-    //   alert(error);
-    // } finally {
-    //   closeModal();
-    // }
-
-    // setIsLoading(false);
+    history.push("/payments");
   };
 
   useEffect(() => {

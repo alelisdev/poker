@@ -12,11 +12,6 @@ const Container = styled.div`
   margin: ${(props) => props.margin};
   padding: ${(props) => props.padding};
 
-  @media screen and (max-width: 1024px) {
-    justify-content: ${(props) =>
-      props.contentCenteredMobile ? "center" : "space-between"};
-  }
-
   ${(props) =>
     props.fluid &&
     css`

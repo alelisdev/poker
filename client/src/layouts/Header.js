@@ -1,6 +1,10 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import globalContext from "../context/global/globalContext";
 import styled from "styled-components";
+import { PhantomWalletName } from "@solana/wallet-adapter-phantom";
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { ethers } from "ethers";
 import { ReactComponent as IconNavbar } from "../assets/icons/nav-icon.svg";
 import { ReactComponent as IconHome } from "../assets/icons/home-icon.svg";
 import { ReactComponent as IconLogo } from "../assets/icons/logo-icon.svg";
@@ -98,6 +102,7 @@ const Bar = styled.div`
 `;
 
 const Header = (props) => {
+  const history = useHistory();
   const { userName, chipsAmount, nativeToken } = useContext(globalContext);
   const [usdPrice, setUSDPrice] = useState(1841.24);
   const [isOpen, setIsOpen] = useState(false);
@@ -126,17 +131,17 @@ const Header = (props) => {
           <LabelBar />
         </LabelWrapper>
       </FlexWrapper>
-      {props.dashboard && (
+      {props.showIcon && (
         <IconSimpleWrapper>
           <IconLogo />
         </IconSimpleWrapper>
       )}
       <FlexWrapper gap="30px">
         <FlexWrapper gap="10px">
-          <IconWrapper onClick={handleShowDepositeModal}>
+          <IconWrapper onClick={() => history.push("/payments")}>
             <IconWallet />
           </IconWrapper>
-          <IconWrapper>
+          <IconWrapper onClick={handleShowDepositeModal}>
             <IconNotify />
           </IconWrapper>
           <IconWrapper>

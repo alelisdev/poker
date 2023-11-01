@@ -13,8 +13,6 @@ const useAuth = () => {
     nativeToken,
     setChipsAmount,
     setBalance,
-    setEthPrice,
-    setSolPrice,
   } = useContext(globalContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
