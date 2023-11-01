@@ -56,7 +56,7 @@ const StyledSwitch = styled.label`
 
 const SwitchButton = (props) => {
   return (
-    <StyledSwitch class="switchSmall2">
+    <StyledSwitch className="switchSmall2">
       <input
         type="checkbox"
         checked={props.checked}

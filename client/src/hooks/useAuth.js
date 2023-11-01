@@ -1,5 +1,5 @@
 import { useEffect, useState, useContext } from "react";
-import Axios from "axios";
+import pokerClient from "../helpers/axios";
 import setAuthToken from "../helpers/setAuthToken";
 import globalContext from "../context/global/globalContext";
 
@@ -28,7 +28,7 @@ const useAuth = () => {
   const register = async ({ name, email, password }) => {
     setIsLoading(true);
     try {
-      const res = await Axios.post("/api/users", {
+      const res = await pokerClient.post("/api/users", {
         name,
         email,
         password,
@@ -50,7 +50,7 @@ const useAuth = () => {
   const login = async ({ email, password }) => {
     setIsLoading(true);
     try {
-      const res = await Axios.post("/api/auth", {
+      const res = await pokerClient.post("/api/auth", {
         email: email,
         password,
       });
@@ -69,7 +69,7 @@ const useAuth = () => {
 
   const loadUser = async (token) => {
     try {
-      const res = await Axios.get("/api/auth", {
+      const res = await pokerClient.get("/api/auth", {
         headers: {
           "x-auth-token": token,
         },

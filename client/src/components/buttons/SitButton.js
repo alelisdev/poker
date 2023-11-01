@@ -41,12 +41,6 @@ const SitButton = styled.button`
       background-color: #e06303;
       font-size: 15px;
       color: ${(props) => props.theme.colors.primaryCta};
-      padding: ${(props) => {
-        if (props.large) return "calc(1rem - 2px) calc(2rem - 2px)";
-        else if (props.small) return "calc(0.5rem - 2px) calc(1rem - 2px)";
-        else return "calc(0.75rem - 2px) calc(1.5rem - 2px)";
-      }};
-
       &,
       &:visited {
         color: ${(props) => props.theme.colors.fontColorLight};

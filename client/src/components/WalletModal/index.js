@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import globalContext from "../../context/global/globalContext";
-import Axios from "axios";
+import pokerClient from "../../helpers/axios";
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -183,7 +183,6 @@ const InputWrapper = styled.div`
 `;
 
 const WalletModal = (props) => {
-  const modalRef = useRef(null);
   const [showCurrency, setShowCurrency] = useState(false);
   const [currency, setCurrency] = useState("ETH");
   const [text, setText] = useState("ETH");
@@ -209,7 +208,10 @@ const WalletModal = (props) => {
       type: "native",
       userId: id,
     };
-    const response = await Axios.post("/api/payments/deposit-address", request);
+    const response = await pokerClient.post(
+      "/api/payments/deposit-address",
+      request
+    );
     if (response.status === 200) {
       setDepositeAddress(response.data.data.address);
     } else {

@@ -60,7 +60,6 @@ const WebSocketProvider = ({ children }) => {
 
   function registerCallbacks(socket) {
     socket.on(RECEIVE_LOBBY_INFO, ({ tables, players, socketId }) => {
-      console.log(RECEIVE_LOBBY_INFO, tables, players, socketId);
       setSocketId(socketId);
       setTables(tables);
       setPlayers(players);

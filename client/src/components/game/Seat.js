@@ -11,8 +11,6 @@ import { PositionedUISlot } from "./PositionedUISlot";
 import { InfoPill } from "./InfoPill";
 import PokerCard from "./PokerCard";
 import ChipsAmountPill from "./ChipsAmountPill";
-import ColoredText from "../typography/ColoredText";
-import PokerChip from "../icons/PokerChip";
 import { EmptySeat } from "./EmptySeat";
 import { OccupiedSeat } from "./OccupiedSeat";
 import { Hand } from "./Hand";
@@ -66,11 +64,10 @@ const BlanaceTag = styled.div`
 export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
   const { openModal, closeModal } = useContext(modalContext);
   const { chipsAmount, nativeToken } = useContext(globalContext);
-  console.log("nativeToken", nativeToken);
   const { standUp, seatId, rebuy } = useContext(gameContext);
   const { getLocalizedString } = useContext(contentContext);
   const seat = currentTable.seats[seatNumber];
-  const maxBuyin = currentTable.limit;
+  const maxBuyin = currentTable.limit * 10;
   const minBuyIn = currentTable.minBet * 2 * 10;
 
   useEffect(() => {
@@ -147,6 +144,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                       onSubmit={(e) => {
                         e.preventDefault();
                         const amount = +document.getElementById("amount").value;
+                        console.log(amount);
                         if (
                           amount &&
                           amount >= minBuyIn &&
@@ -173,7 +171,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                       </FormGroup>
                       <ButtonGroup>
                         <Button primary type="submit" fullWidth>
-                          {getLocalizedString("Buy into game")}
+                          Buy into game
                         </Button>
                       </ButtonGroup>
                     </Form>

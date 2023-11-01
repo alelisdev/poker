@@ -7,8 +7,6 @@ import Routes from "./components/routing/Routes";
 import contentContext from "./context/content/contentContext";
 import Text from "./components/typography/Text";
 import modalContext from "./context/modal/modalContext";
-import config from "./clientConfig";
-import GoogleAnalytics from "./components/analytics/GoogleAnalytics";
 import "./App.css";
 
 const App = () => {
@@ -25,7 +23,7 @@ const App = () => {
           deposit some balance into your account so you can continue playing!
         </Text>
       ),
-      `Deposit`,
+      ``,
       `OK`,
       handleFreeChipsRequest
     );
@@ -54,7 +52,6 @@ const App = () => {
           <Routes />
         </MainLayout>
       )}
-      {config.isProduction && <GoogleAnalytics />}
     </>
   );
 };

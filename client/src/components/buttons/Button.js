@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 import PropTypes from "prop-types";
 
 const Button = styled.button`
+  margin-top: 10px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -49,10 +50,7 @@ const Button = styled.button`
       background: linear-gradient(90deg, #da367f 0.04%, #f95e42 105.73%);
       font-size: 15px;
       color: ${(props) => props.theme.colors.primaryCta};
-      padding: ${(props) => {
-        if (props.large) return "calc(1rem - 2px) calc(2rem - 2px)";
-        else if (props.small) return "calc(0.5rem - 2px) calc(1rem - 2px)";
-        else return "calc(0.75rem - 2px) calc(1.5rem - 2px)";
+      padding: calc(0.75rem - 2px) calc(1.5rem - 2px);
       }};
 
       &,
@@ -78,47 +76,6 @@ const Button = styled.button`
       }
     `}
 
-  ${(props) =>
-    props.secondary &&
-    css`
-      color: ${(props) => props.theme.colors.primaryCta};
-
-      &,
-      &:visited {
-        border: 2px solid ${(props) => props.theme.colors.primaryCta};
-        background-color: transparent;
-        color: ${(props) => props.theme.colors.primaryCta}};
-      }
-
-      &:hover,
-      &:active {
-        border: 2px solid ${(props) => props.theme.colors.primaryCtaDarker};
-        background-color: transparent;
-        color: ${(props) => props.theme.colors.primaryCtaDarker};
-      }
-
-      &:focus {
-        outline: none;
-        border: 2px solid ${(props) => props.theme.colors.primaryCtaDarker};
-        color: ${(props) => props.theme.colors.primaryCtaDarker};
-      }
-
-      &:disabled {
-        border: 2px solid grey;
-        background-color: grey;
-        color: ${(props) => props.theme.colors.fontColorDark};
-      }
-    `}
-  
-  ${(props) =>
-    props.large &&
-    css`
-      font-size: 1.6rem;
-      line-height: 1.6rem;
-      min-width: 250px;
-      padding: 1rem 2rem;
-    `}
-  
   ${(props) =>
     props.small &&
     css`
@@ -156,7 +113,6 @@ Button.propTypes = {
   primary: PropTypes.bool,
   secondary: PropTypes.bool,
   small: PropTypes.bool,
-  large: PropTypes.bool,
   fullWidth: PropTypes.bool,
   fullwidthonmobile: PropTypes.bool,
 };

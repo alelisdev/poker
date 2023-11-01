@@ -1,5 +1,4 @@
 import React from "react";
-import theme from "../../styles/theme";
 import PropTypes from "prop-types";
 
 const PokerChip = ({ width, height }) => (
@@ -160,8 +159,8 @@ const PokerChip = ({ width, height }) => (
         y2="18"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#0DFFB4" />
-        <stop offset="1" stop-color="#007977" />
+        <stop stopColor="#0DFFB4" />
+        <stop offset="1" stopColor="#007977" />
       </linearGradient>
       <linearGradient
         id="paint1_linear_423_709"
@@ -171,8 +170,8 @@ const PokerChip = ({ width, height }) => (
         y2="14.183"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#0DFFB4" />
-        <stop offset="1" stop-color="#007977" />
+        <stop stopColor="#0DFFB4" />
+        <stop offset="1" stopColor="#007977" />
       </linearGradient>
       <linearGradient
         id="paint2_linear_423_709"
@@ -182,8 +181,8 @@ const PokerChip = ({ width, height }) => (
         y2="10.366"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#0DFFB4" />
-        <stop offset="1" stop-color="#007977" />
+        <stop stopColor="#0DFFB4" />
+        <stop offset="1" stopColor="#007977" />
       </linearGradient>
     </defs>
   </svg>

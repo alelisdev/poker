@@ -408,8 +408,8 @@ const Play = ({ history }) => {
                       y2="12"
                       gradientUnits="userSpaceOnUse"
                     >
-                      <stop stop-color="#083535" />
-                      <stop offset="1" stop-color="#031D1D" />
+                      <stop stopColor="#083535" />
+                      <stop offset="1" stopColor="#031D1D" />
                     </linearGradient>
                   </defs>
                 </svg>
