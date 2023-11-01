@@ -13,6 +13,7 @@ const GlobalState = ({ children }) => {
   const [players, setPlayers] = useState(null);
   const [ethPrice, setEthPrice] = useState(1);
   const [solPrice, setSolPrice] = useState(1);
+  const [currencyMode, setCurrencyMode] = useState("Ether");
 
   return (
     <GlobalContext.Provider
@@ -39,6 +40,8 @@ const GlobalState = ({ children }) => {
         setSolPrice,
         ethPrice,
         setEthPrice,
+        currencyMode,
+        setCurrencyMode
       }}
     >
       {children}
