@@ -61,13 +61,11 @@ const GameState = ({ history, children }) => {
       window.addEventListener("close", leaveTable);
 
       socket.on(TABLE_UPDATED, ({ table, message, from }) => {
-        console.log(TABLE_UPDATED, table, message, from);
         setCurrentTable(table);
         message && addMessage(message);
       });
 
       socket.on(TABLE_JOINED, ({ tables, tableId }) => {
-        console.log(TABLE_JOINED, tables, tableId);
         setCurrentTable(tables[tableId]);
       });
 

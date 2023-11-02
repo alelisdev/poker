@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import Navbar from "../components/navigation/Navbar";
 import Footer from "../components/navigation/Footer";
-import WatermarkWrapper from "../components/decoration/WatermarkWrapper";
 import NavMenu from "../components/navigation/NavMenu";
 import CookieBanner from "../components/cookies/CookieBanner";
 import { withRouter } from "react-router-dom";
@@ -46,6 +45,9 @@ const MainLayout = ({ children, location }) => {
         ></NavMenu>
       )} */}
       <main className="blur-target">{children}</main>
+      {/* {!isCookieSet && (
+        <CookieBanner clickHandler={() => setCookie("1", 365)} />
+      )} */}
       {/* <WatermarkWrapper className="blur-target" />
       {!location.pathname.includes("/play") && (
         <Footer
@@ -54,9 +56,7 @@ const MainLayout = ({ children, location }) => {
           staticPages={staticPages}
         />
       )}
-      {!isCookieSet && (
-        <CookieBanner clickHandler={() => setCookie("1", 365)} />
-      )} */}
+      */}
     </div>
   );
 };

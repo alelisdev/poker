@@ -38,17 +38,10 @@ const Landing = () => {
           />
         </Markdown>
         <Wrapper>
-          <Button
-            as={Link}
-            to="/register"
-            large
-            primary
-            fullwidthonmobile
-            autoFocus
-          >
+          <Button as={Link} to="/register" primary fullwidthonmobile autoFocus>
             Register
           </Button>
-          <Button as={Link} to="/login" large secondary fullwidthonmobile>
+          <Button as={Link} to="/login" primary fullwidthonmobile>
             Login
           </Button>
         </Wrapper>

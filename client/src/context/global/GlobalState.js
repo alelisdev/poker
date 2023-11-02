@@ -11,9 +11,8 @@ const GlobalState = ({ children }) => {
   const [balance, setBalance] = useState(null);
   const [tables, setTables] = useState([]);
   const [players, setPlayers] = useState(null);
-  const [ethPrice, setEthPrice] = useState(1);
-  const [solPrice, setSolPrice] = useState(1);
-  const [currencyMode, setCurrencyMode] = useState("Ether");
+  const [openWalletModal, setOpenWalletModal] = useState(false);
+  const [openWalletConnectModal, setOpenWalletConnectModal] = useState(false);
 
   return (
     <GlobalContext.Provider
@@ -36,12 +35,10 @@ const GlobalState = ({ children }) => {
         setPlayers,
         balance,
         setBalance,
-        solPrice,
-        setSolPrice,
-        ethPrice,
-        setEthPrice,
-        currencyMode,
-        setCurrencyMode
+        openWalletModal,
+        setOpenWalletModal,
+        openWalletConnectModal,
+        setOpenWalletConnectModal,
       }}
     >
       {children}

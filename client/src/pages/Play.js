@@ -353,7 +353,6 @@ const Play = ({ history }) => {
                     {!isPlayerSeated && (
                       <InfoPill>Sit down to join the game!</InfoPill>
                     )}
-                    {console.log(currentTable.winMessages)}
                     {currentTable.winMessages?.length > 0 && (
                       <InfoPill>
                         {

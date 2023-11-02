@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import Container from "../components/layout/Container";
 import Landing from "./Landing";
 import authContext from "../context/auth/authContext";
+import globalContext from "../context/global/globalContext";
 import Header from "../layouts/Header";
 import styled from "styled-components";
 
@@ -166,6 +167,9 @@ const TransactionWrapper = styled.div`
 
 const Payments = () => {
   const { isLoggedIn } = useContext(authContext);
+
+  const { setOpenWalletModal, chipsAmount } = useContext(globalContext);
+
   if (!isLoggedIn) return <Landing />;
   else {
     return (
@@ -181,10 +185,15 @@ const Payments = () => {
               <Card>
                 <span className="title">
                   <span className="text">BALANCE :</span>
-                  <span className="amount"> 125 USD</span>
+                  <span className="amount"> {chipsAmount} ETH</span>
                 </span>
                 <ButtonGroup>
-                  <button className="deposit">Deposit</button>
+                  <button
+                    className="deposit"
+                    onClick={() => setOpenWalletModal(true)}
+                  >
+                    Deposit
+                  </button>
                   <button className="withdraw">Withdraw</button>
                 </ButtonGroup>
                 <span className="info">

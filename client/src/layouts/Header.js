@@ -164,11 +164,17 @@ const ModalImg = styled.img`
 
 const Header = (props) => {
   const history = useHistory();
-  const { userName, chipsAmount, nativeToken, setCurrencyMode } =
-    useContext(globalContext);
+  const {
+    userName,
+    chipsAmount,
+    nativeToken,
+    setNativeToken,
+    openWalletModal,
+    setOpenWalletModal,
+    openWalletConnectModal,
+  } = useContext(globalContext);
   const { connect } = useWallet();
   const [isOpen, setIsOpen] = useState(false);
-  const [openWalletModal, setOpenWalletModal] = useState(false);
 
   const handleShowDepositeModal = () => {
     setIsOpen(true);
@@ -178,7 +184,7 @@ const Header = (props) => {
 
   const connectSolanaWallet = async () => {
     await connect();
-    setCurrencyMode("Solana");
+    setNativeToken("Solana");
     setOpenWalletModal(false);
   };
 
@@ -189,14 +195,11 @@ const Header = (props) => {
         .then(async (res) => {
           console.log(res);
           await switchToEther();
-          setCurrencyMode("Ether");
+          setNativeToken("ETH");
           setOpenWalletModal(false);
         });
     } else {
-      // setAlert({
-      //   type: "error",
-      //   content: "Metamask not installed on your browser"
-      // })
+      console.log("metamsk wallet is not installed.");
     }
   };
 
@@ -238,7 +241,6 @@ const Header = (props) => {
       )}
       <FlexWrapper gap="30px">
         <FlexWrapper gap="10px">
-          <IconWrapper onClick={() => setOpenWalletModal(true)}></IconWrapper>
           <IconWrapper onClick={() => history.push("/payments")}>
             <IconWallet />
           </IconWrapper>
@@ -264,9 +266,10 @@ const Header = (props) => {
           <IconArrow />
         </FlexWrapper>
       </FlexWrapper>
-      {isOpen && <WalletModal isOpen={isOpen} setIsOpen={setIsOpen} />}
-
-      {openWalletModal ? (
+      {openWalletModal && (
+        <WalletModal isOpen={isOpen} setIsOpen={setOpenWalletModal} />
+      )}
+      {openWalletConnectModal && (
         <WalletModals>
           <ModalContainer>
             <ModalTitle>
@@ -287,7 +290,7 @@ const Header = (props) => {
             </ModalOptions>
           </ModalContainer>
         </WalletModals>
-      ) : null}
+      )}
     </HeaderWrapper>
   );
 };

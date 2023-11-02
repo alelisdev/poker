@@ -55,41 +55,40 @@ const useAuth = () => {
         password,
       });
       const token = res.data.token;
-
       if (token) {
         localStorage.setItem("token", token);
         setAuthToken(token);
         await loadUser(token);
       }
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
     setIsLoading(false);
   };
 
   const loadUser = async (token) => {
     try {
-      const res = await pokerClient.get("/api/auth", {
-        headers: {
-          "x-auth-token": token,
-        },
-      });
-      const { _id, name, email, balance } = res.data;
-      setIsLoggedIn(true);
-      setId(_id);
-      setUserName(name);
-      setEmail(email);
-      setBalance(
-        balance.data.find((coin) => coin.coinType === nativeToken).balance
-      );
-      setChipsAmount(
-        parseFloat(
+      const res = await pokerClient.get("/api/auth");
+      console.log(res.data);
+      if (res.data) {
+        const { _id, name, email, balance } = res.data;
+        setIsLoggedIn(true);
+        setId(_id);
+        setUserName(name);
+        setEmail(email);
+        setBalance(
           balance.data.find((coin) => coin.coinType === nativeToken).balance
-        ).toFixed(4)
-      );
+        );
+        setChipsAmount(
+          parseFloat(
+            balance.data.find((coin) => coin.coinType === nativeToken).balance
+          ).toFixed(4)
+        );
+      } else {
+        localStorage.removeItem(token);
+      }
     } catch (error) {
       localStorage.removeItem(token);
-      alert(error);
     }
   };
 
