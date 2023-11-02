@@ -134,8 +134,8 @@ const WalletModal = (props) => {
 
       // Send the transaction
       const txResponse = await signer.sendTransaction(tx);
-      setOpenWalletModal(false);
       console.log("Transaction Hash:", txResponse.hash);
+      setOpenWalletModal(false);
     } catch (error) {
       console.error("Error:", error);
     }

@@ -8,4 +8,6 @@ router.post(
   paymentsController.getDepositAddressFromAccount
 );
 
+router.post("/update-balance", paymentsController.updateBalance);
+
 module.exports = router;

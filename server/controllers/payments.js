@@ -79,9 +79,81 @@ const tatumWebhook = async (req, res) => {
     console.log("webhook here");
     if (type === "native") {
       currency = {
-        coinType: 'ETH',
+        coinType: "ETH",
         type: type,
+      };
+    } else {
+      const matchedAsset = AssetList.find(
+        (item) => item.asset.toLowerCase() === asset.toLowerCase()
+      );
+      currency = { coinType: matchedAsset.coinType, type: matchedAsset.type };
+      if (tokenId === null) {
+        let tempAddr = counterAddress;
+        counterAddress = address;
+        address = tempAddr;
       }
+    }
+
+    let txData = await TransactionsModel.findOne({ txId });
+    if (!txData) {
+      console.log("New Tatum Webhook ===>");
+      console.log(req.body);
+      await new TransactionsModel({
+        txId,
+        amount,
+        from: counterAddress,
+        to: address,
+        date: new Date(),
+        blockNumber,
+        subscriptionType,
+        currency,
+      }).save();
+      let walletData = await WalletModel.findOne({ address: address });
+      if (walletData) {
+        let userData = await UserModel.findOne({
+          _id: walletData.userId,
+        });
+        let balanceData = userData.balance.data.find(
+          (data) =>
+            data.coinType === currency.coinType && data.type === currency.type
+        );
+        balanceData.balance += Number(amount);
+        await UserModel.findOneAndUpdate(
+          { _id: walletData.userId },
+          { balance: userData.balance }
+        );
+      }
+    }
+  } catch (err) {
+    console.error({
+      title: "cryptoController - tatumWebhook",
+      message: err.message,
+    });
+    return res.json({ status: false, data: null, message: "Server Error" });
+  }
+};
+
+const updateBalance = async (req, res) => {
+  try {
+    let {
+      address,
+      amount,
+      counterAddress,
+      asset,
+      blockNumber,
+      txId,
+      type,
+      subscriptionType,
+      tokenId,
+    } = req.body;
+    console.log(req.body);
+    let currency = { coinType: "", type: "" };
+    console.log("webhook here");
+    if (type === "native") {
+      currency = {
+        coinType: "ETH",
+        type: type,
+      };
     } else {
       const matchedAsset = AssetList.find(
         (item) => item.asset.toLowerCase() === asset.toLowerCase()
@@ -136,4 +208,5 @@ const tatumWebhook = async (req, res) => {
 module.exports = {
   getDepositAddressFromAccount,
   tatumWebhook,
+  updateBalance,
 };
