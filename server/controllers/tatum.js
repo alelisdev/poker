@@ -147,7 +147,6 @@ const getDepositAddressFromAccount = async (data) => {
       key: `${coinType}WalletInfo`,
     });
     if (accountInfo) {
-      console.log("accountInfo", accountInfo);
       const chain = getNetworkFromCoinType(coinType);
       const addressData = await TatumAxios.post(
         `/offchain/account/${accountInfo.dataObject.virtualAccount.id}/address`
