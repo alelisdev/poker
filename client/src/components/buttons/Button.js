@@ -100,21 +100,7 @@ const Button = styled.button`
         min-width: 250px;
         padding: 0.75rem 1.5rem;
       `}
-
-    ${(props) =>
-      (props?.fullwidthonmobile || props?.fullWidth) &&
-      css`
-        width: 100%;
-      `}
   }
 `;
-
-Button.propTypes = {
-  primary: PropTypes.bool,
-  secondary: PropTypes.bool,
-  small: PropTypes.bool,
-  fullWidth: PropTypes.bool,
-  fullwidthonmobile: PropTypes.bool,
-};
 
 export default Button;
