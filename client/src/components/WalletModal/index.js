@@ -98,7 +98,7 @@ const InputWrapper = styled.div`
 const WalletModal = (props) => {
   const [depositAddress, setDepositeAddress] = useState("");
   const [amount, setAmount] = useState(0.1);
-  const { id, nativeToken } = useContext(globalContext);
+  const { id, nativeToken, setOpenWalletModal } = useContext(globalContext);
 
   const handleClickETHDeposit = async () => {
     if (amount < 0.01) {
@@ -134,7 +134,7 @@ const WalletModal = (props) => {
 
       // Send the transaction
       const txResponse = await signer.sendTransaction(tx);
-
+      setOpenWalletModal(false);
       console.log("Transaction Hash:", txResponse.hash);
     } catch (error) {
       console.error("Error:", error);
@@ -167,7 +167,7 @@ const WalletModal = (props) => {
       const txHash = await connection.sendRawTransaction(
         transaction.serialize()
       );
-
+      setOpenWalletModal(false);
       console.log("Transaction Hash:", txHash);
     } catch (error) {
       console.error("Error:", error);
