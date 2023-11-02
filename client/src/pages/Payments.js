@@ -185,7 +185,10 @@ const Payments = () => {
               <Card>
                 <span className="title">
                   <span className="text">BALANCE :</span>
-                  <span className="amount"> {chipsAmount} ETH</span>
+                  <span className="amount">
+                    {" "}
+                    {parseFloat(chipsAmount).toFixed(4)} ETH
+                  </span>
                 </span>
                 <ButtonGroup>
                   <button

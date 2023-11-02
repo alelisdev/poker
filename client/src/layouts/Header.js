@@ -217,7 +217,7 @@ const Header = (props) => {
           <ProfileWrapper>
             <NameWrapper>{userName}</NameWrapper>
             <AMDWrapper>
-              {chipsAmount} {nativeToken}
+              {parseFloat(chipsAmount).toFixed(4)} {nativeToken}
             </AMDWrapper>
             <USDWrapper>
               $ {parseFloat(chipsAmount * 1841.24).toFixed(3)}
