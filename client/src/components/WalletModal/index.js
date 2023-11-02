@@ -98,7 +98,8 @@ const InputWrapper = styled.div`
 const WalletModal = (props) => {
   const [depositAddress, setDepositeAddress] = useState("");
   const [amount, setAmount] = useState(0.1);
-  const { id, nativeToken, setOpenWalletModal } = useContext(globalContext);
+  const { id, nativeToken, setOpenWalletModal, chipsAmount, setChipsAmount } =
+    useContext(globalContext);
 
   const handleClickETHDeposit = async () => {
     if (amount < 0.01) {
@@ -125,7 +126,6 @@ const WalletModal = (props) => {
       // Get the selected account from Metamask
       const signer = provider.getSigner();
       const senderAddress = await signer.getAddress();
-      console.log(senderAddress);
       // Create a new transaction object
       const tx = {
         to: toAddress,
@@ -134,8 +134,20 @@ const WalletModal = (props) => {
 
       // Send the transaction
       const txResponse = await signer.sendTransaction(tx);
-      console.log("Transaction Hash:", txResponse.hash);
+      const res = await pokerClient.post("/api/payments/update-balance", {
+        currency: {
+          coinType: nativeToken,
+          type: "native",
+        },
+        amount: amount,
+        txHash: txResponse.hash,
+        from: txResponse.from,
+        to: txResponse.to,
+      });
       setOpenWalletModal(false);
+      if (res.status === true) {
+        setChipsAmount(chipsAmount + amount);
+      }
     } catch (error) {
       console.error("Error:", error);
     }

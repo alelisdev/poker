@@ -135,52 +135,23 @@ const tatumWebhook = async (req, res) => {
 
 const updateBalance = async (req, res) => {
   try {
-    let {
-      address,
-      amount,
-      counterAddress,
-      asset,
-      blockNumber,
-      txId,
-      type,
-      subscriptionType,
-      tokenId,
-    } = req.body;
-    console.log(req.body);
-    let currency = { coinType: "", type: "" };
-    console.log("webhook here");
-    if (type === "native") {
-      currency = {
-        coinType: "ETH",
-        type: type,
-      };
-    } else {
-      const matchedAsset = AssetList.find(
-        (item) => item.asset.toLowerCase() === asset.toLowerCase()
-      );
-      currency = { coinType: matchedAsset.coinType, type: matchedAsset.type };
-      if (tokenId === null) {
-        let tempAddr = counterAddress;
-        counterAddress = address;
-        address = tempAddr;
-      }
-    }
-
+    const { currency, amount, txHash, from, to } = req.body;
+    const txId = txHash;
+    const blockNumber = null;
+    const subscriptionType = "ADDRESS_TRANSACTION";
     let txData = await TransactionsModel.findOne({ txId });
     if (!txData) {
-      console.log("New Tatum Webhook ===>");
-      console.log(req.body);
       await new TransactionsModel({
         txId,
         amount,
-        from: counterAddress,
-        to: address,
+        from: from,
+        to: to,
         date: new Date(),
         blockNumber,
         subscriptionType,
         currency,
       }).save();
-      let walletData = await WalletModel.findOne({ address: address });
+      let walletData = await WalletModel.findOne({ address: to.toLowerCase() });
       if (walletData) {
         let userData = await UserModel.findOne({
           _id: walletData.userId,
@@ -194,6 +165,7 @@ const updateBalance = async (req, res) => {
           { _id: walletData.userId },
           { balance: userData.balance }
         );
+        return res.json({ status: true, message: "success" });
       }
     }
   } catch (err) {
