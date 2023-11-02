@@ -11,7 +11,6 @@ const StyledLoadingScreen = styled.div`
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background-color: hsl(43, 40%, 86%);
 `;
 
 const LoadingScreen = () => (

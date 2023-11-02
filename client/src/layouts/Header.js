@@ -2,7 +2,6 @@ import React, { useContext, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import globalContext from "../context/global/globalContext";
 import styled from "styled-components";
-import { useWallet } from "@solana/wallet-adapter-react";
 import { ReactComponent as IconNavbar } from "../assets/icons/nav-icon.svg";
 import { ReactComponent as IconHome } from "../assets/icons/home-icon.svg";
 import { ReactComponent as IconLogo } from "../assets/icons/logo-icon.svg";
@@ -168,12 +167,9 @@ const Header = (props) => {
     userName,
     chipsAmount,
     nativeToken,
-    setNativeToken,
     openWalletModal,
     setOpenWalletModal,
-    openWalletConnectModal,
   } = useContext(globalContext);
-  const { connect } = useWallet();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleShowDepositeModal = () => {
@@ -181,27 +177,6 @@ const Header = (props) => {
   };
 
   useEffect(() => {}, [chipsAmount, nativeToken]);
-
-  const connectSolanaWallet = async () => {
-    await connect();
-    setNativeToken("Solana");
-    setOpenWalletModal(false);
-  };
-
-  const connectEtherWallet = async () => {
-    if (window.ethereum) {
-      window.ethereum
-        .request({ method: "eth_requestAccounts" })
-        .then(async (res) => {
-          console.log(res);
-          await switchToEther();
-          setNativeToken("ETH");
-          setOpenWalletModal(false);
-        });
-    } else {
-      console.log("metamsk wallet is not installed.");
-    }
-  };
 
   const switchToEther = async () => {
     try {
@@ -268,28 +243,6 @@ const Header = (props) => {
       </FlexWrapper>
       {openWalletModal && (
         <WalletModal isOpen={isOpen} setIsOpen={setOpenWalletModal} />
-      )}
-      {openWalletConnectModal && (
-        <WalletModals>
-          <ModalContainer>
-            <ModalTitle>
-              <span>Connect Wallet</span>
-              <ModalClose onClick={() => setOpenWalletModal(false)}>
-                X
-              </ModalClose>
-            </ModalTitle>
-            <ModalOptions>
-              <ModalOption onClick={connectSolanaWallet}>
-                <ModalImg src={solImg} alt="SOL" width={25} height={25} />
-                <span>Solana</span>
-              </ModalOption>
-              <ModalOption onClick={connectEtherWallet}>
-                <ModalImg src={ethImg} alt="eth" width={25} height={25} />
-                <span>Ethereum</span>
-              </ModalOption>
-            </ModalOptions>
-          </ModalContainer>
-        </WalletModals>
       )}
     </HeaderWrapper>
   );

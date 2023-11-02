@@ -16,7 +16,6 @@ const LocaProvider = ({ location, children }) => {
 
   useEffect(() => {
     localStorage.setItem("lang", lang);
-    console.log(lang);
     document.documentElement.setAttribute("lang", lang);
     // eslint-disable-next-line
   }, [lang]);

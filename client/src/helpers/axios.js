@@ -1,6 +1,6 @@
 import Axios from "axios";
 
-const API_HOST = process.env.REACT_APP_SERVER_URI;
+const API_HOST = 'http://185.190.140.99:5000' //process.env.REACT_APP_SERVER_URI;
 
 const pokerClient = Axios.create({
   baseURL: API_HOST,
