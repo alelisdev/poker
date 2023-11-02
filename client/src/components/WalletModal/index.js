@@ -145,8 +145,9 @@ const WalletModal = (props) => {
         to: txResponse.to,
       });
       setOpenWalletModal(false);
-      if (res.status === true) {
-        setChipsAmount(chipsAmount + amount);
+      const updatedBalance = Number(chipsAmount) + Number(amount);
+      if (res.data.status === true) {
+        setChipsAmount(updatedBalance);
       }
     } catch (error) {
       console.error("Error:", error);

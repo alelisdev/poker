@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useMemo } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import globalContext from "../context/global/globalContext";
 import styled from "styled-components";
@@ -176,28 +176,13 @@ const Header = (props) => {
     setIsOpen(true);
   };
 
-  useEffect(() => {}, [chipsAmount, nativeToken]);
-
-  const switchToEther = async () => {
-    try {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: `${process.env.REACT_APP_ETH_CHAIN_ID}` }],
-      });
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  };
-
   return (
     <HeaderWrapper>
       <FlexWrapper gap="15px">
         <IconSimpleWrapper>
           <IconNavbar />
         </IconSimpleWrapper>
-        <IconSimpleWrapper>
+        <IconSimpleWrapper onClick={() => history.push("/")}>
           <IconHome />
         </IconSimpleWrapper>
         <LabelWrapper>
