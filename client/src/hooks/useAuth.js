@@ -33,7 +33,6 @@ const useAuth = () => {
         email,
         password,
       });
-      console.log(res);
       const token = res.data.token;
       if (token) {
         localStorage.setItem("token", token);
