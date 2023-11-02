@@ -1,7 +1,7 @@
 import React from "react";
 
 const Loader = () => (
-  <>
+  <div className="loading-screen">
     <svg
       version="1.1"
       id="L1"
@@ -104,7 +104,7 @@ const Loader = () => (
         </rect>
       </g>
     </svg>
-  </>
+  </div>
 );
 
 export default Loader;
