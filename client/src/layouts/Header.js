@@ -1,5 +1,8 @@
 import React, { useContext, useState, useEffect, useMemo } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 import globalContext from "../context/global/globalContext";
 import styled from "styled-components";
 import { ReactComponent as IconNavbar } from "../assets/icons/nav-icon.svg";
@@ -105,6 +108,7 @@ const Bar = styled.div`
 
 const Header = (props) => {
   const history = useHistory();
+  const location = useLocation();
   const {
     userName,
     chipsAmount,
@@ -117,14 +121,17 @@ const Header = (props) => {
   const handleShowDepositeModal = () => {
     setIsOpen(true);
   };
-
   return (
     <HeaderWrapper>
       <FlexWrapper gap="15px">
         <IconSimpleWrapper>
           <IconNavbar />
         </IconSimpleWrapper>
-        <IconSimpleWrapper onClick={() => history.push("/")}>
+        <IconSimpleWrapper
+          onClick={() => {
+            if (!location.pathname.includes("play")) history.push("/");
+          }}
+        >
           <IconHome />
         </IconSimpleWrapper>
         <LabelWrapper>
@@ -143,7 +150,12 @@ const Header = (props) => {
       )}
       <FlexWrapper gap="30px">
         <FlexWrapper gap="10px">
-          <IconWrapper onClick={() => history.push("/payments")}>
+          <IconWrapper
+            onClick={() => {
+              if (!location.pathname.includes("play"))
+                history.push("/payments");
+            }}
+          >
             <IconWallet />
           </IconWrapper>
           <IconWrapper onClick={handleShowDepositeModal}>
