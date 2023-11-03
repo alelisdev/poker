@@ -38,6 +38,17 @@ const FlexWrapper = styled.div`
   align-items: center;
 `;
 
+const FlexRightWrapper = styled.div`
+  display: flex;
+  padding: 10px;
+  gap: ${(props) => props.gap};
+  align-items: flex-start;
+
+  & .arrow-icon {
+    margin-top: 4px;
+  }
+`;
+
 const IconWrapper = styled.div`
   border: solid 1px #143334;
   cursor: pointer;
@@ -166,7 +177,7 @@ const Header = (props) => {
           </IconWrapper>
         </FlexWrapper>
         <Bar></Bar>
-        <FlexWrapper gap="10px">
+        <FlexRightWrapper gap="10px">
           <IconAvatar />
           <ProfileWrapper>
             <NameWrapper>{userName}</NameWrapper>
@@ -177,8 +188,8 @@ const Header = (props) => {
               $ {parseFloat(chipsAmount * 1841.24).toFixed(3)}
             </USDWrapper>
           </ProfileWrapper>
-          <IconArrow />
-        </FlexWrapper>
+          <IconArrow className="arrow-icon" />
+        </FlexRightWrapper>
       </FlexWrapper>
       {openWalletModal && (
         <WalletModal isOpen={isOpen} setIsOpen={setOpenWalletModal} />
