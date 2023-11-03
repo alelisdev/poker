@@ -14,13 +14,16 @@ const CardWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.span`
+  text-transform: uppercase;
   font-weight: 700;
+  line-height: 18px;
   color: #ffffff;
   font-size: 14px;
 `;
 
 const DescWrapper = styled.span`
-  margin-top: 10px;
+  padding: 0px 16px;
+  margin-top: 6px;
   font-weight: 400;
   color: #b6b7bb;
   font-size: 9px;

@@ -18,9 +18,9 @@ const App = () => {
   function showFreeChipsModal() {
     openModal(
       () => (
-        <Text textAlign="center">
-          Oh noes, it seems like you're running out of balance! You should
-          deposit some balance into your account so you can continue playing!
+        <Text fontSize="16px" textAlign="center">
+          Oops, it seems like you're running out of balance! You should deposit
+          into your wallet so that you can continue playing!
         </Text>
       ),
       ``,

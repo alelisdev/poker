@@ -4,7 +4,7 @@ import table from "../../assets/img/bord1.png";
 
 const StyledPokerTable = styled.img`
   width: 56%;
-  height: 77%;
+  height: 66%;
   position: absolute;
   top: 60px;
   display: block;

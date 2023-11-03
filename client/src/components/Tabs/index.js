@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 const TabsWrapper = styled.div`
-  margin-top: 26px;
+  margin-top: 22px;
   display: flex;
   gap: 4px;
 `;
@@ -13,7 +13,7 @@ const TabItem = styled.span`
   font-size: 14px;
   font-weight: 400;
   width: 160px;
-  background: #333541;
+  background: rgba(255, 255, 255, 0.04);
   height: 34px;
   line-height: 28px;
   color: #fff;

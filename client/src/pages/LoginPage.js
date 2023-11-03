@@ -13,6 +13,7 @@ import authContext from "../context/auth/authContext";
 import LogoIcon from "../components/logo/LogoIcon";
 import { Label } from "../components/forms/Label";
 import { LinkButton } from "../components/forms/LinkButton";
+import GradientButton from "../components/GradientButton";
 
 const INITIAL_STATE = {
   email: "",
@@ -75,13 +76,11 @@ const LoginPage = () => {
               onChange={handleChange}
             />
           </FormGroup>
-          <div style={{ width: "100%", textAlign: "left" }}>
+          <div style={{ width: "100%", textAlign: "left", marginTop: "4px" }}>
             <LinkButton>Forgot Password?</LinkButton>
           </div>
           <ButtonGroup>
-            <Button primary type="submit">
-              Login
-            </Button>
+            <GradientButton type="submit">Login</GradientButton>
           </ButtonGroup>
           <Label>Dont have an account?</Label>
           <LinkButton to="/register" onClick={() => history.push("/register")}>

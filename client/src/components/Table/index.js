@@ -45,17 +45,27 @@ const TableBody = styled.div`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+
+  & > :first-child {
+    margin-top: 10px;
+  }
+
+  & > :last-child {
+    margin-bottom: 16px;
+  }
 `;
 
 const TableRow = styled.div`
+  filter: drop-shadow(0px 0px 13px black);
   padding: 4px;
   margin-top: 10px;
+  margin-bottom: 5px;
   background-color: #181a26;
-  height: 52.9px;
+  height: 47.9px;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  width: 99%;
+  width: 98.4%;
   & .players {
     position: relative;
     text-align: center;
@@ -108,16 +118,15 @@ const TableRow = styled.div`
 
 const GameTable = (props) => {
   const history = useHistory();
-  const { joinTable } = useContext(gameContext)
-  const {socket} = useContext(socketContext)
+  const { joinTable } = useContext(gameContext);
+  const { socket } = useContext(socketContext);
 
   const joinGame = (tableId) => {
-    if(socket && tableId) {
-      joinTable(tableId)
-      history.push("/play")
+    if (socket && tableId) {
+      joinTable(tableId);
+      history.push("/play");
     }
-  }
-
+  };
 
   return (
     <>
@@ -132,22 +141,23 @@ const GameTable = (props) => {
       <TableBody>
         {props.tableData.map((item, idx) => {
           return (
-            <TableRow
-              key={idx}
-              onClick={() => joinGame(item.id)}
-            >
+            <TableRow key={idx} onClick={() => joinGame(item.id)}>
               <div className="players">
-                <p>{`${item.players}/${item.maxPlayers}`}</p>
+                <p>{`${item.players} / ${item.maxPlayers}`}</p>
                 <IconFive />
               </div>
               <div className="name">
                 <span>{item.name}</span>
-                <p>{item.mode}</p>
+                <p>{item.mode ? item.mode : "TexasHoldEm, NL"}</p>
               </div>
-              <span className="speeds">{item.speed}</span>
-              <span className="avg">{item.avg}</span>
-              <span className="wait">{item.wait}</span>
-              <span className="stakes">{item.stake}</span>
+              <span className="speeds">
+                {item.speed ? item.speed : `Normal`}
+              </span>
+              <span className="avg">{item.avg ? item.avg : `7.08 $`}</span>
+              <span className="wait">{item.wait ? item.wait : 0}</span>
+              <span className="stakes">
+                {item.stake ? item.stake : `0.5$/1$`}
+              </span>
             </TableRow>
           );
         })}
