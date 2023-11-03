@@ -1,5 +1,8 @@
 import React, { useContext, useState, useEffect, useMemo } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import {
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 import globalContext from "../context/global/globalContext";
 import styled from "styled-components";
 import { ReactComponent as IconNavbar } from "../assets/icons/nav-icon.svg";
@@ -36,8 +39,9 @@ const FlexWrapper = styled.div`
 `;
 
 const IconWrapper = styled.div`
+  border: solid 1px #143334;
   cursor: pointer;
-  padding: 13px 16px 13px 16px;
+  padding: 13px 16px 13px 13px;
   background-color: #333541;
   border-radius: 12px;
   width: 50px;
@@ -75,94 +79,36 @@ const LabelBar = styled.div`
 const ProfileWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 4px;
 `;
 
 const NameWrapper = styled.span`
-  font-weight: 600;
+  font-weight: 400;
   color: #ffffff;
-  font-size: 14px;
+  font-size: 12px;
 `;
 
 const AMDWrapper = styled.span`
-  font-weight: 600;
+  font-weight: 400;
   color: #ff6b00;
-  font-size: 12px;
+  font-size: 10px;
 `;
 
 const USDWrapper = styled.span`
-  font-weight: 600;
+  font-weight: 400;
   color: #878282;
-  font-size: 12px;
+  font-size: 10px;
 `;
 
 const Bar = styled.div`
-  height: 30px;
-  width: 2px;
-  background-color: #3b3b3b;
-`;
-
-const WalletModals = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  backdrop-filter: blur(3px);
-  z-index: 1;
-`;
-
-const ModalContainer = styled.div`
-  background: #333;
-  border-radius: 10px;
-  left: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 250px;
-  color: white;
-  font-weight: bold;
-`;
-
-const ModalTitle = styled.div`
-  border-bottom: 1px solid #c9c7c7;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 20px;
-`;
-
-const ModalClose = styled.div`
-  cursor: pointer;
-`;
-
-const ModalOptions = styled.div`
-  align-items: stretch;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px 20px;
-`;
-
-const ModalOption = styled.div`
-  align-items: center;
-  border: 1px solid #c9c7c7;
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-  cursor: pointer;
-`;
-
-const ModalImg = styled.img`
-  width: 25px;
-  height: 25px;
-  border-radius: 100%;
+  height: 33px;
+  width: 1px;
+  background-color: #212531;
 `;
 
 const Header = (props) => {
   const history = useHistory();
+  const location = useLocation();
   const {
     userName,
     chipsAmount,
@@ -175,14 +121,17 @@ const Header = (props) => {
   const handleShowDepositeModal = () => {
     setIsOpen(true);
   };
-
   return (
     <HeaderWrapper>
       <FlexWrapper gap="15px">
         <IconSimpleWrapper>
           <IconNavbar />
         </IconSimpleWrapper>
-        <IconSimpleWrapper onClick={() => history.push("/")}>
+        <IconSimpleWrapper
+          onClick={() => {
+            if (!location.pathname.includes("play")) history.push("/");
+          }}
+        >
           <IconHome />
         </IconSimpleWrapper>
         <LabelWrapper>
@@ -201,7 +150,12 @@ const Header = (props) => {
       )}
       <FlexWrapper gap="30px">
         <FlexWrapper gap="10px">
-          <IconWrapper onClick={() => history.push("/payments")}>
+          <IconWrapper
+            onClick={() => {
+              if (!location.pathname.includes("play"))
+                history.push("/payments");
+            }}
+          >
             <IconWallet />
           </IconWrapper>
           <IconWrapper onClick={handleShowDepositeModal}>

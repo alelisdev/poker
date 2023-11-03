@@ -17,8 +17,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   *:focus {
-    outline: 1px dotted ${(props) => props.theme.colors.primaryCta};
-    outline-offset: 5px;
+    outline: none;
   }
 
   *::-webkit-scrollbar {

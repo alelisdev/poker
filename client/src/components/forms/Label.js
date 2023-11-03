@@ -6,4 +6,5 @@ export const Label = styled.label`
   line-height: 16.99px;
   font-size: 11.33px;
   font-weight: 500;
+  font-family: Poppins;
 `;

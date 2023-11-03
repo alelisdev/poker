@@ -257,7 +257,7 @@ const Play = ({ history }) => {
         <PokerTableWrapper>
           <GameLeaveButton onClick={leaveTable}>Leave</GameLeaveButton>
           <PokerTable />
-          <PositionedUISlot top="-12px" scale="0.55" origin="top center">
+          <PositionedUISlot top="-12px" scale="0.5" origin="top center">
             <IconMArrorw />
           </PositionedUISlot>
           {currentTable && (
@@ -275,7 +275,7 @@ const Play = ({ history }) => {
                   sitDown={sitDown}
                 />
               </PositionedUISlot>
-              <PositionedUISlot bottom="-4%" scale="0.55" origin="top center">
+              <PositionedUISlot bottom="10%" scale="0.55" origin="top center">
                 <Seat
                   seatNumber={2}
                   currentTable={currentTable}
@@ -297,7 +297,7 @@ const Play = ({ history }) => {
                 />
               </PositionedUISlot>
               <PositionedUISlot
-                bottom="6%"
+                bottom="22%"
                 right="20%"
                 scale="0.55"
                 origin="bottom right"
@@ -310,7 +310,7 @@ const Play = ({ history }) => {
                 />
               </PositionedUISlot>
               <PositionedUISlot
-                bottom="6%"
+                bottom="22%"
                 left="20%"
                 scale="0.55"
                 origin="bottom left"

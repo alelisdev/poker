@@ -85,7 +85,7 @@ const Modal = ({ children, headingText, btnText, onClose, onBtnClicked }) => {
           {children ? (
             children
           ) : (
-            <Text>
+            <Text fontSize="16px">
               Lorem ipsum, dolor sit amet consectetur adipisicing elit.
               Blanditiis error aspernatur vel fugiat quisquam aut tempore,
               consequatur quo. Neque officiis magni molestias quasi, accusamus

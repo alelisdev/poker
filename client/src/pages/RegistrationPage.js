@@ -1,7 +1,6 @@
 import React, { useContext, useState } from "react";
 import Container from "../components/layout/Container";
 import { Redirect, useHistory } from "react-router-dom";
-import Button from "../components/buttons/Button";
 import { Input } from "../components/forms/Input";
 import { Form } from "../components/forms/Form";
 import { FormGroup } from "../components/forms/FormGroup";
@@ -12,6 +11,7 @@ import useScrollToTopOnPageLoad from "../hooks/useScrollToTopOnPageLoad";
 import authContext from "../context/auth/authContext";
 import LogoIcon from "../components/logo/LogoIcon";
 import { LinkButton } from "../components/forms/LinkButton";
+import GradientButton from "../components/GradientButton";
 
 const INITIAL_STATE = {
   email: "",
@@ -97,9 +97,9 @@ const RegistrationPage = () => {
             />
           </FormGroup>
           <ButtonGroup>
-            <Button primary type="submit">
+            <GradientButton primary type="submit">
               Register
-            </Button>
+            </GradientButton>
           </ButtonGroup>
           <LinkButton onClick={() => history.push("/login")}>
             I already have an account!

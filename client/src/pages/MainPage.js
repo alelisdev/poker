@@ -114,7 +114,7 @@ import { CREATE_TABLE } from "../pokergame/actions";
 const CardContainer = styled.div`
   width: 98.5%;
   display: flex;
-  gap: 20px;
+  gap: 12px;
 `;
 
 const MainWrapper = styled.div`
@@ -122,7 +122,7 @@ const MainWrapper = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 32px;
 `;
 
 const SideWrapper = styled.div`
@@ -132,6 +132,7 @@ const SideWrapper = styled.div`
 `;
 
 const BoounsItem = styled.div`
+  border: 2px solid #333541;
   position: relative;
   border-radius: 12px;
   background: linear-gradient(90deg, #da367f, #f95e42);
@@ -154,11 +155,17 @@ const PlayerNameTitle = styled.div`
   border-radius: 8px 8px 0px 0px;
   background-color: #181a26;
   display: flex;
-  justify-content: space-between;
   padding: 0px 20px;
   align-items: center;
   font-size: 14px;
   font-weight: 400;
+
+  .player-name {
+    width: 74%;
+  }
+  .credit {
+    width: 26%;
+  }
 `;
 
 const PlayerContents = styled.div`
@@ -166,7 +173,7 @@ const PlayerContents = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #333541;
-  padding: 0px 20px;
+  padding: 18px 20px;
 `;
 
 const PlayerRow = styled.div`
@@ -175,13 +182,18 @@ const PlayerRow = styled.div`
   padding: 6px 0px;
   color: #fff;
   display: flex;
-  justify-content: space-between;
+  .player-name {
+    width: 74%;
+  }
+  .credit {
+    width: 26%;
+  }
 `;
 
 const GamePanel = styled.div`
+  margin-top: 16px;
   height: 240px;
   padding: 10px;
-  margin-top: 16px;
   width: 100%;
   border-radius: 8px;
   border: solid 1px #333541;
@@ -189,11 +201,12 @@ const GamePanel = styled.div`
 
 const BottomCardsWrapper = styled.div`
   display: flex;
-  gap: 4px;
+  gap: 12px;
   width: 98.5%;
 `;
 
 const TableWrapper = styled.div`
+  border-bottom: 1px solid #2d2d2d;
   width: 98.5%;
   display: flex;
   align-items: center;
@@ -206,7 +219,7 @@ const TableWrapper = styled.div`
 `;
 
 const SearchWrapper = styled.div`
-  margin-top: 26px;
+  margin-top: 22px;
   position: relative;
 `;
 
@@ -219,6 +232,9 @@ const SearchButton = styled.div`
 `;
 
 const SearchInput = styled.input`
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18px;
   width: 269px;
   height: 37px;
   border-radius: 4px;
@@ -226,6 +242,9 @@ const SearchInput = styled.input`
   background-color: #212531;
   padding: 10px 10px 10px 40px;
   border: solid 0px;
+  &::placeholder {
+    color: #fff;
+  }
   @media screen and (max-width: 1240px) {
     width: 144px;
   }
@@ -250,27 +269,27 @@ const MainPage = ({ history }) => {
       title: "RakeBack System",
       desc: "Flexible system, get a big bonus from the rake.",
       width: "51px",
-      height: "51px",
+      height: "57px",
     },
     {
       imgUrl: BounsImg,
       title: "Weekly Bonus",
       desc: "Come to us more often & earn bonuses!",
-      width: "80px",
-      height: "51px",
+      width: "76px",
+      height: "57px",
     },
     {
       imgUrl: GiveawyasmImg,
       title: "Giveaways",
       desc: "The higher rank you are, the more surprising it will be.",
-      width: "80px",
+      width: "76px",
       height: "57px",
     },
     {
       imgUrl: RainImg,
       title: "Chat Rain",
       desc: "Randomly reward players in chat room every 6 hours.",
-      width: "80px",
+      width: "76px",
       height: "57px",
     },
   ];
@@ -310,7 +329,7 @@ const MainPage = ({ history }) => {
     >
       <Header showIcon={true} />
       <MainWrapper>
-        <SideWrapper width="72%">
+        <SideWrapper width="74%">
           <CardContainer>
             {cardsData.map((item, idx) => {
               return (
@@ -351,7 +370,9 @@ const MainPage = ({ history }) => {
           </TableWrapper>
 
           <GameTable tableData={tableData}></GameTable>
-          <BottomCardsWrapper>
+          <BottomCardsWrapper
+            style={{ marginTop: `${tableData.length > 0 ? `0px` : `16px`}` }}
+          >
             {bottomCardsData.map((item, idx) => {
               return (
                 <BottomCard
@@ -365,17 +386,18 @@ const MainPage = ({ history }) => {
         </SideWrapper>
         <SideWrapper width="25%">
           <BoounsItem>
-            <img src={BonusBgImg} alt="bouns" width="100%" height="123px" />
+            <img src={BonusBgImg} alt="bouns" width="100%" height="118px" />
             <span
               style={{
-                fontSize: "22px",
+                fontSize: "24px",
                 position: "absolute",
                 textWrap: "nowrap",
-                fontWeight: "600",
+                fontWeight: "700",
+                lineHeight: "18px",
                 top: "50%",
                 left: "50%",
                 color: "#FFF",
-                transform: "translate(-50%, -120%)",
+                transform: "translate(-50%, -240%)",
               }}
             >
               GET UP TO <span style={{ color: "#F1BB3A" }}>$500</span> BONUS!
@@ -387,11 +409,13 @@ const MainPage = ({ history }) => {
                 top: "50%",
                 textWrap: "nowrap",
                 color: "#FFF",
+                fontWeight: "600",
+                lineHeight: "15.6px",
                 left: "50%",
-                transform: "translate(-50%, -40%)",
+                transform: "translate(-50%, -96%)",
               }}
             >
-              Refer a friend & earn!
+              REFFER A FRIEND & EARN!
             </span>
             <div
               style={{
@@ -402,7 +426,8 @@ const MainPage = ({ history }) => {
                 color: "#FFF",
                 left: "50%",
                 cursor: "pointer",
-                backgroundColor: "rgba(255, 255, 255, 0.13)",
+                lineHeight: "15.6px",
+                backgroundColor: "rgba(255, 255, 255, 0.26)",
                 padding: "6px 16px",
                 borderRadius: "8px",
                 transform: "translate(-50%, 50%)",
@@ -414,33 +439,33 @@ const MainPage = ({ history }) => {
           </BoounsItem>
           <PlayerNames>
             <PlayerNameTitle>
-              <span># PLAYER NAME</span>
-              <span>CREDIT</span>
+              <span className="player-name"># PLAYER NAME</span>
+              <span className="credit">CREDIT</span>
             </PlayerNameTitle>
             <PlayerContents>
               <PlayerRow>
-                <span>1 fostersov</span>
-                <span>25.34 $</span>
+                <span className="player-name">1 fostersov</span>
+                <span className="credit">25.34 $</span>
               </PlayerRow>
               <PlayerRow>
-                <span>2 GuNDaL</span>
-                <span>42.85 $</span>
+                <span className="player-name">2 GuNDaL</span>
+                <span className="credit">42.85 $</span>
               </PlayerRow>
               <PlayerRow>
-                <span>3 Rolyat</span>
-                <span>47.15 $</span>
+                <span className="player-name">3 Rolyat</span>
+                <span className="credit">47.15 $</span>
               </PlayerRow>
               <PlayerRow>
-                <span>4 Kudoshinichi</span>
-                <span>119.27 $</span>
+                <span className="player-name">4 Kudoshinichi</span>
+                <span className="credit">119.27 $</span>
               </PlayerRow>
               <PlayerRow>
-                <span>5 IMDENVER</span>
-                <span>26.4$</span>
+                <span className="player-name">5 IMDENVER</span>
+                <span className="credit">26.4$</span>
               </PlayerRow>
               <PlayerRow>
-                <span>6 skeezer</span>
-                <span>34.93 $</span>
+                <span className="player-name">6 skeezer</span>
+                <span className="credit">34.93 $</span>
               </PlayerRow>
             </PlayerContents>
           </PlayerNames>

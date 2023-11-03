@@ -5,12 +5,14 @@ export const Form = styled.form`
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin: 55px auto;
+  margin: 20px auto;
   text-align: center;
-  font-family: "Poppins", sans-serif;
+
   input {
-    font-weight: 500;
+    font-weight: 800;
     font-size: 14.33px;
     line-height: 21.49px;
+    font-family: "Poppins", sans-serif;
+    color: #888888 !important;
   }
 `;

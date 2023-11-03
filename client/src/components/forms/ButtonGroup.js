@@ -12,7 +12,7 @@ export const ButtonGroup = styled.div`
     width: 100%;
   }
   @media screen and (min-width: 1024px) {
-    margin: 2rem 0 1rem 0;
+    margin: 1rem 0 1rem 0;
     & > *:not(:first-child) {
       margin-top: 1rem;
     }

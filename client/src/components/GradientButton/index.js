@@ -1,37 +1,18 @@
-import React from "react";
 import styled from "styled-components";
 
-const StyledGradientButton = styled.button`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-  border-radius: ${(props) => props.radius};
-  background: ${(props) =>
-    props.fill
-      ? "linear-gradient(90deg, #db387c 6.49%, #f65a47 92.91%);"
-      : "transparent;"} 
+const GradientButton = styled.button`
+  width: 314px;
+  height: 50px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #DA367F 6.49%, #F95E42 92.91%);
   text-align: center;
-  border: ${(props) => (props.fill ? "0px;" : "1px solid #DD3A79;")} 
-  font-family: IBM Plex Mono;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+  border: none; 
+  font-family: Poppins;
+  font-size: 14.92px
+  font-weight: 500;
+  line-height: 22.38px;
   color: #fff;
   cursor: pointer;
 `;
-
-const GradientButton = (props) => {
-  return (
-    <StyledGradientButton
-      width={props.width}
-      height={props.height}
-      fill={props.fill}
-      radius={props.radius}
-      onClick={props.handleClick}
-    >
-      {props.value}
-    </StyledGradientButton>
-  );
-};
 
 export default GradientButton;
