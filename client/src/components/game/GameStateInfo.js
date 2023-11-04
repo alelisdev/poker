@@ -16,7 +16,7 @@ export const GameStateInfo = ({ currentTable, nativeToken }) => {
   return (
     <Wrapper>
       {currentTable.players.length <= 1 || currentTable.handOver ? (
-        <InfoPill>Waiting for Others …</InfoPill>
+        <InfoPill>Waiting for Other Plyers …</InfoPill>
       ) : (
         <InfoPill>
           {currentTable.board.length === 0 && "Pre-Flop"}

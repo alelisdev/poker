@@ -11,6 +11,7 @@ const Container = styled.div`
   align-items: ${(props) => props.alignItems};
   margin: ${(props) => props.margin};
   padding: ${(props) => props.padding};
+  max-width: 1440px;
 
   ${(props) =>
     props.fluid &&

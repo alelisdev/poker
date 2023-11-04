@@ -11,6 +11,7 @@ const CardWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 4px;
+  filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.75));
 `;
 
 const TitleWrapper = styled.span`

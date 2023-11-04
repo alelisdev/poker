@@ -82,7 +82,7 @@ const LoginPage = () => {
           <ButtonGroup>
             <GradientButton type="submit">Login</GradientButton>
           </ButtonGroup>
-          <Label>Dont have an account?</Label>
+          <Label>Don't have an account?</Label>
           <LinkButton to="/register" onClick={() => history.push("/register")}>
             Create Account
           </LinkButton>

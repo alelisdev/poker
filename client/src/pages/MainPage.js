@@ -146,6 +146,7 @@ const PlayerNames = styled.div`
   flex-direction: column;
   border-radius: 8px;
   border: solid 1px #333541;
+  filter: drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.8));
 `;
 
 const PlayerNameTitle = styled.div`
@@ -161,10 +162,12 @@ const PlayerNameTitle = styled.div`
   font-weight: 400;
 
   .player-name {
-    width: 74%;
+    width: 72%;
+    text-wrap: nowrap;
   }
   .credit {
-    width: 26%;
+    width: 27.5%;
+    text-wrap: nowrap;
   }
 `;
 
@@ -174,6 +177,8 @@ const PlayerContents = styled.div`
   flex-direction: column;
   background-color: #333541;
   padding: 18px 20px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 `;
 
 const PlayerRow = styled.div`
@@ -184,9 +189,11 @@ const PlayerRow = styled.div`
   display: flex;
   .player-name {
     width: 74%;
+    text-wrap: nowrap;
   }
   .credit {
     width: 26%;
+    text-wrap: nowrap;
   }
 `;
 
@@ -197,9 +204,11 @@ const GamePanel = styled.div`
   width: 100%;
   border-radius: 8px;
   border: solid 1px #333541;
+  filter: drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.8));
 `;
 
 const BottomCardsWrapper = styled.div`
+  margin-top: 11px;
   display: flex;
   gap: 12px;
   width: 98.5%;
@@ -233,7 +242,7 @@ const SearchButton = styled.div`
 
 const SearchInput = styled.input`
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 18px;
   width: 269px;
   height: 37px;
@@ -329,7 +338,7 @@ const MainPage = ({ history }) => {
     >
       <Header showIcon={true} />
       <MainWrapper>
-        <SideWrapper width="74%">
+        <SideWrapper width="72.9%">
           <CardContainer>
             {cardsData.map((item, idx) => {
               return (
@@ -348,7 +357,7 @@ const MainPage = ({ history }) => {
             <Tabs
               items={[
                 {
-                  name: "Crash Games",
+                  name: "Cash Games",
                   active: true,
                 },
                 {
@@ -356,7 +365,7 @@ const MainPage = ({ history }) => {
                   active: false,
                 },
                 {
-                  name: "Spin%Go",
+                  name: "Spin&Go",
                   active: false,
                 },
               ]}
@@ -370,9 +379,7 @@ const MainPage = ({ history }) => {
           </TableWrapper>
 
           <GameTable tableData={tableData}></GameTable>
-          <BottomCardsWrapper
-            style={{ marginTop: `${tableData.length > 0 ? `0px` : `16px`}` }}
-          >
+          <BottomCardsWrapper>
             {bottomCardsData.map((item, idx) => {
               return (
                 <BottomCard
@@ -412,13 +419,15 @@ const MainPage = ({ history }) => {
                 fontWeight: "600",
                 lineHeight: "15.6px",
                 left: "50%",
-                transform: "translate(-50%, -96%)",
+                transform: "translate(-50%, -70%)",
               }}
             >
               REFFER A FRIEND & EARN!
             </span>
             <div
               style={{
+                width: "142px",
+                height: "33px",
                 fontSize: "12px",
                 position: "absolute",
                 top: "50%",
@@ -428,9 +437,9 @@ const MainPage = ({ history }) => {
                 cursor: "pointer",
                 lineHeight: "15.6px",
                 backgroundColor: "rgba(255, 255, 255, 0.26)",
-                padding: "6px 16px",
+                padding: "8px 14px",
                 borderRadius: "8px",
-                transform: "translate(-50%, 50%)",
+                transform: "translate(-50%, 40%)",
               }}
               onClick={createGame}
             >

@@ -22,14 +22,13 @@ exports.getCurrentUser = async (req, res) => {
 // @desc    Authenticate user & get token
 // @access  Public
 exports.login = async (req, res) => {
-  console.log(req)
+  console.log(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
   }
 
   const { email, password } = req.body;
-  console.log(email, password);
   try {
     let user = await User.findOne({ email });
 
