@@ -1,12 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import Container from "../components/layout/Container";
-import Heading from "../components/typography/Heading";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import useScrollToTopOnPageLoad from "../hooks/useScrollToTopOnPageLoad";
 import globalContext from "../context/global/globalContext";
-import contentContext from "../context/content/contentContext";
-import modalContext from "../context/modal/modalContext";
 import Header from "../layouts/Header";
 import CardItem from "../components/CardItem";
 import SystemImg from "../assets/img/system.png";
@@ -21,114 +17,13 @@ import BottomCard from "../components/BottomCard";
 import SearchIcon from "../components/icons/SearchIcon";
 import socketContext from "../context/websocket/socketContext";
 import { CREATE_TABLE } from "../pokergame/actions";
-// import Text from "../components/typography/Text";
-
-// const MainMenuWrapper = styled.div`
-//   margin: 0 0 auto 0;
-//   display: grid;
-//   justify-content: center;
-//   align-content: center;
-//   grid-template-columns: repeat(2, minmax(250px, auto));
-//   grid-template-rows: repeat(2, minmax(250px, auto));
-//   grid-gap: 2rem;
-//   max-width: 600px;
-
-//   @media screen and (max-width: 900px) and (max-height: 450px) and (orientation: landscape) {
-//     grid-template-columns: repeat(4, 140px);
-//     grid-template-rows: repeat(1, minmax(140px, auto));
-//     grid-gap: 1rem;
-//   }
-
-//   @media screen and (max-width: 590px) and (max-height: 420px) and (orientation: landscape) {
-//     grid-template-columns: repeat(4, 120px);
-//     grid-template-rows: repeat(1, minmax(120px, auto));
-//     grid-gap: 1rem;
-//   }
-
-//   @media screen and (max-width: 468px) {
-//     grid-template-columns: repeat(1, auto);
-//     grid-template-rows: repeat(4, auto);
-//     grid-gap: 1rem;
-//   }
-// `;
-
-// const MainMenuCard = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: flex-start;
-//   align-items: center;
-//   text-align: center;
-//   cursor: pointer;
-//   background-color: ${(props) => props.theme.colors.playingCardBg};
-//   border-radius: ${(props) => props.theme.other.stdBorderRadius};
-//   padding: 1.5rem 2rem;
-//   box-shadow: ${(props) => props.theme.other.cardDropShadow};
-
-//   &,
-//   & > * {
-//     user-select: none;
-//     -moz-user-select: none;
-//     -khtml-user-select: none;
-//     -webkit-user-select: none;
-//     -o-user-select: none;
-//   }
-
-//   ${Heading} {
-//     margin-bottom: 0;
-//     color: ${(props) => props.theme.colors.primaryCta};
-//     word-wrap: break-word;
-//   }
-
-//   img {
-//     margin: 1rem;
-//     width: 75%;
-//     max-width: 170px;
-//   }
-
-//   @media screen and (min-width: 648px) {
-//     font-size: 3rem;
-//   }
-
-//   @media screen and (max-width: 648px) {
-//     padding: 0.5rem;
-//   }
-
-//   @media screen and (max-width: 468px) {
-//     flex-direction: row;
-//     justify-content: space-between;
-//     border-radius: 90px 40px 40px 90px;
-//     padding: 0 1rem 0 0;
-
-//     ${Heading} {
-//       text-align: right;
-//       margin: 0 1rem;
-//     }
-
-//     img {
-//       max-width: 80px;
-//       margin: 0;
-//     }
-//   }
-// `;
+import MainWrapper from "../components/Wrappers/MainWrapper";
+import SideWrapper from "../components/Wrappers/SideWrapper";
 
 const CardContainer = styled.div`
   width: 98.5%;
   display: flex;
   gap: 12px;
-`;
-
-const MainWrapper = styled.div`
-  padding: 0px 40px;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin-top: 32px;
-`;
-
-const SideWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: ${(props) => props.width};
 `;
 
 const BoounsItem = styled.div`
@@ -322,8 +217,6 @@ const MainPage = ({ history }) => {
     },
   ];
 
-  // const { openModal } = useContext(modalContext);
-
   const createGame = async () => {
     history.push("/play");
     socket.emit(CREATE_TABLE);
@@ -353,22 +246,7 @@ const MainPage = ({ history }) => {
             })}
           </CardContainer>
           <TableWrapper>
-            <Tabs
-              items={[
-                {
-                  name: "Cash Games",
-                  active: true,
-                },
-                {
-                  name: "Tournament",
-                  active: false,
-                },
-                {
-                  name: "Spin&Go",
-                  active: false,
-                },
-              ]}
-            />
+            <Tabs />
             <SearchWrapper>
               <SearchInput placeholder="Search" />
               <SearchButton>
@@ -482,40 +360,6 @@ const MainPage = ({ history }) => {
           </GamePanel>
         </SideWrapper>
       </MainWrapper>
-      {/* <MainMenuWrapper>
-        <MainMenuCard onClick={() => history.push("/play")}>
-          <Heading as="h3" headingClass="h5" textCentered>
-            {getLocalizedString("main_page-join_table").toUpperCase()}
-          </Heading>
-        </MainMenuCard>
-        <MainMenuCard onClick={() => history.push("/play")}>
-          <Heading as="h3" headingClass="h5" textCentered>
-            {getLocalizedString("main_page-quick_game").toUpperCase()}
-          </Heading>
-        </MainMenuCard>
-        <MainMenuCard
-          onClick={() => {
-            openModal(
-              () => (
-                <Text textAlign="center">
-                  {getLocalizedString("main_page-modal_text")}
-                </Text>
-              ),
-              getLocalizedString("main_page-modal_heading"),
-              getLocalizedString("main_page-modal_button_text")
-            );
-          }}
-        >
-          <Heading as="h3" headingClass="h5" textCentered>
-            {getLocalizedString("main_page-open_shop").toUpperCase()}
-          </Heading>
-        </MainMenuCard>
-        <MainMenuCard onClick={() => history.push("/game-rules")}>
-          <Heading as="h3" headingClass="h5" textCentered>
-            {getLocalizedString("main_page-open_rules").toUpperCase()}
-          </Heading>
-        </MainMenuCard>
-      </MainMenuWrapper> */}
     </Container>
   );
 };

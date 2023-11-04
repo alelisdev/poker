@@ -38,10 +38,10 @@ const Landing = () => {
           />
         </Markdown>
         <Wrapper>
-          <Button as={Link} to="/register" primary autoFocus>
+          <Button as={Link} to="/register" primary="true" autoFocus>
             Register
           </Button>
-          <Button as={Link} to="/login" primary>
+          <Button as={Link} to="/login" primary="true">
             Login
           </Button>
         </Wrapper>

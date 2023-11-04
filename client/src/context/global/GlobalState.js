@@ -3,6 +3,7 @@ import GlobalContext from "./globalContext";
 
 const GlobalState = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("cash");
   const [id, setId] = useState(null);
   const [userName, setUserName] = useState(null);
   const [nativeToken, setNativeToken] = useState("ETH");
@@ -39,6 +40,8 @@ const GlobalState = ({ children }) => {
         setOpenWalletModal,
         openWalletConnectModal,
         setOpenWalletConnectModal,
+        activeTab,
+        setActiveTab,
       }}
     >
       {children}

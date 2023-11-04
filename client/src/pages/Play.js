@@ -361,30 +361,33 @@ const Play = ({ history }) => {
                 scale="0.60"
                 origin="bottom center"
               >
-                {messages && messages?.length > 0 && (
+                {console.log(messages)}
+                {messages.length > 0 && (
                   <>
-                    <InfoPill>{messages[messages?.length - 1]}</InfoPill>
-                    {!isPlayerSeated && (
-                      <InfoPill>Sit down to join the game!</InfoPill>
-                    )}
-                    {currentTable.winMessages?.length > 0 && (
-                      <InfoPill>
-                        {
-                          currentTable.winMessages[
-                            currentTable.winMessages?.length - 1
-                          ]
-                        }
-                      </InfoPill>
-                    )}
+                    <InfoPill>
+                      {messages.length > 0 && messages[messages?.length - 1]}
+                      {!isPlayerSeated && (
+                        <InfoPill>Sit down to join the game!</InfoPill>
+                      )}
+                      {currentTable.winMessages?.length > 0 && (
+                        <InfoPill>
+                          {currentTable.winMessages > 0 &&
+                            currentTable.winMessages[
+                              currentTable.winMessages?.length - 1
+                            ]}
+                        </InfoPill>
+                      )}
+                    </InfoPill>
                   </>
                 )}
               </PositionedUISlot>
-              {currentTable.winMessages.length === 0 && (
-                <GameStateInfo
-                  currentTable={currentTable}
-                  nativeToken={nativeToken}
-                />
-              )}
+              {currentTable.winMessages &&
+                currentTable.winMessages.length === 0 && (
+                  <GameStateInfo
+                    currentTable={currentTable}
+                    nativeToken={nativeToken}
+                  />
+                )}
             </>
           )}
         </PokerTableWrapper>
