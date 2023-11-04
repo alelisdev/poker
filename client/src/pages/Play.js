@@ -361,7 +361,6 @@ const Play = ({ history }) => {
                 scale="0.60"
                 origin="bottom center"
               >
-                {console.log(messages)}
                 {messages.length > 0 && (
                   <>
                     <InfoPill>
