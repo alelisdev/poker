@@ -49,7 +49,10 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    background-image: url(background.png);
     background-color: #11141D;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   hr {

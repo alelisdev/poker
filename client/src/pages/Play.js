@@ -23,9 +23,6 @@ import SwitchButton from "../components/SwitchButton";
 import globalContext from "../context/global/globalContext";
 
 const PlayContainer = styled.div`
-  background-image: url("${PlayBGImage}");
-  background-repeat: no-repeat;
-  background-size: cover;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -274,12 +271,9 @@ const Play = ({ history }) => {
         <PokerTableWrapper>
           <GameLeaveButton onClick={leaveTable}>Leave</GameLeaveButton>
           <PokerTable />
-          {/* <PositionedUISlot top="-32px" scale="0.4" origin="top center"> */}
           <ArrowItem>
             <IconMArrorw />
           </ArrowItem>
-          {/* <IconMArrorw /> */}
-          {/* </PositionedUISlot> */}
           {currentTable && (
             <>
               <PositionedUISlot

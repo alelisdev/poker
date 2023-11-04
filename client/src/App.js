@@ -1,13 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import MainLayout from "./layouts/_MainLayout";
 import LoadingScreen from "./components/loading/LoadingScreen";
 import globalContext from "./context/global/globalContext";
 import Routes from "./components/routing/Routes";
 import contentContext from "./context/content/contentContext";
-import Text from "./components/typography/Text";
 import modalContext from "./context/modal/modalContext";
-import "./App.css";
 
 const App = () => {
   const { isLoading, chipsAmount } = useContext(globalContext);
