@@ -58,7 +58,7 @@ const BlanaceTag = styled.div`
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
-  line-height: 24px;
+  line-height: 30px;
 `;
 
 export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {

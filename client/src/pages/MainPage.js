@@ -162,10 +162,12 @@ const PlayerNameTitle = styled.div`
   font-weight: 400;
 
   .player-name {
-    width: 73%;
+    width: 72%;
+    text-wrap: nowrap;
   }
   .credit {
     width: 27.5%;
+    text-wrap: nowrap;
   }
 `;
 
@@ -187,9 +189,11 @@ const PlayerRow = styled.div`
   display: flex;
   .player-name {
     width: 74%;
+    text-wrap: nowrap;
   }
   .credit {
     width: 26%;
+    text-wrap: nowrap;
   }
 `;
 
