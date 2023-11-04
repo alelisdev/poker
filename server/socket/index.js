@@ -104,7 +104,6 @@ const init = (socket, io) => {
   });
 
   socket.on(CREATE_TABLE, () => {
-    console.log(socket.id);
     const tableId = Object.values(tables).length + 1;
     tables[tableId] = new Table(tableId, `Table ${tableId}`, 0.1);
     const player = players[socket.id];
