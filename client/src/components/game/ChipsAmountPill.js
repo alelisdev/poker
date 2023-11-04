@@ -25,7 +25,6 @@ const IconWrapper = styled.label`
 `;
 
 const ChipsAmountPill = ({ chipsAmount, nativeToken }) => {
-  console.log(nativeToken);
   return (
     <Wrapper>
       <IconWrapper htmlFor="chipsAmount">
