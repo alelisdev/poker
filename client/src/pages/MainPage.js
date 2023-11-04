@@ -329,7 +329,6 @@ const MainPage = ({ history }) => {
     socket.emit(CREATE_TABLE);
   };
 
-  useScrollToTopOnPageLoad();
   return (
     <Container
       flexDirection="column"
