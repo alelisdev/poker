@@ -13,11 +13,10 @@ import { ReactComponent as IconNotify } from "../assets/icons/notify-icon.svg";
 import { ReactComponent as IconSetting } from "../assets/icons/setting-icon.svg";
 import { ReactComponent as IconAvatar } from "../assets/icons/avatar-icon.svg";
 import { ReactComponent as IconArrow } from "../assets/icons/arrow-icon.svg";
-import solImg from "../assets/img/sol.png";
-import ethImg from "../assets/img/eth.png";
 import WalletModal from "../components/WalletModal";
 
 const HeaderWrapper = styled.div`
+  max-width: 1440px;
   display: flex;
   width: 100%;
   height: 76px;
@@ -58,6 +57,7 @@ const IconWrapper = styled.div`
   width: 50px;
   height: 50px;
   color: white;
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.8));
 `;
 
 const LabelWrapper = styled.div`

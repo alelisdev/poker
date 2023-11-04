@@ -7,6 +7,7 @@ import { useHistory } from "react-router-dom";
 
 const TableHeader = styled.div`
   margin-top: 10px;
+  margin-bottom: 5px;
   background-color: #323846;
   height: 25px;
   border-radius: 4px;
@@ -45,20 +46,11 @@ const TableBody = styled.div`
   overflow-y: auto;
   display: flex;
   flex-direction: column;
-
-  & > :first-child {
-    margin-top: 10px;
-  }
-
-  & > :last-child {
-    margin-bottom: 16px;
-  }
 `;
 
 const TableRow = styled.div`
-  filter: drop-shadow(0px 0px 13px black);
   padding: 4px;
-  margin-top: 10px;
+  margin-top: 5px;
   margin-bottom: 5px;
   background-color: #181a26;
   height: 47.9px;

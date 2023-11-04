@@ -31,18 +31,14 @@ exports.register = async (req, res) => {
     }
 
     user = new User({ name, email, password });
-
     const salt = await bcrypt.genSalt(10);
-
     user.password = await bcrypt.hash(password, salt);
-
     await user.save();
-
-    try {
-      await sendEmail(user.email, WelcomeMail(user.name));
-    } catch (error) {
-      console.log(error);
-    }
+    // try {
+    //   await sendEmail(user.email, WelcomeMail(user.name));
+    // } catch (error) {
+    //   console.log(error);
+    // }
 
     const payload = {
       user: {

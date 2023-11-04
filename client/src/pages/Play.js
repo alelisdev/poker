@@ -30,9 +30,16 @@ const PlayContainer = styled.div`
   display: flex;
   flex-direction: column;
   font-family: IBM Plex Mono;
+  align-items: center;
+`;
+
+const FulidContainer = styled.div`
+  // max-width: 1440px;
 `;
 
 const GamePanelContainer = styled.div`
+  max-width: 1440px;
+  width: 100%;
   height: calc(100vh - 220px - 76px);
 `;
 
@@ -40,6 +47,8 @@ const GameInfoContainer = styled.div`
   display: flex;
   gap: 16px;
   height: 220px;
+  width: 100%;
+  max-width: 1440px;
 `;
 
 const GameChatWrapper = styled.div`
@@ -257,14 +266,14 @@ const Play = ({ history }) => {
         <PokerTableWrapper>
           <GameLeaveButton onClick={leaveTable}>Leave</GameLeaveButton>
           <PokerTable />
-          <PositionedUISlot top="-12px" scale="0.5" origin="top center">
+          <PositionedUISlot top="-32px" scale="0.4" origin="top center">
             <IconMArrorw />
           </PositionedUISlot>
           {currentTable && (
             <>
               <PositionedUISlot
                 top="6%"
-                left="20%"
+                left="18%"
                 scale="0.55"
                 origin="top center"
               >
@@ -275,7 +284,7 @@ const Play = ({ history }) => {
                   sitDown={sitDown}
                 />
               </PositionedUISlot>
-              <PositionedUISlot bottom="10%" scale="0.55" origin="top center">
+              <PositionedUISlot top="372px" scale="0.55" origin="top center">
                 <Seat
                   seatNumber={2}
                   currentTable={currentTable}
@@ -285,7 +294,7 @@ const Play = ({ history }) => {
               </PositionedUISlot>
               <PositionedUISlot
                 top="6%"
-                right="20%"
+                right="18%"
                 scale="0.55"
                 origin="top right"
               >
@@ -298,7 +307,7 @@ const Play = ({ history }) => {
               </PositionedUISlot>
               <PositionedUISlot
                 bottom="22%"
-                right="20%"
+                right="18%"
                 scale="0.55"
                 origin="bottom right"
               >
@@ -311,7 +320,7 @@ const Play = ({ history }) => {
               </PositionedUISlot>
               <PositionedUISlot
                 bottom="22%"
-                left="20%"
+                left="18%"
                 scale="0.55"
                 origin="bottom left"
               >

@@ -3,10 +3,9 @@ import styled from "styled-components";
 import table from "../../assets/img/bord1.png";
 
 const StyledPokerTable = styled.img`
-  width: 56%;
-  height: 66%;
+  width: 840px;
   position: absolute;
-  top: 60px;
+  top: 40px;
   display: block;
   pointer-events: none;
   margin: 0 auto;

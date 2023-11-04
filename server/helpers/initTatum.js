@@ -70,4 +70,5 @@ const initTatumSOL = async () => {
 
 module.exports = {
   initTatumETH,
+  initTatumSOL,
 };
