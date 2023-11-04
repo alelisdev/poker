@@ -8,13 +8,14 @@ import {
   PLAYERS_UPDATED,
   RECEIVE_LOBBY_INFO,
   TABLES_UPDATED,
+  CREATE_TABLE,
 } from "../../pokergame/actions";
 import globalContext from "../global/globalContext";
 import config from "../../clientConfig";
 
 const WebSocketProvider = ({ children }) => {
   const { isLoggedIn } = useContext(authContext);
-  const { setTables, setPlayers } = useContext(globalContext);
+  const { setTables, setPlayers, tables } = useContext(globalContext);
   const [socket, setSocket] = useState(null);
   const [socketId, setSocketId] = useState(null);
 
@@ -29,8 +30,13 @@ const WebSocketProvider = ({ children }) => {
     if (isLoggedIn) {
       const token = localStorage.token;
       const webSocket = socket || connect();
-
       token && webSocket && webSocket.emit(FETCH_LOBBY_INFO, token);
+      if (token && webSocket) {
+        for (let i = 0; i < 15; i++) {
+          if (tables.length >= 15) break;
+          webSocket.emit(CREATE_TABLE);
+        }
+      }
     } else {
       cleanUp();
     }
@@ -44,7 +50,7 @@ const WebSocketProvider = ({ children }) => {
     setSocket(null);
     setSocketId(null);
     setPlayers(null);
-    setTables(null);
+    setTables([]);
   }
 
   function connect() {

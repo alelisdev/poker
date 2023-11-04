@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import styled from "styled-components";
+import globalContext from "../../context/global/globalContext";
 
 const TabsWrapper = styled.div`
   margin-top: 22px;
@@ -39,17 +41,47 @@ const TabDecorator = styled.div`
   right: 0;
 `;
 
-const Tabs = (props) => {
+const Tabs = () => {
+  const { activeTab, setActiveTab } = useContext(globalContext);
+  const history = useHistory();
+
+  const handleClickCash = (e) => {
+    setActiveTab("cash");
+    history.push("/");
+  };
+
+  const handleClickTournament = (e) => {
+    setActiveTab("tournament");
+    history.push("/tournament");
+  };
+
+  const handleClickSpin = (e) => {
+    setActiveTab("spin");
+  };
+
   return (
     <TabsWrapper>
-      {props.items.map((item, idx) => {
-        return (
-          <TabItem key={idx} className={`${item.active ? `active` : ``}`}>
-            {item.name}
-            <TabDecorator active={item.active} />
-          </TabItem>
-        );
-      })}
+      <TabItem
+        className={`${activeTab === "cash" ? `active` : ``}`}
+        onClick={(e) => handleClickCash(e)}
+      >
+        Cash Games
+        <TabDecorator active={activeTab === "cash"} />
+      </TabItem>
+      <TabItem
+        className={`${activeTab === "tournament" ? `active` : ``}`}
+        onClick={(e) => handleClickTournament(e)}
+      >
+        Tournament
+        <TabDecorator active={activeTab === "tournament"} />
+      </TabItem>
+      <TabItem
+        className={`${activeTab === "spin" ? `active` : ``}`}
+        onClick={(e) => handleClickSpin(e)}
+      >
+        Spin&Go
+        <TabDecorator active={activeTab === "spin"} />
+      </TabItem>
     </TabsWrapper>
   );
 };

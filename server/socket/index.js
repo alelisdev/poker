@@ -52,7 +52,8 @@ function getCurrentTables() {
   }));
   const result = [];
   fetchedTables.filter((table, id) => {
-    if (table.players) result.push(table);
+    // if (table.players) result.push(table);
+    result.push(table);
   });
   return result;
 }
@@ -106,7 +107,7 @@ const init = (socket, io) => {
     const tableId = Object.values(tables).length + 1;
     tables[tableId] = new Table(tableId, `Table ${tableId}`, 0.1);
     const player = players[socket.id];
-    tables[tableId].addPlayer(player);
+    if (player) tables[tableId].addPlayer(player);
     socket.emit(TABLE_JOINED, { tables: getCurrentTables(), tableId });
     socket.broadcast.emit(TABLES_UPDATED, getCurrentTables());
     if (
@@ -329,7 +330,7 @@ const init = (socket, io) => {
 
   function broadcastToTable(table, message = null, from = null) {
     for (let i = 0; i < table.players.length; i++) {
-      let socketId = table.players[i].socketId;
+      let socketId = table.players[i]?.socketId;
       let tableCopy = hideOpponentCards(table, socketId);
       io.to(socketId).emit(TABLE_UPDATED, {
         table: tableCopy,
