@@ -1,14 +1,14 @@
 import styled from "styled-components";
 
 const GradientButton = styled.button`
-  width: 314px;
-  height: 50px;
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
   border-radius: 4px;
-  background: linear-gradient(90deg, #DA367F 6.49%, #F95E42 92.91%);
+  background: linear-gradient(90deg, #da367f 6.49%, #f95e42 92.91%);
   text-align: center;
-  border: none; 
-  font-family: Poppins;
-  font-size: 14.92px
+  border: none;
+  font-family: ${(props) => props.fm};
+  font-size: ${(props) => props.fs};
   font-weight: 500;
   line-height: 22.38px;
   color: #fff;

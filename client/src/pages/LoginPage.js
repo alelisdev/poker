@@ -79,7 +79,15 @@ const LoginPage = () => {
             <LinkButton>Forgot Password?</LinkButton>
           </div>
           <ButtonGroup>
-            <GradientButton type="submit">Login</GradientButton>
+            <GradientButton
+              type="submit"
+              width="314px"
+              height="50px"
+              fs="14.92px"
+              fm="Poppins"
+            >
+              Login
+            </GradientButton>
           </ButtonGroup>
           <Label>Don't have an account?</Label>
           <LinkButton to="/register" onClick={() => history.push("/register")}>

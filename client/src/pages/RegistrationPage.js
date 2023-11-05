@@ -97,7 +97,13 @@ const RegistrationPage = () => {
             />
           </FormGroup>
           <ButtonGroup>
-            <GradientButton primary type="submit">
+            <GradientButton
+              type="submit"
+              width="314px"
+              height="50px"
+              fs="14.92px"
+              fm="Poppins"
+            >
               Register
             </GradientButton>
           </ButtonGroup>

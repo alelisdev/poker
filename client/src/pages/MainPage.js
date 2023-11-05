@@ -11,15 +11,20 @@ import GiveawyasmImg from "../assets/img/giveaways.png";
 import RainImg from "../assets/img/rain.png";
 import BonusBgImg from "../assets/img/bonusbg.png";
 import GamePanImage from "../assets/img/gamepan.png";
-import GameTable from "../components/Table";
+import GameTable from "../components/Table/GameTable";
 import Tabs from "../components/Tabs";
 import BottomCard from "../components/BottomCard";
 import SearchIcon from "../components/icons/SearchIcon";
 import socketContext from "../context/websocket/socketContext";
-import { CREATE_TABLE } from "../pokergame/actions";
-import MainWrapper from "../components/Wrappers/MainWrapper";
-import SideWrapper from "../components/Wrappers/SideWrapper";
 import gameContext from "../context/game/gameContext";
+import {
+  SideWrapper,
+  MainWrapper,
+  TableWrapper,
+  SearchInput,
+  SearchWrapper,
+  SearchButton,
+} from "../components/styledcompoents";
 
 const CardContainer = styled.div`
   width: 98.5%;
@@ -109,55 +114,6 @@ const BottomCardsWrapper = styled.div`
   display: flex;
   gap: 12px;
   width: 98.5%;
-`;
-
-const TableWrapper = styled.div`
-  border-bottom: 1px solid #2d2d2d;
-  width: 98.5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  @media screen and (max-width: 1024px) {
-    flex-direction: column-reverse;
-    align-items: flex-start;
-  }
-`;
-
-const SearchWrapper = styled.div`
-  margin-top: 22px;
-  position: relative;
-`;
-
-const SearchButton = styled.div`
-  position: absolute;
-  z-index: 40;
-  left: 12px;
-  bottom: 8px;
-  cursor: pointer;
-`;
-
-const SearchInput = styled.input`
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 18px;
-  width: 269px;
-  height: 37px;
-  border-radius: 4px;
-  color: #fff;
-  background-color: #212531;
-  padding: 10px 10px 10px 40px;
-  border: solid 0px;
-  &::placeholder {
-    color: #fff;
-  }
-  @media screen and (max-width: 1240px) {
-    width: 144px;
-  }
-
-  @media screen and (max-width: 1024px) {
-    width: 100%;
-  }
 `;
 
 const MainPage = ({ history }) => {
@@ -263,12 +219,11 @@ const MainPage = ({ history }) => {
               </SearchButton>
             </SearchWrapper>
           </TableWrapper>
-
           <GameTable
             tableData={tableData}
             previewTable={previewTable}
             setPreviewTable={setPreviewTable}
-          ></GameTable>
+          />
           <BottomCardsWrapper>
             {bottomCardsData.map((item, idx) => {
               return (
