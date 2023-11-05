@@ -14,6 +14,7 @@ import { ReactComponent as IconSetting } from "../assets/icons/setting-icon.svg"
 import { ReactComponent as IconAvatar } from "../assets/icons/avatar-icon.svg";
 import { ReactComponent as IconArrow } from "../assets/icons/arrow-icon.svg";
 import WalletModal from "../components/WalletModal";
+import TournamentModal from "../components/TournamentModal";
 
 const HeaderWrapper = styled.div`
   max-width: 1440px;
@@ -126,12 +127,9 @@ const Header = (props) => {
     nativeToken,
     openWalletModal,
     setOpenWalletModal,
+    openTournamentModal,
   } = useContext(globalContext);
-  const [isOpen, setIsOpen] = useState(false);
 
-  const handleShowDepositeModal = () => {
-    setIsOpen(true);
-  };
   return (
     <HeaderWrapper>
       <FlexWrapper gap="15px">
@@ -169,7 +167,7 @@ const Header = (props) => {
           >
             <IconWallet />
           </IconWrapper>
-          <IconWrapper onClick={handleShowDepositeModal}>
+          <IconWrapper onClick={() => setOpenWalletModal(true)}>
             <IconNotify />
           </IconWrapper>
           <IconWrapper>
@@ -191,9 +189,8 @@ const Header = (props) => {
           <IconArrow className="arrow-icon" />
         </FlexRightWrapper>
       </FlexWrapper>
-      {openWalletModal && (
-        <WalletModal isOpen={isOpen} setIsOpen={setOpenWalletModal} />
-      )}
+      {openWalletModal && <WalletModal />}
+      {openTournamentModal && <TournamentModal />}
     </HeaderWrapper>
   );
 };

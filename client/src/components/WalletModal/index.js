@@ -9,7 +9,22 @@ import {
 } from "@solana/web3.js";
 import globalContext from "../../context/global/globalContext";
 import pokerClient from "../../helpers/axios";
-import Button from "../buttons/Button";
+import GradientButton from "../GradientButton";
+
+const CancelButton = styled.button`
+  width: 147px;
+  height: 42px;
+  border-radius: 8px;
+  text-align: center;
+  border: solid 1px #fff;
+  font-family: IBM Plex Mono;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 16.9px;
+  color: #fff;
+  cursor: pointer;
+  background: transparent;
+`;
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -24,7 +39,7 @@ const ModalContainer = styled.div`
   text-align: center;
 
   & .modal {
-    width: 624px;
+    width: 492px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -32,28 +47,12 @@ const ModalContainer = styled.div`
     padding: 2em;
     border-radius: 12px;
     background: #333541;
-  }
 
-  & h1 {
-    font-size: 150%;
-    margin: 0 0 15px;
-    color: #fff;
-  }
-
-  & .modal-close {
-    color: #fff;
-    font-weight: 600;
-    cursor: pointer;
-    line-height: 50px;
-    font-size: 80%;
-    position: absolute;
-    right: 0;
-    text-align: center;
-    top: 0;
-    width: 70px;
-    text-decoration: none;
-    &:hover {
-      color: #006dff;
+    .button-group {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+      gap: 73px;
     }
   }
 `;
@@ -66,11 +65,11 @@ const AddressWrapper = styled.div`
   font-size: 14px;
   font-weight: 600;
   text-align: left;
+  color: rgba(255, 255, 255, 0.67);
 `;
 
 const InputWrapper = styled.div`
   position: relative;
-
   & input {
     font-size: 14px;
     font-weight: 600;
@@ -95,7 +94,7 @@ const InputWrapper = styled.div`
   }
 `;
 
-const WalletModal = (props) => {
+const WalletModal = () => {
   const [depositAddress, setDepositeAddress] = useState("");
   const [amount, setAmount] = useState(0.1);
   const { id, nativeToken, setOpenWalletModal, chipsAmount, setChipsAmount } =
@@ -217,13 +216,6 @@ const WalletModal = (props) => {
   return (
     <ModalContainer>
       <div className="modal">
-        <span
-          title="Close"
-          className="modal-close"
-          onClick={() => props.setIsOpen(false)}
-        >
-          Close
-        </span>
         <AddressWrapper>
           <span>Deposit Address</span>
           <InputWrapper>
@@ -243,9 +235,20 @@ const WalletModal = (props) => {
             />
           </InputWrapper>
         </AddressWrapper>
-        <Button primary onClick={handleClickETHDeposit}>
-          Deposit
-        </Button>
+        <div className="button-group">
+          <CancelButton onClick={() => setOpenWalletModal(false)}>
+            Cancel
+          </CancelButton>
+          <GradientButton
+            width="147px"
+            height="42px"
+            radius="8px"
+            fs="13px"
+            onClick={handleClickETHDeposit}
+          >
+            Deposit
+          </GradientButton>
+        </div>
       </div>
     </ModalContainer>
   );

@@ -5,17 +5,13 @@ import authContext from "../context/auth/authContext";
 import globalContext from "../context/global/globalContext";
 import Header from "../layouts/Header";
 import styled from "styled-components";
+import { Row } from "../components/styledcompoents";
 
 const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
   width: 100%;
-`;
-
-const Row = styled.div`
-  display: flex;
-  gap: 12px;
 `;
 
 const MainWrapper = styled.div`

@@ -118,10 +118,14 @@ const BottomCardsWrapper = styled.div`
 
 const MainPage = ({ history }) => {
   const { socket } = useContext(socketContext);
-  const { tables, nativeToken } = useContext(globalContext);
+  const { tables, nativeToken, setActiveTab } = useContext(globalContext);
   const { joinTable } = useContext(gameContext);
   const [tableData, setTableData] = useState([]);
   const [previewTable, setPreviewTable] = useState(null);
+
+  useEffect(() => {
+    setActiveTab("cash");
+  }, []);
 
   useEffect(() => {
     if (tables !== null) {
