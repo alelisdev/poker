@@ -365,18 +365,18 @@ const Play = ({ history }) => {
                   <>
                     <InfoPill>
                       {messages.length > 0 && messages[messages?.length - 1]}
-                      {!isPlayerSeated && (
-                        <InfoPill>Sit down to join the game!</InfoPill>
-                      )}
-                      {currentTable.winMessages?.length > 0 && (
-                        <InfoPill>
-                          {currentTable.winMessages > 0 &&
-                            currentTable.winMessages[
-                              currentTable.winMessages?.length - 1
-                            ]}
-                        </InfoPill>
-                      )}
                     </InfoPill>
+                    {!isPlayerSeated && (
+                      <InfoPill>Sit down to join the game!</InfoPill>
+                    )}
+                    {currentTable.winMessages?.length > 0 && (
+                      <InfoPill>
+                        {currentTable.winMessages > 0 &&
+                          currentTable.winMessages[
+                            currentTable.winMessages?.length - 1
+                          ]}
+                      </InfoPill>
+                    )}
                   </>
                 )}
               </PositionedUISlot>
