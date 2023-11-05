@@ -58,7 +58,7 @@ const TableRow = styled.div`
   border-radius: 8px;
   display: flex;
   align-items: center;
-  width: 98.4%;
+  width: 98.9%;
   cursor: pointer;
   color: #fff;
 
