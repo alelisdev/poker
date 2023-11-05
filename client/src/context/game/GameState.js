@@ -70,7 +70,6 @@ const GameState = ({ history, children }) => {
       });
 
       socket.on(TABLE_LEFT, ({ tables, tableId }) => {
-        console.log(TABLE_LEFT, tables, tableId);
         setCurrentTable(null);
         setTables(tables);
         loadUser(localStorage.token);
@@ -82,7 +81,6 @@ const GameState = ({ history, children }) => {
   }, [socket]);
 
   const joinTable = (tableId) => {
-    console.log(JOIN_TABLE, tableId);
     socket.emit(JOIN_TABLE, tableId);
   };
 

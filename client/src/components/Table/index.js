@@ -1,9 +1,10 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as IconFive } from "../../assets/icons/icon-five.svg";
 import gameContext from "../../context/game/gameContext";
 import socketContext from "../../context/websocket/socketContext";
 import { useHistory } from "react-router-dom";
+import globalContext from "../../context/global/globalContext";
 
 const TableHeader = styled.div`
   margin-top: 10px;
@@ -52,12 +53,14 @@ const TableRow = styled.div`
   padding: 4px;
   margin-top: 5px;
   margin-bottom: 5px;
-  background-color: #181a26;
+  background-color: ${(props) => (props.active ? `#333541` : `#181a26`)};
   height: 47.9px;
   border-radius: 8px;
   display: flex;
   align-items: center;
   width: 98.4%;
+  cursor: pointer;
+
   & .players {
     position: relative;
     text-align: center;
@@ -110,13 +113,14 @@ const TableRow = styled.div`
 
 const GameTable = (props) => {
   const history = useHistory();
-  const { joinTable } = useContext(gameContext);
+  const { tables } = useContext(globalContext);
   const { socket } = useContext(socketContext);
 
   const joinGame = (tableId) => {
     if (socket && tableId) {
-      joinTable(tableId);
-      history.push("/play");
+      // joinTable(tableId);
+      props.setPreviewTable(tables[tableId - 1]);
+      // history.push("/play");
     }
   };
 
@@ -133,9 +137,13 @@ const GameTable = (props) => {
       <TableBody>
         {props.tableData.map((item, idx) => {
           return (
-            <TableRow key={idx} onClick={() => joinGame(item.id)}>
+            <TableRow
+              key={idx}
+              onClick={() => joinGame(item.id)}
+              active={props.previewTable?.id === item.id}
+            >
               <div className="players">
-                <p>{`${item.players} / ${item.maxPlayers}`}</p>
+                <p>{`${item.currentNumberPlayers} / ${item.maxPlayers}`}</p>
                 <IconFive />
               </div>
               <div className="name">
