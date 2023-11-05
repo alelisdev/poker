@@ -19,6 +19,7 @@ import socketContext from "../context/websocket/socketContext";
 import { CREATE_TABLE } from "../pokergame/actions";
 import MainWrapper from "../components/Wrappers/MainWrapper";
 import SideWrapper from "../components/Wrappers/SideWrapper";
+import gameContext from "../context/game/gameContext";
 
 const CardContainer = styled.div`
   width: 98.5%;
@@ -57,11 +58,11 @@ const PlayerNameTitle = styled.div`
   font-weight: 400;
 
   .player-name {
-    width: 72%;
+    width: 65%;
     text-wrap: nowrap;
   }
   .credit {
-    width: 27.5%;
+    width: 35%;
     text-wrap: nowrap;
   }
 `;
@@ -83,11 +84,11 @@ const PlayerRow = styled.div`
   color: #fff;
   display: flex;
   .player-name {
-    width: 74%;
+    width: 65%;
     text-wrap: nowrap;
   }
   .credit {
-    width: 26%;
+    width: 35%;
     text-wrap: nowrap;
   }
 `;
@@ -99,6 +100,7 @@ const GamePanel = styled.div`
   width: 100%;
   border-radius: 8px;
   border: solid 1px #333541;
+  cursor: pointer;
   filter: drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.8));
 `;
 
@@ -160,11 +162,16 @@ const SearchInput = styled.input`
 
 const MainPage = ({ history }) => {
   const { socket } = useContext(socketContext);
-  const { tables } = useContext(globalContext);
+  const { tables, nativeToken } = useContext(globalContext);
+  const { joinTable } = useContext(gameContext);
   const [tableData, setTableData] = useState([]);
+  const [previewTable, setPreviewTable] = useState(null);
 
   useEffect(() => {
-    if (tables !== null) setTableData(tables);
+    if (tables !== null) {
+      setTableData(tables);
+      setPreviewTable(tables[0]);
+    }
   }, [tables]);
 
   const cardsData = [
@@ -217,9 +224,11 @@ const MainPage = ({ history }) => {
     },
   ];
 
-  const createGame = async () => {
-    history.push("/play");
-    socket.emit(CREATE_TABLE);
+  const joinGame = () => {
+    if (socket && previewTable.id) {
+      joinTable(previewTable.id);
+      history.push("/play");
+    }
   };
 
   return (
@@ -255,7 +264,11 @@ const MainPage = ({ history }) => {
             </SearchWrapper>
           </TableWrapper>
 
-          <GameTable tableData={tableData}></GameTable>
+          <GameTable
+            tableData={tableData}
+            previewTable={previewTable}
+            setPreviewTable={setPreviewTable}
+          ></GameTable>
           <BottomCardsWrapper>
             {bottomCardsData.map((item, idx) => {
               return (
@@ -318,7 +331,6 @@ const MainPage = ({ history }) => {
                 borderRadius: "8px",
                 transform: "translate(-50%, 40%)",
               }}
-              onClick={createGame}
             >
               Get Referal Code
             </div>
@@ -329,33 +341,24 @@ const MainPage = ({ history }) => {
               <span className="credit">CREDIT</span>
             </PlayerNameTitle>
             <PlayerContents>
-              <PlayerRow>
-                <span className="player-name">1 fostersov</span>
-                <span className="credit">25.34 $</span>
-              </PlayerRow>
-              <PlayerRow>
-                <span className="player-name">2 GuNDaL</span>
-                <span className="credit">42.85 $</span>
-              </PlayerRow>
-              <PlayerRow>
-                <span className="player-name">3 Rolyat</span>
-                <span className="credit">47.15 $</span>
-              </PlayerRow>
-              <PlayerRow>
-                <span className="player-name">4 Kudoshinichi</span>
-                <span className="credit">119.27 $</span>
-              </PlayerRow>
-              <PlayerRow>
-                <span className="player-name">5 IMDENVER</span>
-                <span className="credit">26.4$</span>
-              </PlayerRow>
-              <PlayerRow>
-                <span className="player-name">6 skeezer</span>
-                <span className="credit">34.93 $</span>
-              </PlayerRow>
+              {previewTable &&
+                previewTable.players.map((player, idx) => {
+                  return (
+                    <PlayerRow key={idx}>
+                      <span className="player-name">{`${idx + 1} ${
+                        player.name
+                      }`}</span>
+                      <span className="credit">
+                        {`${parseFloat(player.bankroll).toFixed(
+                          4
+                        )} ${nativeToken}`}
+                      </span>
+                    </PlayerRow>
+                  );
+                })}
             </PlayerContents>
           </PlayerNames>
-          <GamePanel>
+          <GamePanel onClick={joinGame}>
             <img src={GamePanImage} alt="game-pan" height="212px" />
           </GamePanel>
         </SideWrapper>

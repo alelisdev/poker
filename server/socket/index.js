@@ -28,7 +28,23 @@ const {
 } = require("../pokergame/actions");
 const config = require("../config");
 
-const tables = {};
+const tables = {
+  1: new Table(1, "Table 1", 0.1),
+  2: new Table(2, "Table 2", 0.1),
+  3: new Table(3, "Table 3", 0.1),
+  4: new Table(4, "Table 4", 0.1),
+  5: new Table(5, "Table 5", 0.1),
+  6: new Table(6, "Table 6", 0.1),
+  7: new Table(7, "Table 7", 0.1),
+  8: new Table(8, "Table 8", 0.1),
+  9: new Table(9, "Table 9", 0.1),
+  10: new Table(10, "Table 10", 0.1),
+  11: new Table(11, "Table 11", 0.1),
+  12: new Table(12, "Table 12", 0.1),
+  13: new Table(13, "Table 13", 0.1),
+  14: new Table(14, "Table 14", 0.1),
+  15: new Table(15, "Table 15", 0.1),
+};
 const players = {};
 
 function getCurrentPlayers() {
@@ -44,7 +60,7 @@ function getCurrentTables() {
     id: table.id,
     name: table.name,
     limit: table.limit,
-    players: table.players.length,
+    players: table.players,
     maxPlayers: table.maxPlayers,
     currentNumberPlayers: table.players.length,
     smallBlind: table.minBet,
@@ -104,6 +120,8 @@ const init = (socket, io) => {
   });
 
   socket.on(CREATE_TABLE, () => {
+    console.log("create table");
+    console.log(tables);
     const tableId = Object.values(tables).length + 1;
     tables[tableId] = new Table(tableId, `Table ${tableId}`, 0.1);
     const player = players[socket.id];

@@ -31,12 +31,6 @@ const WebSocketProvider = ({ children }) => {
       const token = localStorage.token;
       const webSocket = socket || connect();
       token && webSocket && webSocket.emit(FETCH_LOBBY_INFO, token);
-      if (token && webSocket) {
-        for (let i = 0; i < 15; i++) {
-          if (tables.length >= 15) break;
-          webSocket.emit(CREATE_TABLE);
-        }
-      }
     } else {
       cleanUp();
     }
@@ -77,7 +71,6 @@ const WebSocketProvider = ({ children }) => {
     });
 
     socket.on(TABLES_UPDATED, (tables) => {
-      console.log(TABLES_UPDATED, tables);
       setTables(tables);
     });
   }
