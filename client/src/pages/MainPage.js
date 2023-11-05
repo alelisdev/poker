@@ -16,7 +16,6 @@ import Tabs from "../components/Tabs";
 import BottomCard from "../components/BottomCard";
 import SearchIcon from "../components/icons/SearchIcon";
 import socketContext from "../context/websocket/socketContext";
-import gameContext from "../context/game/gameContext";
 import {
   SideWrapper,
   MainWrapper,
@@ -105,7 +104,6 @@ const GamePanel = styled.div`
   width: 100%;
   border-radius: 8px;
   border: solid 1px #333541;
-  cursor: pointer;
   filter: drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.8));
 `;
 
@@ -117,11 +115,9 @@ const BottomCardsWrapper = styled.div`
 `;
 
 const MainPage = ({ history }) => {
-  const { socket } = useContext(socketContext);
-  const { tables, nativeToken, setActiveTab } = useContext(globalContext);
-  const { joinTable } = useContext(gameContext);
+  const { tables, nativeToken, setActiveTab, previewTable, setPreviewTable } =
+    useContext(globalContext);
   const [tableData, setTableData] = useState([]);
-  const [previewTable, setPreviewTable] = useState(null);
 
   useEffect(() => {
     setActiveTab("cash");
@@ -130,7 +126,6 @@ const MainPage = ({ history }) => {
   useEffect(() => {
     if (tables !== null) {
       setTableData(tables);
-      setPreviewTable(tables[0]);
     }
   }, [tables]);
 
@@ -184,13 +179,6 @@ const MainPage = ({ history }) => {
     },
   ];
 
-  const joinGame = () => {
-    if (socket && previewTable.id) {
-      joinTable(previewTable.id);
-      history.push("/play");
-    }
-  };
-
   return (
     <Container
       flexDirection="column"
@@ -223,11 +211,7 @@ const MainPage = ({ history }) => {
               </SearchButton>
             </SearchWrapper>
           </TableWrapper>
-          <GameTable
-            tableData={tableData}
-            previewTable={previewTable}
-            setPreviewTable={setPreviewTable}
-          />
+          <GameTable tableData={tableData} />
           <BottomCardsWrapper>
             {bottomCardsData.map((item, idx) => {
               return (
@@ -317,7 +301,7 @@ const MainPage = ({ history }) => {
                 })}
             </PlayerContents>
           </PlayerNames>
-          <GamePanel onClick={joinGame}>
+          <GamePanel>
             <img src={GamePanImage} alt="game-pan" height="212px" />
           </GamePanel>
         </SideWrapper>

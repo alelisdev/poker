@@ -1,8 +1,8 @@
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as IconFive } from "../../assets/icons/icon-five.svg";
-import gameContext from "../../context/game/gameContext";
 import socketContext from "../../context/websocket/socketContext";
+import gameContext from "../../context/game/gameContext";
 import { useHistory } from "react-router-dom";
 import globalContext from "../../context/global/globalContext";
 
@@ -112,15 +112,19 @@ const TableRow = styled.div`
 `;
 
 const GameTable = (props) => {
+  const { joinTable } = useContext(gameContext);
   const history = useHistory();
-  const { tables } = useContext(globalContext);
+  const { tables, previewTable, setPreviewTable } = useContext(globalContext);
   const { socket } = useContext(socketContext);
 
   const joinGame = (tableId) => {
     if (socket && tableId) {
-      // joinTable(tableId);
-      props.setPreviewTable(tables[tableId - 1]);
-      // history.push("/play");
+      if (previewTable && tableId === previewTable.id) {
+        joinTable(tableId);
+        history.push("/play");
+      } else {
+        setPreviewTable(tables[tableId - 1]);
+      }
     }
   };
 
@@ -140,7 +144,7 @@ const GameTable = (props) => {
             <TableRow
               key={idx}
               onClick={() => joinGame(item.id)}
-              active={props.previewTable?.id === item.id}
+              active={previewTable?.id === item.id}
             >
               <div className="players">
                 <p>{`${item.currentNumberPlayers} / ${item.maxPlayers}`}</p>

@@ -14,6 +14,7 @@ const GlobalState = ({ children }) => {
   const [players, setPlayers] = useState(null);
   const [openWalletModal, setOpenWalletModal] = useState(false);
   const [openTournamentModal, setOpenTournamentModal] = useState(false);
+  const [previewTable, setPreviewTable] = useState(null);
 
   return (
     <GlobalContext.Provider
@@ -42,6 +43,8 @@ const GlobalState = ({ children }) => {
         setOpenTournamentModal,
         activeTab,
         setActiveTab,
+        previewTable,
+        setPreviewTable,
       }}
     >
       {children}
