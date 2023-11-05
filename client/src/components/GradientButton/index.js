@@ -3,7 +3,8 @@ import styled from "styled-components";
 const GradientButton = styled.button`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  border-radius: 4px;
+  margin: ${(props) => props.margin};
+  border-radius: ${(props) => (props.radius ? props.radius : `4px`)};
   background: linear-gradient(90deg, #da367f 6.49%, #f95e42 92.91%);
   text-align: center;
   border: none;

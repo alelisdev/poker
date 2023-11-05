@@ -18,6 +18,26 @@ export const TableWrapper = styled.div`
   }
 `;
 
+export const Row = styled.div`
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-top: ${(props) => props.mt};
+`;
+
+export const Grid = styled.div`
+  display: ${(props) => props.display};
+  flex-direction: ${(props) => props.flexDirection};
+  justify-content: ${(props) => props.justifyContent};
+  width: ${(props) => `calc(100% / 12 * ${props.col}`});
+  text-align: ${(props) => props.align};
+  height: ${(props) => props.height};
+  background-color: ${(props) => props.bg};
+  border-radius: ${(props) => props.radius};
+  padding: ${(props) => props.padding};
+  border: ${(props) => props.border};
+`;
+
 export const SideWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -29,9 +49,10 @@ export const SideWrapper = styled.div`
 export const MainWrapper = styled.div`
   padding: 0px 40px;
   display: flex;
+  flex-direction: ${(props) => props.flexDirection};
   width: 100%;
   justify-content: space-between;
-  margin-top: 32px;
+  margin-top: 22px;
 `;
 
 export const SearchInput = styled.input`

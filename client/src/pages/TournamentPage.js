@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
+import { withRouter } from "react-router-dom";
 import Container from "../components/layout/Container";
 import Header from "../layouts/Header";
 import Tabs from "../components/Tabs";
 import SearchIcon from "../components/icons/SearchIcon";
+import globalContext from "../context/global/globalContext";
 import {
   MainWrapper,
   SideWrapper,
@@ -85,7 +87,9 @@ const OpenLobbyButton = styled.button`
   background-clip: content-box, border-box;
 `;
 
-const TournamentPage = () => {
+const TournamentPage = ({ history }) => {
+  const { setOpenTournamentModal } = useContext(globalContext);
+
   const tournaments = [
     {
       checked: true,
@@ -241,14 +245,17 @@ const TournamentPage = () => {
             height="59px"
             fs="16px"
             fm="IBM Plex Mono"
+            onClick={() => setOpenTournamentModal(true)}
           >
             Register
           </GradientButton>
-          <OpenLobbyButton>Open Lobby</OpenLobbyButton>
+          <OpenLobbyButton onClick={() => history.push("/lobby")}>
+            Open Lobby
+          </OpenLobbyButton>
         </SideWrapper>
       </MainWrapper>
     </Container>
   );
 };
 
-export default TournamentPage;
+export default withRouter(TournamentPage);

@@ -13,7 +13,7 @@ const GlobalState = ({ children }) => {
   const [tables, setTables] = useState([]);
   const [players, setPlayers] = useState(null);
   const [openWalletModal, setOpenWalletModal] = useState(false);
-  const [openWalletConnectModal, setOpenWalletConnectModal] = useState(false);
+  const [openTournamentModal, setOpenTournamentModal] = useState(false);
 
   return (
     <GlobalContext.Provider
@@ -38,8 +38,8 @@ const GlobalState = ({ children }) => {
         setBalance,
         openWalletModal,
         setOpenWalletModal,
-        openWalletConnectModal,
-        setOpenWalletConnectModal,
+        openTournamentModal,
+        setOpenTournamentModal,
         activeTab,
         setActiveTab,
       }}

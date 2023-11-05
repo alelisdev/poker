@@ -1,7 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { ReactComponent as IconChecked } from "../../assets/icons/checked-icon.svg";
 import { ReactComponent as IconNonChecked } from "../../assets/icons/nonchecked-icon.svg";
+import globalContext from "../../context/global/globalContext";
+import { useHistory } from "react-router-dom";
 
 const TableHeader = styled.div`
   margin-top: 10px;
@@ -35,7 +37,7 @@ const TableHeader = styled.div`
   }
   span {
     text-align: left;
-    color: #fff;
+    color: rgba(255, 255, 255, 0.67);
     font-size: 10px;
     font-weight: 600;
     text-transform: uppercase;
@@ -113,6 +115,9 @@ const TableRow = styled.div`
 `;
 
 const TournamentTable = (props) => {
+  const history = useHistory();
+  const { setOpenTournamentModal } = useContext(globalContext);
+
   return (
     <>
       <TableHeader>
@@ -144,8 +149,15 @@ const TournamentTable = (props) => {
                 <p className="data">{item.time}</p>
               </span>
               <div className="status">
-                <span className="btn">Registeration</span>
-                <span className="btn">open</span>
+                <span
+                  className="btn"
+                  onClick={() => setOpenTournamentModal(true)}
+                >
+                  Registeration
+                </span>
+                <span className="btn" onClick={() => history.push("/lobby")}>
+                  open
+                </span>
               </div>
             </TableRow>
           );

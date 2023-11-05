@@ -11,6 +11,7 @@ import NotFoundPage from "../../pages/NotFoundPage";
 import PaymentsPage from "../../pages/Payments";
 import contentContext from "../../context/content/contentContext";
 import TournamentPage from "../../pages/TournamentPage";
+import LobbyPage from "../../pages/LobbyPage";
 
 const Routes = () => {
   const { staticPages } = useContext(contentContext);
@@ -23,6 +24,7 @@ const Routes = () => {
       <Route path="/payments" component={PaymentsPage} />
       <Route path="/dashboard" component={Dashboard} />
       <Route path="/tournament" component={TournamentPage} />
+      <Route path="/lobby" component={LobbyPage} />
       {staticPages &&
         staticPages.map((page) => (
           <Route
