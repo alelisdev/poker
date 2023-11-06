@@ -15,6 +15,7 @@ import { ReactComponent as IconAvatar } from "../assets/icons/avatar-icon.svg";
 import { ReactComponent as IconArrow } from "../assets/icons/arrow-icon.svg";
 import WalletModal from "../components/WalletModal";
 import TournamentModal from "../components/TournamentModal";
+import gameContext from "../context/game/gameContext";
 
 const HeaderWrapper = styled.div`
   max-width: 1440px;
@@ -121,7 +122,9 @@ const Bar = styled.div`
 const Header = (props) => {
   const history = useHistory();
   const location = useLocation();
+  const { currents, setCurrentTable } = useContext(gameContext);
   const {
+    tables,
     userName,
     chipsAmount,
     nativeToken,
@@ -138,19 +141,25 @@ const Header = (props) => {
         </IconSimpleWrapper>
         <IconSimpleWrapper
           onClick={() => {
-            if (!location.pathname.includes("play")) history.push("/");
+            history.push("/");
           }}
         >
           <IconHome />
         </IconSimpleWrapper>
-        <LabelWrapper>
-          15/30 NLH
-          <LabelBar />
-        </LabelWrapper>
-        <LabelWrapper>
-          .50/1 PL06
-          <LabelBar />
-        </LabelWrapper>
+        {currents.length > 0 &&
+          currents.map((id) => {
+            return (
+              <LabelWrapper
+                key={id}
+                onClick={() => {
+                  setCurrentTable(tables[id - 1]);
+                }}
+              >
+                15/30 NLH
+                <LabelBar />
+              </LabelWrapper>
+            );
+          })}
       </FlexWrapper>
       {props.showIcon && (
         <IconSimpleWrapper>
@@ -161,8 +170,7 @@ const Header = (props) => {
         <FlexWrapper gap="10px">
           <IconWrapper
             onClick={() => {
-              if (!location.pathname.includes("play"))
-                history.push("/payments");
+              history.push("/payments");
             }}
           >
             <IconWallet />

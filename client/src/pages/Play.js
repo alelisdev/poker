@@ -223,7 +223,7 @@ const Play = ({ history }) => {
         () => history.push("/")
       );
     // socket && joinTable(tables.length);
-    return () => leaveTable();
+    // return () => leaveTable();
     // eslint-disable-next-line
   }, [socket]);
 

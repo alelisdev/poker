@@ -1,5 +1,4 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
 
 const MainLayout = ({ children }) => {
   return (
@@ -9,4 +8,4 @@ const MainLayout = ({ children }) => {
   );
 };
 
-export default withRouter(MainLayout);
+export default MainLayout;
