@@ -25,6 +25,7 @@ const GameState = ({ history, children }) => {
   const { setTables } = useContext(globalContext);
 
   const [messages, setMessages] = useState([]);
+  const [currents, setCurrents] = useState([]);
   const [currentTable, setCurrentTable] = useState(null);
   const [isPlayerSeated, setIsPlayerSeated] = useState(false);
   const [seatId, setSeatId] = useState(null);
@@ -66,11 +67,13 @@ const GameState = ({ history, children }) => {
       });
 
       socket.on(TABLE_JOINED, ({ tables, tableId }) => {
-        setCurrentTable(tables[tableId]);
+        setCurrentTable(tables[tableId - 1]);
+        setCurrents((prevState) => [...prevState, tableId]);
       });
 
       socket.on(TABLE_LEFT, ({ tables, tableId }) => {
-        console.log(TABLE_LEFT, tables, tableId);
+        console.log("here left");
+        setCurrents(currents.filter((id) => id !== tableId));
         setCurrentTable(null);
         setTables(tables);
         loadUser(localStorage.token);
@@ -82,11 +85,12 @@ const GameState = ({ history, children }) => {
   }, [socket]);
 
   const joinTable = (tableId) => {
-    console.log(JOIN_TABLE, tableId);
+    console.log("tableId", tableId);
     socket.emit(JOIN_TABLE, tableId);
   };
 
   const leaveTable = () => {
+    console.log("leave table");
     isPlayerSeated && standUp();
     currentTableRef &&
       currentTableRef.current &&
@@ -146,6 +150,9 @@ const GameState = ({ history, children }) => {
       value={{
         messages,
         currentTable,
+        setCurrentTable,
+        currents,
+        setCurrents,
         isPlayerSeated,
         seatId,
         joinTable,

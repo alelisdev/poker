@@ -58,7 +58,7 @@ const BlanaceTag = styled.div`
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
-  line-height: 24px;
+  line-height: 30px;
 `;
 
 export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
@@ -66,7 +66,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
   const { chipsAmount, nativeToken } = useContext(globalContext);
   const { standUp, seatId, rebuy } = useContext(gameContext);
   const { getLocalizedString } = useContext(contentContext);
-  const seat = currentTable.seats[seatNumber];
+  const seat = currentTable?.seats && currentTable.seats[seatNumber];
   const maxBuyin = currentTable.limit * 10;
   const minBuyIn = currentTable.minBet * 2 * 10;
 

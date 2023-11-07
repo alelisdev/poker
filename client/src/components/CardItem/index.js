@@ -11,16 +11,20 @@ const CardWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 4px;
+  filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.75));
 `;
 
 const TitleWrapper = styled.span`
+  text-transform: uppercase;
   font-weight: 700;
+  line-height: 18px;
   color: #ffffff;
   font-size: 14px;
 `;
 
 const DescWrapper = styled.span`
-  margin-top: 10px;
+  padding: 0px 16px;
+  margin-top: 6px;
   font-weight: 400;
   color: #b6b7bb;
   font-size: 9px;

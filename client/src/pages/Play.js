@@ -23,16 +23,16 @@ import SwitchButton from "../components/SwitchButton";
 import globalContext from "../context/global/globalContext";
 
 const PlayContainer = styled.div`
-  background-image: url("${PlayBGImage}");
-  background-repeat: no-repeat;
-  background-size: cover;
   height: 100vh;
   display: flex;
   flex-direction: column;
   font-family: IBM Plex Mono;
+  align-items: center;
 `;
 
 const GamePanelContainer = styled.div`
+  max-width: 1440px;
+  width: 100%;
   height: calc(100vh - 220px - 76px);
 `;
 
@@ -40,6 +40,8 @@ const GameInfoContainer = styled.div`
   display: flex;
   gap: 16px;
   height: 220px;
+  width: 100%;
+  max-width: 1440px;
 `;
 
 const GameChatWrapper = styled.div`
@@ -176,6 +178,18 @@ const SendButton = styled.button`
   border: none;
 `;
 
+const ArrowItem = styled.span`
+  position: absolute;
+  top: 0px;
+  width: 57px;
+  height: 57px;
+  border: solid 2px #fff;
+  border-radius: 28px;
+  background-color: rgba(255, 255, 255, 0.35);
+  filter: drop-shadow(0px 0px 28px rgba(255, 255, 255, 0.26));
+  padding: 14px 17px;
+`;
+
 const Play = ({ history }) => {
   const { socket } = useContext(socketContext);
   const { openModal } = useContext(modalContext);
@@ -209,7 +223,7 @@ const Play = ({ history }) => {
         () => history.push("/")
       );
     // socket && joinTable(tables.length);
-    return () => leaveTable();
+    // return () => leaveTable();
     // eslint-disable-next-line
   }, [socket]);
 
@@ -257,14 +271,14 @@ const Play = ({ history }) => {
         <PokerTableWrapper>
           <GameLeaveButton onClick={leaveTable}>Leave</GameLeaveButton>
           <PokerTable />
-          <PositionedUISlot top="-12px" scale="0.55" origin="top center">
+          <ArrowItem>
             <IconMArrorw />
-          </PositionedUISlot>
+          </ArrowItem>
           {currentTable && (
             <>
               <PositionedUISlot
                 top="6%"
-                left="20%"
+                left="18%"
                 scale="0.55"
                 origin="top center"
               >
@@ -275,7 +289,7 @@ const Play = ({ history }) => {
                   sitDown={sitDown}
                 />
               </PositionedUISlot>
-              <PositionedUISlot bottom="-4%" scale="0.55" origin="top center">
+              <PositionedUISlot top="372px" scale="0.55" origin="top center">
                 <Seat
                   seatNumber={2}
                   currentTable={currentTable}
@@ -285,7 +299,7 @@ const Play = ({ history }) => {
               </PositionedUISlot>
               <PositionedUISlot
                 top="6%"
-                right="20%"
+                right="18%"
                 scale="0.55"
                 origin="top right"
               >
@@ -297,8 +311,8 @@ const Play = ({ history }) => {
                 />
               </PositionedUISlot>
               <PositionedUISlot
-                bottom="6%"
-                right="20%"
+                top="296px"
+                right="18%"
                 scale="0.55"
                 origin="bottom right"
               >
@@ -310,8 +324,8 @@ const Play = ({ history }) => {
                 />
               </PositionedUISlot>
               <PositionedUISlot
-                bottom="6%"
-                left="20%"
+                top="296px"
+                left="18%"
                 scale="0.55"
                 origin="bottom left"
               >
@@ -347,30 +361,32 @@ const Play = ({ history }) => {
                 scale="0.60"
                 origin="bottom center"
               >
-                {messages && messages?.length > 0 && (
+                {messages.length > 0 && (
                   <>
-                    <InfoPill>{messages[messages?.length - 1]}</InfoPill>
+                    <InfoPill>
+                      {messages.length > 0 && messages[messages?.length - 1]}
+                    </InfoPill>
                     {!isPlayerSeated && (
                       <InfoPill>Sit down to join the game!</InfoPill>
                     )}
                     {currentTable.winMessages?.length > 0 && (
                       <InfoPill>
-                        {
+                        {currentTable.winMessages > 0 &&
                           currentTable.winMessages[
                             currentTable.winMessages?.length - 1
-                          ]
-                        }
+                          ]}
                       </InfoPill>
                     )}
                   </>
                 )}
               </PositionedUISlot>
-              {currentTable.winMessages.length === 0 && (
-                <GameStateInfo
-                  currentTable={currentTable}
-                  nativeToken={nativeToken}
-                />
-              )}
+              {currentTable.winMessages &&
+                currentTable.winMessages.length === 0 && (
+                  <GameStateInfo
+                    currentTable={currentTable}
+                    nativeToken={nativeToken}
+                  />
+                )}
             </>
           )}
         </PokerTableWrapper>

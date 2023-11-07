@@ -16,32 +16,32 @@ const NativeData = {
   solana: "SOL",
 };
 
-const createSubscription = async (data, subscriptionType) => {
-  try {
-    console.log("data", data);
-    const { address, chain, url } = data;
-    const request = {
-      type: subscriptionType,
-      attr: {
-        address,
-        chain,
-        url,
-      },
-    };
-    console.log(request);
-    const response = await TatumAxios.post(
-      "/subscription?testnetType=ethereum-sepolia",
-      JSON.stringify(request)
-    );
-    console.log("response", response);
-  } catch (err) {
-    console.error({
-      title: "tatumController - createSubscription",
-      message: err.message,
-    });
-    return null;
-  }
-};
+// const createSubscription = async (data, subscriptionType) => {
+//   try {
+//     console.log("data", data);
+//     const { address, chain, url } = data;
+//     const request = {
+//       type: subscriptionType,
+//       attr: {
+//         address,
+//         chain,
+//         url,
+//       },
+//     };
+//     console.log(request);
+//     const response = await TatumAxios.post(
+//       "/subscription?testnetType=ethereum-sepolia",
+//       JSON.stringify(request)
+//     );
+//     console.log("response", response);
+//   } catch (err) {
+//     console.error({
+//       title: "tatumController - createSubscription",
+//       message: err.message,
+//     });
+//     return null;
+//   }
+// };
 
 const getNativeData = async (data) => {
   try {
@@ -156,14 +156,14 @@ const getDepositAddressFromAccount = async (data) => {
         chain,
         mnemonic: accountInfo.dataObject.mnemonic,
       });
-      await createSubscription(
-        {
-          url: config.SUBSCRIBE_URL,
-          chain: addressData.data.currency,
-          address: addressData.data.address,
-        },
-        "ADDRESS_TRANSACTION"
-      );
+      // await createSubscription(
+      //   {
+      //     url: config.SUBSCRIBE_URL,
+      //     chain: addressData.data.currency,
+      //     address: addressData.data.address,
+      //   },
+      //   "ADDRESS_TRANSACTION"
+      // );
       return { ...addressData.data, ...privateKey };
     } else {
       console.log({

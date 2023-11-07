@@ -33,7 +33,6 @@ const useAuth = () => {
         email,
         password,
       });
-      console.log(res)
       const token = res.data.token;
       if (token) {
         localStorage.setItem("token", token);
@@ -68,7 +67,6 @@ const useAuth = () => {
   const loadUser = async (token) => {
     try {
       const res = await pokerClient.get("/api/auth");
-      console.log(res.data);
       if (res.data) {
         const { _id, name, email, balance } = res.data;
         setIsLoggedIn(true);

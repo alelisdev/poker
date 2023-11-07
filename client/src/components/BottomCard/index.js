@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 
 const CardWrapper = styled.div`
-  margin-top: 12px;
   padding: 13px 16px 13px 16px;
   border: 1px solid #232531;
   border-radius: 12px;
@@ -16,6 +15,7 @@ const CardWrapper = styled.div`
     font-size: 14px;
     line-height: 18px;
     font-weight: 700;
+    text-transform: uppercase;
   }
 
   & .value {

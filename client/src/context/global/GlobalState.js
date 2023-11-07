@@ -3,6 +3,7 @@ import GlobalContext from "./globalContext";
 
 const GlobalState = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("cash");
   const [id, setId] = useState(null);
   const [userName, setUserName] = useState(null);
   const [nativeToken, setNativeToken] = useState("ETH");
@@ -12,7 +13,8 @@ const GlobalState = ({ children }) => {
   const [tables, setTables] = useState([]);
   const [players, setPlayers] = useState(null);
   const [openWalletModal, setOpenWalletModal] = useState(false);
-  const [openWalletConnectModal, setOpenWalletConnectModal] = useState(false);
+  const [openTournamentModal, setOpenTournamentModal] = useState(false);
+  const [previewTable, setPreviewTable] = useState(null);
 
   return (
     <GlobalContext.Provider
@@ -37,8 +39,12 @@ const GlobalState = ({ children }) => {
         setBalance,
         openWalletModal,
         setOpenWalletModal,
-        openWalletConnectModal,
-        setOpenWalletConnectModal,
+        openTournamentModal,
+        setOpenTournamentModal,
+        activeTab,
+        setActiveTab,
+        previewTable,
+        setPreviewTable,
       }}
     >
       {children}

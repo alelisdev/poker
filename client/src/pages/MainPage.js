@@ -1,12 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import Container from "../components/layout/Container";
-import Heading from "../components/typography/Heading";
 import styled from "styled-components";
 import { withRouter } from "react-router-dom";
-import useScrollToTopOnPageLoad from "../hooks/useScrollToTopOnPageLoad";
 import globalContext from "../context/global/globalContext";
-import contentContext from "../context/content/contentContext";
-import modalContext from "../context/modal/modalContext";
 import Header from "../layouts/Header";
 import CardItem from "../components/CardItem";
 import SystemImg from "../assets/img/system.png";
@@ -15,123 +11,28 @@ import GiveawyasmImg from "../assets/img/giveaways.png";
 import RainImg from "../assets/img/rain.png";
 import BonusBgImg from "../assets/img/bonusbg.png";
 import GamePanImage from "../assets/img/gamepan.png";
-import GameTable from "../components/Table";
+import GameTable from "../components/Table/GameTable";
 import Tabs from "../components/Tabs";
 import BottomCard from "../components/BottomCard";
 import SearchIcon from "../components/icons/SearchIcon";
 import socketContext from "../context/websocket/socketContext";
-import { CREATE_TABLE } from "../pokergame/actions";
-// import Text from "../components/typography/Text";
-
-// const MainMenuWrapper = styled.div`
-//   margin: 0 0 auto 0;
-//   display: grid;
-//   justify-content: center;
-//   align-content: center;
-//   grid-template-columns: repeat(2, minmax(250px, auto));
-//   grid-template-rows: repeat(2, minmax(250px, auto));
-//   grid-gap: 2rem;
-//   max-width: 600px;
-
-//   @media screen and (max-width: 900px) and (max-height: 450px) and (orientation: landscape) {
-//     grid-template-columns: repeat(4, 140px);
-//     grid-template-rows: repeat(1, minmax(140px, auto));
-//     grid-gap: 1rem;
-//   }
-
-//   @media screen and (max-width: 590px) and (max-height: 420px) and (orientation: landscape) {
-//     grid-template-columns: repeat(4, 120px);
-//     grid-template-rows: repeat(1, minmax(120px, auto));
-//     grid-gap: 1rem;
-//   }
-
-//   @media screen and (max-width: 468px) {
-//     grid-template-columns: repeat(1, auto);
-//     grid-template-rows: repeat(4, auto);
-//     grid-gap: 1rem;
-//   }
-// `;
-
-// const MainMenuCard = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: flex-start;
-//   align-items: center;
-//   text-align: center;
-//   cursor: pointer;
-//   background-color: ${(props) => props.theme.colors.playingCardBg};
-//   border-radius: ${(props) => props.theme.other.stdBorderRadius};
-//   padding: 1.5rem 2rem;
-//   box-shadow: ${(props) => props.theme.other.cardDropShadow};
-
-//   &,
-//   & > * {
-//     user-select: none;
-//     -moz-user-select: none;
-//     -khtml-user-select: none;
-//     -webkit-user-select: none;
-//     -o-user-select: none;
-//   }
-
-//   ${Heading} {
-//     margin-bottom: 0;
-//     color: ${(props) => props.theme.colors.primaryCta};
-//     word-wrap: break-word;
-//   }
-
-//   img {
-//     margin: 1rem;
-//     width: 75%;
-//     max-width: 170px;
-//   }
-
-//   @media screen and (min-width: 648px) {
-//     font-size: 3rem;
-//   }
-
-//   @media screen and (max-width: 648px) {
-//     padding: 0.5rem;
-//   }
-
-//   @media screen and (max-width: 468px) {
-//     flex-direction: row;
-//     justify-content: space-between;
-//     border-radius: 90px 40px 40px 90px;
-//     padding: 0 1rem 0 0;
-
-//     ${Heading} {
-//       text-align: right;
-//       margin: 0 1rem;
-//     }
-
-//     img {
-//       max-width: 80px;
-//       margin: 0;
-//     }
-//   }
-// `;
+import {
+  SideWrapper,
+  MainWrapper,
+  TableWrapper,
+  SearchInput,
+  SearchWrapper,
+  SearchButton,
+} from "../components/styledcompoents";
 
 const CardContainer = styled.div`
   width: 98.5%;
   display: flex;
-  gap: 20px;
-`;
-
-const MainWrapper = styled.div`
-  padding: 0px 40px;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  margin-top: 20px;
-`;
-
-const SideWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: ${(props) => props.width};
+  gap: 12px;
 `;
 
 const BoounsItem = styled.div`
+  border: 2px solid #333541;
   position: relative;
   border-radius: 12px;
   background: linear-gradient(90deg, #da367f, #f95e42);
@@ -145,6 +46,7 @@ const PlayerNames = styled.div`
   flex-direction: column;
   border-radius: 8px;
   border: solid 1px #333541;
+  filter: drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.8));
 `;
 
 const PlayerNameTitle = styled.div`
@@ -154,11 +56,19 @@ const PlayerNameTitle = styled.div`
   border-radius: 8px 8px 0px 0px;
   background-color: #181a26;
   display: flex;
-  justify-content: space-between;
   padding: 0px 20px;
   align-items: center;
   font-size: 14px;
   font-weight: 400;
+
+  .player-name {
+    width: 65%;
+    text-wrap: nowrap;
+  }
+  .credit {
+    width: 35%;
+    text-wrap: nowrap;
+  }
 `;
 
 const PlayerContents = styled.div`
@@ -166,7 +76,9 @@ const PlayerContents = styled.div`
   display: flex;
   flex-direction: column;
   background-color: #333541;
-  padding: 0px 20px;
+  padding: 18px 20px;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 `;
 
 const PlayerRow = styled.div`
@@ -175,73 +87,46 @@ const PlayerRow = styled.div`
   padding: 6px 0px;
   color: #fff;
   display: flex;
-  justify-content: space-between;
+  .player-name {
+    width: 65%;
+    text-wrap: nowrap;
+  }
+  .credit {
+    width: 35%;
+    text-wrap: nowrap;
+  }
 `;
 
 const GamePanel = styled.div`
+  margin-top: 16px;
   height: 240px;
   padding: 10px;
-  margin-top: 16px;
   width: 100%;
   border-radius: 8px;
   border: solid 1px #333541;
+  filter: drop-shadow(0px 0px 24px rgba(0, 0, 0, 0.8));
 `;
 
 const BottomCardsWrapper = styled.div`
+  margin-top: 11px;
   display: flex;
-  gap: 4px;
+  gap: 12px;
   width: 98.5%;
-`;
-
-const TableWrapper = styled.div`
-  width: 98.5%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  @media screen and (max-width: 1024px) {
-    flex-direction: column-reverse;
-    align-items: flex-start;
-  }
-`;
-
-const SearchWrapper = styled.div`
-  margin-top: 26px;
-  position: relative;
-`;
-
-const SearchButton = styled.div`
-  position: absolute;
-  z-index: 40;
-  left: 12px;
-  bottom: 8px;
-  cursor: pointer;
-`;
-
-const SearchInput = styled.input`
-  width: 269px;
-  height: 37px;
-  border-radius: 4px;
-  color: #fff;
-  background-color: #212531;
-  padding: 10px 10px 10px 40px;
-  border: solid 0px;
-  @media screen and (max-width: 1240px) {
-    width: 144px;
-  }
-
-  @media screen and (max-width: 1024px) {
-    width: 100%;
-  }
 `;
 
 const MainPage = ({ history }) => {
-  const { socket } = useContext(socketContext);
-  const { tables } = useContext(globalContext);
+  const { tables, nativeToken, setActiveTab, previewTable, setPreviewTable } =
+    useContext(globalContext);
   const [tableData, setTableData] = useState([]);
 
   useEffect(() => {
-    if (tables !== null) setTableData(tables);
+    setActiveTab("cash");
+  }, []);
+
+  useEffect(() => {
+    if (tables !== null) {
+      setTableData(tables);
+    }
   }, [tables]);
 
   const cardsData = [
@@ -250,27 +135,27 @@ const MainPage = ({ history }) => {
       title: "RakeBack System",
       desc: "Flexible system, get a big bonus from the rake.",
       width: "51px",
-      height: "51px",
+      height: "57px",
     },
     {
       imgUrl: BounsImg,
       title: "Weekly Bonus",
       desc: "Come to us more often & earn bonuses!",
-      width: "80px",
-      height: "51px",
+      width: "76px",
+      height: "57px",
     },
     {
       imgUrl: GiveawyasmImg,
       title: "Giveaways",
       desc: "The higher rank you are, the more surprising it will be.",
-      width: "80px",
+      width: "76px",
       height: "57px",
     },
     {
       imgUrl: RainImg,
       title: "Chat Rain",
       desc: "Randomly reward players in chat room every 6 hours.",
-      width: "80px",
+      width: "76px",
       height: "57px",
     },
   ];
@@ -294,14 +179,6 @@ const MainPage = ({ history }) => {
     },
   ];
 
-  // const { openModal } = useContext(modalContext);
-
-  const createGame = async () => {
-    history.push("/play");
-    socket.emit(CREATE_TABLE);
-  };
-
-  useScrollToTopOnPageLoad();
   return (
     <Container
       flexDirection="column"
@@ -310,7 +187,7 @@ const MainPage = ({ history }) => {
     >
       <Header showIcon={true} />
       <MainWrapper>
-        <SideWrapper width="72%">
+        <SideWrapper width="72.9%">
           <CardContainer>
             {cardsData.map((item, idx) => {
               return (
@@ -326,22 +203,7 @@ const MainPage = ({ history }) => {
             })}
           </CardContainer>
           <TableWrapper>
-            <Tabs
-              items={[
-                {
-                  name: "Crash Games",
-                  active: true,
-                },
-                {
-                  name: "Tournament",
-                  active: false,
-                },
-                {
-                  name: "Spin%Go",
-                  active: false,
-                },
-              ]}
-            />
+            <Tabs />
             <SearchWrapper>
               <SearchInput placeholder="Search" />
               <SearchButton>
@@ -349,8 +211,7 @@ const MainPage = ({ history }) => {
               </SearchButton>
             </SearchWrapper>
           </TableWrapper>
-
-          <GameTable tableData={tableData}></GameTable>
+          <GameTable tableData={tableData} />
           <BottomCardsWrapper>
             {bottomCardsData.map((item, idx) => {
               return (
@@ -365,17 +226,18 @@ const MainPage = ({ history }) => {
         </SideWrapper>
         <SideWrapper width="25%">
           <BoounsItem>
-            <img src={BonusBgImg} alt="bouns" width="100%" height="123px" />
+            <img src={BonusBgImg} alt="bouns" width="100%" height="118px" />
             <span
               style={{
-                fontSize: "22px",
+                fontSize: "24px",
                 position: "absolute",
                 textWrap: "nowrap",
-                fontWeight: "600",
+                fontWeight: "700",
+                lineHeight: "18px",
                 top: "50%",
                 left: "50%",
                 color: "#FFF",
-                transform: "translate(-50%, -120%)",
+                transform: "translate(-50%, -240%)",
               }}
             >
               GET UP TO <span style={{ color: "#F1BB3A" }}>$500</span> BONUS!
@@ -387,14 +249,18 @@ const MainPage = ({ history }) => {
                 top: "50%",
                 textWrap: "nowrap",
                 color: "#FFF",
+                fontWeight: "600",
+                lineHeight: "15.6px",
                 left: "50%",
-                transform: "translate(-50%, -40%)",
+                transform: "translate(-50%, -70%)",
               }}
             >
-              Refer a friend & earn!
+              REFFER A FRIEND & EARN!
             </span>
             <div
               style={{
+                width: "142px",
+                height: "33px",
                 fontSize: "12px",
                 position: "absolute",
                 top: "50%",
@@ -402,46 +268,37 @@ const MainPage = ({ history }) => {
                 color: "#FFF",
                 left: "50%",
                 cursor: "pointer",
-                backgroundColor: "rgba(255, 255, 255, 0.13)",
-                padding: "6px 16px",
+                lineHeight: "15.6px",
+                backgroundColor: "rgba(255, 255, 255, 0.26)",
+                padding: "8px 14px",
                 borderRadius: "8px",
-                transform: "translate(-50%, 50%)",
+                transform: "translate(-50%, 40%)",
               }}
-              onClick={createGame}
             >
               Get Referal Code
             </div>
           </BoounsItem>
           <PlayerNames>
             <PlayerNameTitle>
-              <span># PLAYER NAME</span>
-              <span>CREDIT</span>
+              <span className="player-name"># PLAYER NAME</span>
+              <span className="credit">CREDIT</span>
             </PlayerNameTitle>
             <PlayerContents>
-              <PlayerRow>
-                <span>1 fostersov</span>
-                <span>25.34 $</span>
-              </PlayerRow>
-              <PlayerRow>
-                <span>2 GuNDaL</span>
-                <span>42.85 $</span>
-              </PlayerRow>
-              <PlayerRow>
-                <span>3 Rolyat</span>
-                <span>47.15 $</span>
-              </PlayerRow>
-              <PlayerRow>
-                <span>4 Kudoshinichi</span>
-                <span>119.27 $</span>
-              </PlayerRow>
-              <PlayerRow>
-                <span>5 IMDENVER</span>
-                <span>26.4$</span>
-              </PlayerRow>
-              <PlayerRow>
-                <span>6 skeezer</span>
-                <span>34.93 $</span>
-              </PlayerRow>
+              {previewTable &&
+                previewTable.players.map((player, idx) => {
+                  return (
+                    <PlayerRow key={idx}>
+                      <span className="player-name">{`${idx + 1} ${
+                        player.name
+                      }`}</span>
+                      <span className="credit">
+                        {`${parseFloat(player.bankroll).toFixed(
+                          4
+                        )} ${nativeToken}`}
+                      </span>
+                    </PlayerRow>
+                  );
+                })}
             </PlayerContents>
           </PlayerNames>
           <GamePanel>
@@ -449,40 +306,6 @@ const MainPage = ({ history }) => {
           </GamePanel>
         </SideWrapper>
       </MainWrapper>
-      {/* <MainMenuWrapper>
-        <MainMenuCard onClick={() => history.push("/play")}>
-          <Heading as="h3" headingClass="h5" textCentered>
-            {getLocalizedString("main_page-join_table").toUpperCase()}
-          </Heading>
-        </MainMenuCard>
-        <MainMenuCard onClick={() => history.push("/play")}>
-          <Heading as="h3" headingClass="h5" textCentered>
-            {getLocalizedString("main_page-quick_game").toUpperCase()}
-          </Heading>
-        </MainMenuCard>
-        <MainMenuCard
-          onClick={() => {
-            openModal(
-              () => (
-                <Text textAlign="center">
-                  {getLocalizedString("main_page-modal_text")}
-                </Text>
-              ),
-              getLocalizedString("main_page-modal_heading"),
-              getLocalizedString("main_page-modal_button_text")
-            );
-          }}
-        >
-          <Heading as="h3" headingClass="h5" textCentered>
-            {getLocalizedString("main_page-open_shop").toUpperCase()}
-          </Heading>
-        </MainMenuCard>
-        <MainMenuCard onClick={() => history.push("/game-rules")}>
-          <Heading as="h3" headingClass="h5" textCentered>
-            {getLocalizedString("main_page-open_rules").toUpperCase()}
-          </Heading>
-        </MainMenuCard>
-      </MainMenuWrapper> */}
     </Container>
   );
 };

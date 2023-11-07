@@ -7,7 +7,7 @@ const configureMiddleware = require("./middleware");
 const configureRoutes = require("./routes");
 const socketio = require("socket.io");
 const gameSocket = require("./socket/index");
-const { initTatumETH } = require("./helpers/initTatum");
+const { initTatumETH, initTatumSOL } = require("./helpers/initTatum");
 
 // Connect and get reference to mongodb instance
 let db;
@@ -18,14 +18,18 @@ let db;
 
 // Init express app
 const app = express();
+// parse requests of content-type: application/json
+// parses incoming requests with JSON payloads
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(function (req, res, next) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
-  res.setHeader("Access-Control-Allow-Credentials", true);
-  next();
-});
+// app.use(function (req, res, next) {
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+//   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+//   res.setHeader("Access-Control-Allow-Credentials", true);
+//   next();
+// });
 
 app.use(cors({ origin: "*" }));
 // Enable pre-flight
@@ -41,6 +45,7 @@ app.use(express.static(path.join("server", "public")));
 configureRoutes(app);
 
 initTatumETH();
+initTatumSOL();
 
 // Start server and listen for connections
 const server = app.listen(config.PORT, () => {

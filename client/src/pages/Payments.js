@@ -5,17 +5,13 @@ import authContext from "../context/auth/authContext";
 import globalContext from "../context/global/globalContext";
 import Header from "../layouts/Header";
 import styled from "styled-components";
+import { Row } from "../components/styledcompoents";
 
 const CardWrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
   width: 100%;
-`;
-
-const Row = styled.div`
-  display: flex;
-  gap: 12px;
 `;
 
 const MainWrapper = styled.div`
@@ -30,7 +26,8 @@ const MainWrapper = styled.div`
 const Card = styled.div`
   text-align: center;
   width: 50%;
-  background: #333541;
+  background: #212531;
+  border: solid 2px #333541;
   border-radius: 8px;
   height: 168px;
   padding: 18px;
@@ -57,7 +54,7 @@ const Card = styled.div`
       margin-left: 20px;
       font-weight: 600;
       color: #fff;
-      font-szie: 12px;
+      font-size: 12px;
       line-height: 15.6px;
     }
   }
@@ -102,7 +99,7 @@ const TransactionWrapper = styled.div`
   margin-top: 22px;
   text-align: center;
   width: 100%;
-  background: #333541;
+  background: #212531;
   border-radius: 8px;
   padding: 18px 60px;
   display: flex;
@@ -111,14 +108,17 @@ const TransactionWrapper = styled.div`
   filter: drop-shadow(-11px -8px 3px rgba(20, 24, 33, 1));
 
   & .label-lts-txs {
+    width: 196px;
+    height: 35px;
+    text-transform: uppercase;
     padding: 12px;
     border-radius: 8px;
     color: #fff;
     font-family: IBM Plex Mono;
     font-weight: 600;
     font-size: 14px;
-    line-height: 18px;
-    background: rgba(0, 0, 0, 0.3);
+    line-height: 12px;
+    background: #181a26;
     filter: drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.75));
     margin-bottom: 10px;
   }
@@ -131,7 +131,7 @@ const TransactionWrapper = styled.div`
     justify-content: space-between;
     font-family: IBM Plex Mono;
     font-weight: 400;
-    font-size: 21;
+    font-size: 21px;
     line-height: 27.3px;
     color: #bcbcbc;
     button {
@@ -151,6 +151,7 @@ const TransactionWrapper = styled.div`
   }
 
   & .view-all {
+    margin-top: 12px;
     cursor: pointer;
     color: #fff;
     background: #5b5e67;
@@ -185,7 +186,10 @@ const Payments = () => {
               <Card>
                 <span className="title">
                   <span className="text">BALANCE :</span>
-                  <span className="amount"> {chipsAmount} ETH</span>
+                  <span className="amount">
+                    {" "}
+                    {parseFloat(chipsAmount).toFixed(4)} ETH
+                  </span>
                 </span>
                 <ButtonGroup>
                   <button
@@ -270,15 +274,6 @@ const Payments = () => {
               <div>
                 <span>Credited</span>
                 <button>View</button>
-              </div>
-            </div>
-            <div className="table-row">
-              <span>May 30, 11:59 PM</span>
-              <span>#9280</span>
-              <span>45 USD</span>
-              <div>
-                <span>Credited</span>
-                <button className="view-btn">View</button>
               </div>
             </div>
             <button className="view-all">View All Transactions</button>

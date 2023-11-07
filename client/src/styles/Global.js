@@ -17,8 +17,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   *:focus {
-    outline: 1px dotted ${(props) => props.theme.colors.primaryCta};
-    outline-offset: 5px;
+    outline: none;
   }
 
   *::-webkit-scrollbar {
@@ -50,7 +49,10 @@ const GlobalStyles = createGlobalStyle`
   }
 
   body {
+    background-image: url(background.png);
     background-color: #11141D;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   hr {

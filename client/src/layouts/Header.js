@@ -1,5 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import React, { useContext, useState, useEffect, useMemo } from "react";
+import {
+  useHistory,
+  useLocation,
+} from "react-router-dom/cjs/react-router-dom.min";
 import globalContext from "../context/global/globalContext";
 import styled from "styled-components";
 import { ReactComponent as IconNavbar } from "../assets/icons/nav-icon.svg";
@@ -10,11 +13,12 @@ import { ReactComponent as IconNotify } from "../assets/icons/notify-icon.svg";
 import { ReactComponent as IconSetting } from "../assets/icons/setting-icon.svg";
 import { ReactComponent as IconAvatar } from "../assets/icons/avatar-icon.svg";
 import { ReactComponent as IconArrow } from "../assets/icons/arrow-icon.svg";
-import solImg from "../assets/img/sol.png";
-import ethImg from "../assets/img/eth.png";
 import WalletModal from "../components/WalletModal";
+import TournamentModal from "../components/TournamentModal";
+import gameContext from "../context/game/gameContext";
 
 const HeaderWrapper = styled.div`
+  max-width: 1440px;
   display: flex;
   width: 100%;
   height: 76px;
@@ -35,14 +39,27 @@ const FlexWrapper = styled.div`
   align-items: center;
 `;
 
+const FlexRightWrapper = styled.div`
+  display: flex;
+  padding: 10px;
+  gap: ${(props) => props.gap};
+  align-items: flex-start;
+
+  & .arrow-icon {
+    margin-top: 4px;
+  }
+`;
+
 const IconWrapper = styled.div`
+  border: solid 1px #143334;
   cursor: pointer;
-  padding: 13px 16px 13px 16px;
+  padding: 13px 16px 13px 13px;
   background-color: #333541;
   border-radius: 12px;
   width: 50px;
   height: 50px;
   color: white;
+  filter: drop-shadow(0px 0px 20px rgba(0, 0, 0, 0.8));
 `;
 
 const LabelWrapper = styled.div`
@@ -75,121 +92,46 @@ const LabelBar = styled.div`
 const ProfileWrapper = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 4px;
 `;
 
 const NameWrapper = styled.span`
-  font-weight: 600;
+  font-weight: 400;
   color: #ffffff;
-  font-size: 14px;
+  font-size: 12px;
 `;
 
 const AMDWrapper = styled.span`
-  font-weight: 600;
+  font-weight: 400;
   color: #ff6b00;
-  font-size: 12px;
+  font-size: 10px;
 `;
 
 const USDWrapper = styled.span`
-  font-weight: 600;
+  font-weight: 400;
   color: #878282;
-  font-size: 12px;
+  font-size: 10px;
 `;
 
 const Bar = styled.div`
-  height: 30px;
-  width: 2px;
-  background-color: #3b3b3b;
-`;
-
-const WalletModals = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  backdrop-filter: blur(3px);
-  z-index: 1;
-`;
-
-const ModalContainer = styled.div`
-  background: #333;
-  border-radius: 10px;
-  left: 50%;
-  position: absolute;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  width: 250px;
-  color: white;
-  font-weight: bold;
-`;
-
-const ModalTitle = styled.div`
-  border-bottom: 1px solid #c9c7c7;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px 20px;
-`;
-
-const ModalClose = styled.div`
-  cursor: pointer;
-`;
-
-const ModalOptions = styled.div`
-  align-items: stretch;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 10px 20px;
-`;
-
-const ModalOption = styled.div`
-  align-items: center;
-  border: 1px solid #c9c7c7;
-  display: flex;
-  gap: 10px;
-  padding: 10px;
-  cursor: pointer;
-`;
-
-const ModalImg = styled.img`
-  width: 25px;
-  height: 25px;
-  border-radius: 100%;
+  height: 33px;
+  width: 1px;
+  background-color: #212531;
 `;
 
 const Header = (props) => {
   const history = useHistory();
+  const location = useLocation();
+  const { currents, setCurrentTable } = useContext(gameContext);
   const {
+    tables,
     userName,
     chipsAmount,
     nativeToken,
     openWalletModal,
     setOpenWalletModal,
+    openTournamentModal,
   } = useContext(globalContext);
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleShowDepositeModal = () => {
-    setIsOpen(true);
-  };
-
-  useEffect(() => {}, [chipsAmount, nativeToken]);
-
-  const switchToEther = async () => {
-    try {
-      await window.ethereum.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: `${process.env.REACT_APP_ETH_CHAIN_ID}` }],
-      });
-      return true;
-    } catch (error) {
-      console.log(error);
-      return false;
-    }
-  };
 
   return (
     <HeaderWrapper>
@@ -197,17 +139,27 @@ const Header = (props) => {
         <IconSimpleWrapper>
           <IconNavbar />
         </IconSimpleWrapper>
-        <IconSimpleWrapper>
+        <IconSimpleWrapper
+          onClick={() => {
+            history.push("/");
+          }}
+        >
           <IconHome />
         </IconSimpleWrapper>
-        <LabelWrapper>
-          15/30 NLH
-          <LabelBar />
-        </LabelWrapper>
-        <LabelWrapper>
-          .50/1 PL06
-          <LabelBar />
-        </LabelWrapper>
+        {currents.length > 0 &&
+          currents.map((id) => {
+            return (
+              <LabelWrapper
+                key={id}
+                onClick={() => {
+                  setCurrentTable(tables[id - 1]);
+                }}
+              >
+                15/30 NLH
+                <LabelBar />
+              </LabelWrapper>
+            );
+          })}
       </FlexWrapper>
       {props.showIcon && (
         <IconSimpleWrapper>
@@ -216,10 +168,14 @@ const Header = (props) => {
       )}
       <FlexWrapper gap="30px">
         <FlexWrapper gap="10px">
-          <IconWrapper onClick={() => history.push("/payments")}>
+          <IconWrapper
+            onClick={() => {
+              history.push("/payments");
+            }}
+          >
             <IconWallet />
           </IconWrapper>
-          <IconWrapper onClick={handleShowDepositeModal}>
+          <IconWrapper onClick={() => setOpenWalletModal(true)}>
             <IconNotify />
           </IconWrapper>
           <IconWrapper>
@@ -227,23 +183,22 @@ const Header = (props) => {
           </IconWrapper>
         </FlexWrapper>
         <Bar></Bar>
-        <FlexWrapper gap="10px">
+        <FlexRightWrapper gap="10px">
           <IconAvatar />
           <ProfileWrapper>
             <NameWrapper>{userName}</NameWrapper>
             <AMDWrapper>
-              {chipsAmount} {nativeToken}
+              {parseFloat(chipsAmount).toFixed(4)} {nativeToken}
             </AMDWrapper>
             <USDWrapper>
               $ {parseFloat(chipsAmount * 1841.24).toFixed(3)}
             </USDWrapper>
           </ProfileWrapper>
-          <IconArrow />
-        </FlexWrapper>
+          <IconArrow className="arrow-icon" />
+        </FlexRightWrapper>
       </FlexWrapper>
-      {openWalletModal && (
-        <WalletModal isOpen={isOpen} setIsOpen={setOpenWalletModal} />
-      )}
+      {openWalletModal && <WalletModal />}
+      {openTournamentModal && <TournamentModal />}
     </HeaderWrapper>
   );
 };

@@ -1,12 +1,14 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { ReactComponent as IconFive } from "../../assets/icons/icon-five.svg";
-import gameContext from "../../context/game/gameContext";
 import socketContext from "../../context/websocket/socketContext";
+import gameContext from "../../context/game/gameContext";
 import { useHistory } from "react-router-dom";
+import globalContext from "../../context/global/globalContext";
 
 const TableHeader = styled.div`
   margin-top: 10px;
+  margin-bottom: 5px;
   background-color: #323846;
   height: 25px;
   border-radius: 4px;
@@ -49,13 +51,16 @@ const TableBody = styled.div`
 
 const TableRow = styled.div`
   padding: 4px;
-  margin-top: 10px;
-  background-color: #181a26;
-  height: 52.9px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: ${(props) => (props.active ? `#333541` : `#181a26`)};
+  height: 47.9px;
   border-radius: 8px;
   display: flex;
   align-items: center;
-  width: 99%;
+  width: 98.9%;
+  cursor: pointer;
+
   & .players {
     position: relative;
     text-align: center;
@@ -107,17 +112,21 @@ const TableRow = styled.div`
 `;
 
 const GameTable = (props) => {
+  const { joinTable } = useContext(gameContext);
   const history = useHistory();
-  const { joinTable } = useContext(gameContext)
-  const {socket} = useContext(socketContext)
+  const { tables, previewTable, setPreviewTable } = useContext(globalContext);
+  const { socket } = useContext(socketContext);
 
   const joinGame = (tableId) => {
-    if(socket && tableId) {
-      joinTable(tableId)
-      history.push("/play")
+    if (socket && tableId) {
+      if (previewTable && tableId === previewTable.id) {
+        joinTable(tableId);
+        history.push("/play");
+      } else {
+        setPreviewTable(tables[tableId - 1]);
+      }
     }
-  }
-
+  };
 
   return (
     <>
@@ -135,19 +144,24 @@ const GameTable = (props) => {
             <TableRow
               key={idx}
               onClick={() => joinGame(item.id)}
+              active={previewTable?.id === item.id}
             >
               <div className="players">
-                <p>{`${item.players}/${item.maxPlayers}`}</p>
+                <p>{`${item.currentNumberPlayers} / ${item.maxPlayers}`}</p>
                 <IconFive />
               </div>
               <div className="name">
                 <span>{item.name}</span>
-                <p>{item.mode}</p>
+                <p>{item.mode ? item.mode : "TexasHoldEm, NL"}</p>
               </div>
-              <span className="speeds">{item.speed}</span>
-              <span className="avg">{item.avg}</span>
-              <span className="wait">{item.wait}</span>
-              <span className="stakes">{item.stake}</span>
+              <span className="speeds">
+                {item.speed ? item.speed : `Normal`}
+              </span>
+              <span className="avg">{item.avg ? item.avg : `7.08 $`}</span>
+              <span className="wait">{item.wait ? item.wait : 0}</span>
+              <span className="stakes">
+                {item.stake ? item.stake : `0.5$/1$`}
+              </span>
             </TableRow>
           );
         })}

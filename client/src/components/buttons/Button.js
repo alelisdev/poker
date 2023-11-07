@@ -11,8 +11,7 @@ const Button = styled.button`
   outline: none;
   border: 2px solid rgba(0, 0, 0, 0);
   border-radius: 4px;
-  color: ${(props) => props.theme.colors.fontColorDark};
-  font-family: ${(props) => props.theme.fonts.fontFamilySansSerif};
+  color: #fff;
   font-weight: 400;
   font-size: 1.3rem;
   line-height: 1.3rem;
@@ -24,18 +23,6 @@ const Button = styled.button`
 
   &:visited {
     background-color: ${(props) => props.theme.colors.goldenColorDarker};
-    color: ${(props) => props.theme.colors.fontColorDark};
-  }
-
-  &:hover,
-  &:active {
-    background-color: ${(props) => props.theme.colors.goldenColorDarker};
-    color: ${(props) => props.theme.colors.fontColorDark};
-  }
-
-  &:focus {
-    outline: none;
-    border: 2px solid ${(props) => props.theme.colors.primaryCtaDarker};
     color: ${(props) => props.theme.colors.fontColorDark};
   }
 
@@ -100,21 +87,7 @@ const Button = styled.button`
         min-width: 250px;
         padding: 0.75rem 1.5rem;
       `}
-
-    ${(props) =>
-      (props?.fullwidthonmobile || props?.fullWidth) &&
-      css`
-        width: 100%;
-      `}
   }
 `;
-
-Button.propTypes = {
-  primary: PropTypes.bool,
-  secondary: PropTypes.bool,
-  small: PropTypes.bool,
-  fullWidth: PropTypes.bool,
-  fullwidthonmobile: PropTypes.bool,
-};
 
 export default Button;

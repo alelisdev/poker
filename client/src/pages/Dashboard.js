@@ -42,7 +42,6 @@ const Dashboard = () => {
 
   return (
     <RelativeWrapper>
-      {/* <TiledBackgroundImage /> */}
       <Container
         fullHeight
         flexDirection="column"
