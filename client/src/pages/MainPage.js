@@ -115,7 +115,7 @@ const BottomCardsWrapper = styled.div`
 `;
 
 const MainPage = ({ history }) => {
-  const { tables, nativeToken, setActiveTab, previewTable, setPreviewTable } =
+  const { tables, nativeToken, setActiveTab, previewTable } =
     useContext(globalContext);
   const [tableData, setTableData] = useState([]);
 
