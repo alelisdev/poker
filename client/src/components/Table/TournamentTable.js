@@ -140,13 +140,13 @@ const TournamentTable = (props) => {
                 <span>{`${item.name}`}</span>
               </div>
               <div className="buyin">
-                <span>{item.buyin}</span>
+                <span>10$ + 1$</span>
               </div>
-              <span className="gtd">{item.gtd}</span>
-              <span className="limits">{item.limits}</span>
+              <span className="gtd">100 $</span>
+              <span className="limits">{item.limit}</span>
               <span className="scheduler">
-                <span className="data">{item.date}</span>
-                <p className="data">{item.time}</p>
+                <span className="data">May 18</span>
+                <p className="data">07.41.44</p>
               </span>
               <div className="status">
                 <span

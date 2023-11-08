@@ -5,17 +5,21 @@ import io from "socket.io-client";
 import {
   DISCONNECT,
   FETCH_LOBBY_INFO,
+  TN_FETCH_LOBBY_INFO,
   PLAYERS_UPDATED,
+  TN_PLAYERS_UPDATED,
   RECEIVE_LOBBY_INFO,
+  TN_RECEIVE_LOBBY_INFO,
   TABLES_UPDATED,
-  CREATE_TABLE,
+  TN_TABLES_UPDATED,
 } from "../../pokergame/actions";
 import globalContext from "../global/globalContext";
 import config from "../../clientConfig";
 
 const WebSocketProvider = ({ children }) => {
   const { isLoggedIn } = useContext(authContext);
-  const { setTables, setPlayers, tables } = useContext(globalContext);
+  const { setTables, setPlayers, setTnPlayers, setTnTables } =
+    useContext(globalContext);
   const [socket, setSocket] = useState(null);
   const [socketId, setSocketId] = useState(null);
 
@@ -31,6 +35,7 @@ const WebSocketProvider = ({ children }) => {
       const token = localStorage.token;
       const webSocket = socket || connect();
       token && webSocket && webSocket.emit(FETCH_LOBBY_INFO, token);
+      token && webSocket && webSocket.emit(TN_FETCH_LOBBY_INFO, token);
     } else {
       cleanUp();
     }
@@ -45,6 +50,7 @@ const WebSocketProvider = ({ children }) => {
     setSocketId(null);
     setPlayers(null);
     setTables([]);
+    setTnTables([]);
   }
 
   function connect() {
@@ -65,13 +71,26 @@ const WebSocketProvider = ({ children }) => {
       setPlayers(players);
     });
 
+    socket.on(TN_RECEIVE_LOBBY_INFO, ({ tables, players, socketId }) => {
+      setSocketId(socketId);
+      setTnTables(tables);
+      setTnPlayers(players);
+    });
+
     socket.on(PLAYERS_UPDATED, (players) => {
-      // console.log(PLAYERS_UPDATED, players);
       setPlayers(players);
+    });
+
+    socket.on(TN_PLAYERS_UPDATED, (players) => {
+      setTnPlayers(players);
     });
 
     socket.on(TABLES_UPDATED, (tables) => {
       setTables(tables);
+    });
+
+    socket.on(TN_TABLES_UPDATED, (tables) => {
+      setTnTables(tables);
     });
   }
 
