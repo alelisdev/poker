@@ -5,7 +5,6 @@ import authContext from "../context/auth/authContext";
 
 const HomePage = () => {
   const { isLoggedIn } = useContext(authContext);
-
   if (!isLoggedIn) return <Landing />;
   else return <MainPage />;
 };

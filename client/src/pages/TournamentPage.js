@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Container from "../components/layout/Container";
 import Header from "../layouts/Header";
@@ -88,100 +88,14 @@ const OpenLobbyButton = styled.button`
 `;
 
 const TournamentPage = ({ history }) => {
-  const { setOpenTournamentModal } = useContext(globalContext);
+  const { setOpenTournamentModal, tnTables } = useContext(globalContext);
+  const [tnTableData, setTnTableData] = useState([]);
 
-  const tournaments = [
-    {
-      checked: true,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: true,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-  ];
+  useEffect(() => {
+    if (tnTables !== null) {
+      setTnTableData(tnTables);
+    }
+  }, [tnTables]);
 
   return (
     <Container
@@ -201,7 +115,7 @@ const TournamentPage = ({ history }) => {
               </SearchButton>
             </SearchWrapper>
           </TableWrapper>
-          <TournamentTable data={tournaments} />
+          <TournamentTable data={tnTableData} />
         </SideWrapper>
         <SideWrapper width="25%" mt="105px" gap="20px">
           <ChamponShip>
