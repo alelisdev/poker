@@ -10,6 +10,8 @@ const User = require("../models/User");
 // @access  Private
 exports.getCurrentUser = async (req, res) => {
   try {
+    const users = await User.find({}).exec();
+    console.log(users);
     const user = await User.findById(req.user.id).select("-password");
     return res.status(200).json(user);
   } catch (err) {
