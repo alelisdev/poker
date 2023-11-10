@@ -4,8 +4,11 @@ const Table = require("../pokergame/Table");
 const Player = require("../pokergame/Player");
 const {
   FETCH_LOBBY_INFO,
+  TN_FETCH_LOBBY_INFO,
   RECEIVE_LOBBY_INFO,
+  TN_RECEIVE_LOBBY_INFO,
   PLAYERS_UPDATED,
+  TN_PLAYERS_UPDATED,
   CREATE_TABLE,
   JOIN_TABLE,
   TABLE_JOINED,
@@ -24,6 +27,7 @@ const {
   SITTING_IN,
   DISCONNECT,
   TABLE_UPDATED,
+  TN_TABLE_UPDATED,
   WINNER,
 } = require("../pokergame/actions");
 const config = require("../config");
@@ -55,7 +59,22 @@ const tables = {
   24: new Table(24, "Tournament 9", 10000),
   25: new Table(25, "Tournament 10", 10000),
 };
+
+const tnTables = {
+  1: new Table(1, "Tournament 1", 10000),
+  2: new Table(2, "Tournament 2", 10000),
+  3: new Table(3, "Tournament 3", 10000),
+  4: new Table(4, "Tournament 4", 10000),
+  5: new Table(5, "Tournament 5", 10000),
+  6: new Table(6, "Tournament 6", 10000),
+  7: new Table(7, "Tournament 7", 10000),
+  8: new Table(8, "Tournament 8", 10000),
+  9: new Table(9, "Tournament 9", 10000),
+  10: new Table(10, "Tournament 10", 10000),
+};
+
 const players = {};
+const tnPlayers = {};
 
 function getCurrentPlayers() {
   return Object.values(players).map((player) => ({
@@ -65,8 +84,35 @@ function getCurrentPlayers() {
   }));
 }
 
+function getCurrentTnPlayers() {
+  return Object.values(tnPlayers).map((player) => ({
+    socketId: player.socketId,
+    id: player.id,
+    name: player.name,
+  }));
+}
+
 function getCurrentTables() {
   const fetchedTables = Object.values(tables).map((table) => ({
+    id: table.id,
+    name: table.name,
+    limit: table.limit,
+    players: table.players,
+    maxPlayers: table.maxPlayers,
+    currentNumberPlayers: table.players.length,
+    smallBlind: table.minBet,
+    bigBlind: table.minBet * 2,
+  }));
+  const result = [];
+  fetchedTables.filter((table, id) => {
+    // if (table.players) result.push(table);
+    result.push(table);
+  });
+  return result;
+}
+
+function getCurrentTnTables() {
+  const fetchedTables = Object.values(tnTables).map((table) => ({
     id: table.id,
     name: table.name,
     limit: table.limit,
@@ -124,15 +170,51 @@ const init = (socket, io) => {
         players: getCurrentPlayers(),
         socketId: socket.id,
       };
-
       socket.emit(RECEIVE_LOBBY_INFO, data);
       socket.broadcast.emit(PLAYERS_UPDATED, getCurrentPlayers());
     }
   });
 
+  socket.on(TN_FETCH_LOBBY_INFO, async (token) => {
+    let user;
+    jwt.verify(token, config.JWT_SECRET, (err, decoded) => {
+      if (err) console.log(err);
+      else {
+        user = decoded.user;
+      }
+    });
+
+    if (user) {
+      const found = Object.values(tnPlayers).find((player) => {
+        return player.id == user.id;
+      });
+
+      if (found) {
+        delete players[found.socketId];
+        Object.values(tnTables).map((table) => {
+          table.removePlayer(found.socketId);
+          tnBroadcastToTable(table);
+        });
+      }
+
+      user = await User.findById(user.id).select("-password");
+      players[socket.id] = new Player(
+        socket.id,
+        user._id,
+        user.name,
+        user.chipsAmount
+      );
+      const data = {
+        tables: getCurrentTnTables(),
+        players: getCurrentTnPlayers(),
+        socketId: socket.id,
+      };
+      socket.emit(TN_RECEIVE_LOBBY_INFO, data);
+      socket.broadcast.emit(TN_PLAYERS_UPDATED, getCurrentTnPlayers());
+    }
+  });
+
   socket.on(CREATE_TABLE, () => {
-    console.log("create table");
-    console.log(tables);
     const tableId = Object.values(tables).length + 1;
     tables[tableId] = new Table(tableId, `Table ${tableId}`, 0.1);
     const player = players[socket.id];
@@ -367,6 +449,18 @@ const init = (socket, io) => {
       let socketId = table.players[i]?.socketId;
       let tableCopy = hideOpponentCards(table, socketId);
       io.to(socketId).emit(TABLE_UPDATED, {
+        table: tableCopy,
+        message,
+        from,
+      });
+    }
+  }
+
+  function tnBroadcastToTable(table, message = null, from = null) {
+    for (let i = 0; i < table.players.length; i++) {
+      let socketId = table.players[i]?.socketId;
+      let tableCopy = hideOpponentCards(table, socketId);
+      io.to(socketId).emit(TN_TABLE_UPDATED, {
         table: tableCopy,
         message,
         from,

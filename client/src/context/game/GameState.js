@@ -24,6 +24,7 @@ const GameState = ({ history, children }) => {
   const { loadUser } = useContext(authContext);
   const { setTables, setTnTables, activeTab } = useContext(globalContext);
 
+  const [joined, setJoined] = useState([]);
   const [messages, setMessages] = useState([]);
   const [currentTable, setCurrentTable] = useState(null);
   const [isPlayerSeated, setIsPlayerSeated] = useState(false);
@@ -86,6 +87,7 @@ const GameState = ({ history, children }) => {
   }, [socket]);
 
   const joinTable = (tableId) => {
+    setJoined([...joined, tableId]);
     socket.emit(JOIN_TABLE, tableId);
   };
 
@@ -155,6 +157,7 @@ const GameState = ({ history, children }) => {
         currentTable,
         isPlayerSeated,
         seatId,
+        joined,
         joinTable,
         leaveTable,
         sitDown,

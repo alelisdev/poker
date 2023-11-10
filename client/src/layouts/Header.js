@@ -15,6 +15,9 @@ import { ReactComponent as IconAvatar } from "../assets/icons/avatar-icon.svg";
 import { ReactComponent as IconArrow } from "../assets/icons/arrow-icon.svg";
 import WalletModal from "../components/WalletModal";
 import TournamentModal from "../components/TournamentModal";
+import socketContext from "../context/websocket/socketContext";
+import authContext from "../context/auth/authContext";
+import gameContext from "../context/game/gameContext";
 
 const HeaderWrapper = styled.div`
   max-width: 1440px;
@@ -43,6 +46,7 @@ const FlexRightWrapper = styled.div`
   padding: 10px;
   gap: ${(props) => props.gap};
   align-items: flex-start;
+  cursor: pointer;
 
   & .arrow-icon {
     margin-top: 4px;
@@ -118,9 +122,33 @@ const Bar = styled.div`
   background-color: #212531;
 `;
 
+const Navbar = styled.div`
+  position: absolute;
+  width: 264px;
+  height: 168px;
+  background-color: #212531;
+  border: 1px solid #333541;
+  z-index: 10;
+  top: 32px;
+  right: 48px;
+  border-radius: 4px;
+  padding: 20px;
+
+  & span {
+    color: #fff;
+    cursor: pointer;
+  }
+
+  & span:hover {
+    color: #006dff;
+    cursor: pointer;
+  }
+`;
+
 const Header = (props) => {
   const history = useHistory();
   const location = useLocation();
+  const { joined } = useContext(gameContext);
   const {
     userName,
     chipsAmount,
@@ -130,6 +158,9 @@ const Header = (props) => {
     setOpenWalletModal,
     openTournamentModal,
   } = useContext(globalContext);
+  const { cleanUp } = useContext(socketContext);
+  const { logout } = useContext(authContext);
+  const [showNav, setShowNav] = useState(false);
 
   return (
     <HeaderWrapper>
@@ -144,14 +175,14 @@ const Header = (props) => {
         >
           <IconHome />
         </IconSimpleWrapper>
-        <LabelWrapper>
-          15/30 NLH
-          <LabelBar />
-        </LabelWrapper>
-        <LabelWrapper>
-          .50/1 PL06
-          <LabelBar />
-        </LabelWrapper>
+        {joined.map((item, idx) => {
+          return (
+            <LabelWrapper key={idx}>
+              {`Table ${item}`}
+              <LabelBar />
+            </LabelWrapper>
+          );
+        })}
       </FlexWrapper>
       {props.showIcon && (
         <IconSimpleWrapper>
@@ -176,7 +207,10 @@ const Header = (props) => {
           </IconWrapper>
         </FlexWrapper>
         <Bar></Bar>
-        <FlexRightWrapper gap="10px">
+        <FlexRightWrapper
+          gap="10px"
+          onClick={() => setShowNav((prevState) => !prevState)}
+        >
           <IconAvatar />
           <ProfileWrapper>
             <NameWrapper>{userName}</NameWrapper>
@@ -190,6 +224,21 @@ const Header = (props) => {
       </FlexWrapper>
       {openWalletModal && <WalletModal />}
       {openTournamentModal && <TournamentModal />}
+      {showNav && (
+        <Navbar>
+          <div>
+            <span
+              onClick={() => {
+                cleanUp();
+                setShowNav(false);
+                logout();
+              }}
+            >
+              Logout
+            </span>
+          </div>
+        </Navbar>
+      )}
     </HeaderWrapper>
   );
 };
