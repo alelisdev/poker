@@ -1,7 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import PokerChip from "../icons/PokerChip";
 import styled from "styled-components";
-import PropTypes from "prop-types";
+import globalContext from "../../context/global/globalContext";
 
 const Wrapper = styled.div`
   position: relative;
@@ -25,21 +25,22 @@ const IconWrapper = styled.label`
 `;
 
 const ChipsAmountPill = ({ chipsAmount, nativeToken }) => {
+  const { activeTab } = useContext(globalContext);
+
   return (
     <Wrapper>
       <IconWrapper htmlFor="chipsAmount">
         <PokerChip width="30" height="30" />
       </IconWrapper>
-      <span>
-        {parseFloat(chipsAmount).toFixed(4)}
-        {nativeToken}
-      </span>
+      {activeTab === "cash" && (
+        <span>
+          {parseFloat(chipsAmount).toFixed(4)}
+          {nativeToken}
+        </span>
+      )}
+      {activeTab === "tournament" && <span>{chipsAmount}</span>}
     </Wrapper>
   );
-};
-
-ChipsAmountPill.propTypes = {
-  chipsAmount: PropTypes.number,
 };
 
 export default ChipsAmountPill;

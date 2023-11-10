@@ -22,7 +22,7 @@ import globalContext from "../global/globalContext";
 const GameState = ({ history, children }) => {
   const { socket } = useContext(socketContext);
   const { loadUser } = useContext(authContext);
-  const { setTables } = useContext(globalContext);
+  const { setTables, setTnTables, activeTab } = useContext(globalContext);
 
   const [joined, setJoined] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -72,7 +72,12 @@ const GameState = ({ history, children }) => {
 
       socket.on(TABLE_LEFT, ({ tables, tableId }) => {
         setCurrentTable(null);
-        setTables(tables);
+        const cashes = tables.filter((table) => table.name.includes("Table"));
+        const tournaments = tables.filter((table) =>
+          table.name.includes("Tournament")
+        );
+        setTables(cashes);
+        setTnTables(tournaments);
         loadUser(localStorage.token);
         setMessages([]);
       });
@@ -91,30 +96,28 @@ const GameState = ({ history, children }) => {
     currentTableRef &&
       currentTableRef.current &&
       currentTableRef.current.id &&
-      socket.emit(LEAVE_TABLE, currentTableRef.current.id);
-
-    const update =
-      (joined.length > 0 &&
-        joined.filter((i) => i !== currentTableRef.current.id)) ||
-      [];
-    setJoined(update);
-    history.push("/");
+      socket.emit(LEAVE_TABLE, {
+        tableId: currentTableRef.current.id,
+        activeTab,
+      });
+    if (activeTab === "cash") history.push("/");
+    else if (activeTab === "tournament") history.push("/tournament");
   };
 
   const sitDown = (tableId, seatId, amount) => {
-    socket.emit(SIT_DOWN, { tableId, seatId, amount });
+    socket.emit(SIT_DOWN, { tableId, seatId, amount, activeTab });
     setIsPlayerSeated(true);
     setSeatId(seatId);
   };
 
   const rebuy = (tableId, seatId, amount) => {
-    socket.emit(REBUY, { tableId, seatId, amount });
+    socket.emit(REBUY, { tableId, seatId, amount, activeTab });
   };
 
   const standUp = () => {
     currentTableRef &&
       currentTableRef.current &&
-      socket.emit(STAND_UP, currentTableRef.current.id);
+      socket.emit(STAND_UP, { tableId: currentTableRef.current.id, activeTab });
     setIsPlayerSeated(false);
     setSeatId(null);
   };

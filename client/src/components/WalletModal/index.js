@@ -97,8 +97,15 @@ const InputWrapper = styled.div`
 const WalletModal = () => {
   const [depositAddress, setDepositeAddress] = useState("");
   const [amount, setAmount] = useState(0.1);
-  const { id, nativeToken, setOpenWalletModal, chipsAmount, setChipsAmount } =
-    useContext(globalContext);
+  const {
+    id,
+    nativeToken,
+    setOpenWalletModal,
+    chipsAmount,
+    balance,
+    setBalance,
+    setChipsAmount,
+  } = useContext(globalContext);
 
   const handleClickETHDeposit = async () => {
     if (amount < 0.01) {
@@ -144,9 +151,9 @@ const WalletModal = () => {
         to: txResponse.to,
       });
       setOpenWalletModal(false);
-      const updatedBalance = Number(chipsAmount) + Number(amount);
+      const updatedBalance = Number(balance) + Number(amount);
       if (res.data.status === true) {
-        setChipsAmount(updatedBalance);
+        setBalance(updatedBalance);
       }
     } catch (error) {
       console.error("Error:", error);

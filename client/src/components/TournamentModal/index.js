@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import styled from "styled-components";
 import globalContext from "../../context/global/globalContext";
 import GradientButton from "../GradientButton";
+import modalContext from "../../context/modal/modalContext";
+import pokerClient from "../../helpers/axios";
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -87,7 +89,58 @@ const CancelButton = styled.button`
 `;
 
 const TournamentModal = () => {
-  const { setOpenTournamentModal } = useContext(globalContext);
+  const {
+    setOpenTournamentModal,
+    setActiveTab,
+    tnTables,
+    isLoading,
+    chipsAmount,
+    setBalance,
+    setChipsAmount,
+    setIsLoading,
+    nativeToken,
+  } = useContext(globalContext);
+  const { openModal, closeModal } = useContext(modalContext);
+
+  const showFreeChipsModal = () => {
+    openModal(
+      () => (
+        <span>
+          For the Register to Tournament, you should get the chips by 30 USD of
+          your Balance.
+        </span>
+      ),
+      ``,
+      `OK`,
+      handleFreeChipsRequest
+    );
+  };
+
+  const handleFreeChipsRequest = async () => {
+    setIsLoading(true);
+    try {
+      const token = localStorage.token;
+      const res = await pokerClient.get("/api/chips/free", {
+        headers: {
+          "x-auth-token": token,
+        },
+      });
+      if (res.data.errors) {
+        console.log(res.data.errors);
+      } else {
+        const { chipsAmount, balance } = res.data;
+        setBalance(
+          balance.data.find((coin) => coin.coinType === nativeToken).balance
+        );
+        setChipsAmount(chipsAmount);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      closeModal();
+    }
+    setIsLoading(false);
+  };
 
   return (
     <ModalContainer>
@@ -115,7 +168,10 @@ const TournamentModal = () => {
               width="147px"
               height="42px"
               radius="8px"
-              onClick={() => setOpenTournamentModal(false)}
+              onClick={() => {
+                showFreeChipsModal();
+                setOpenTournamentModal(false);
+              }}
             >
               Register
             </GradientButton>

@@ -47,7 +47,17 @@ const tables = {
   12: new Table(12, "Table 12", 0.1),
   13: new Table(13, "Table 13", 0.1),
   14: new Table(14, "Table 14", 0.1),
-  14: new Table(15, "Table 15", 0.1),
+  15: new Table(15, "Table 15", 0.1),
+  16: new Table(16, "Tournament 1", 10000),
+  17: new Table(17, "Tournament 2", 10000),
+  18: new Table(18, "Tournament 3", 10000),
+  19: new Table(19, "Tournament 4", 10000),
+  20: new Table(20, "Tournament 5", 10000),
+  21: new Table(21, "Tournament 6", 10000),
+  22: new Table(22, "Tournament 7", 10000),
+  23: new Table(23, "Tournament 8", 10000),
+  24: new Table(24, "Tournament 9", 10000),
+  25: new Table(25, "Tournament 10", 10000),
 };
 
 const tnTables = {
@@ -152,6 +162,7 @@ const init = (socket, io) => {
         socket.id,
         user._id,
         user.name,
+        user.chipsAmount,
         balanceData.balance
       );
       const data = {
@@ -239,16 +250,15 @@ const init = (socket, io) => {
     }
   });
 
-  socket.on(LEAVE_TABLE, (tableId) => {
+  socket.on(LEAVE_TABLE, ({ tableId, activeTab }) => {
     const table = tables[tableId];
     if (table) {
       const player = players[socket.id];
       const seat = Object.values(table.seats).find(
         (seat) => seat && seat.player.socketId === socket.id
       );
-
       if (seat && player) {
-        updatePlayerBankroll(player, seat.stack);
+        updatePlayerBankroll(player, seat.stack, activeTab);
       }
 
       table.removePlayer(socket.id);
@@ -306,14 +316,14 @@ const init = (socket, io) => {
     broadcastToTable(table, message, from);
   });
 
-  socket.on(SIT_DOWN, ({ tableId, seatId, amount }) => {
+  socket.on(SIT_DOWN, ({ tableId, seatId, amount, activeTab }) => {
     const table = tables[tableId];
     const player = players[socket.id];
 
     if (player) {
       table.sitPlayer(player, seatId, amount);
       let message = `${player.name} sat down in Seat ${seatId}`;
-      updatePlayerBankroll(player, -amount);
+      updatePlayerBankroll(player, -amount, activeTab);
       broadcastToTable(table, message);
       if (table.activePlayers().length === 2) {
         initNewHand(table);
@@ -321,17 +331,17 @@ const init = (socket, io) => {
     }
   });
 
-  socket.on(REBUY, ({ tableId, seatId, amount }) => {
+  socket.on(REBUY, ({ tableId, seatId, amount, activeTab }) => {
     const table = tables[tableId];
     const player = players[socket.id];
 
     table.rebuyPlayer(seatId, amount);
-    updatePlayerBankroll(player, -amount);
+    updatePlayerBankroll(player, -amount, activeTab);
 
     broadcastToTable(table);
   });
 
-  socket.on(STAND_UP, (tableId) => {
+  socket.on(STAND_UP, ({ tableId, activeTab }) => {
     const table = tables[tableId];
     if (table) {
       const player = players[socket.id];
@@ -341,7 +351,7 @@ const init = (socket, io) => {
 
       let message = "";
       if (seat) {
-        updatePlayerBankroll(player, seat.stack);
+        updatePlayerBankroll(player, seat.stack, activeTab);
         message = `${player.name} left the table`;
       }
 
@@ -373,10 +383,10 @@ const init = (socket, io) => {
     }
   });
 
-  socket.on(DISCONNECT, () => {
+  socket.on(DISCONNECT, (activeTab) => {
     const seat = findSeatBySocketId(socket.id);
     if (seat) {
-      updatePlayerBankroll(seat.player, seat.stack);
+      updatePlayerBankroll(seat.player, seat.stack, activeTab);
     }
 
     delete players[socket.id];
@@ -386,24 +396,30 @@ const init = (socket, io) => {
     socket.broadcast.emit(PLAYERS_UPDATED, getCurrentPlayers());
   });
 
-  async function updatePlayerBankroll(player, amount) {
+  async function updatePlayerBankroll(player, amount, activeTab) {
     try {
       const user = await User.findById(player.id);
-      const coinType = "ETH";
-      let balanceData = user.balance.data.find(
-        (data) => data.coinType === coinType
-      );
-      balanceData.balance += Number(amount);
-      const newBalance = user.balance.data.map((bal) => {
-        if (bal.coinType === coinType) return balanceData;
-        else return bal;
-      });
-      await User.findOneAndUpdate(
-        { _id: player.id },
-        { balance: { data: newBalance } }
-      );
-      await user.save();
-      players[socket.id].bankroll += amount;
+      if (activeTab === "cash") {
+        const coinType = "ETH";
+        let balanceData = user.balance.data.find(
+          (data) => data.coinType === coinType
+        );
+        balanceData.balance += Number(amount);
+        const newBalance = user.balance.data.map((bal) => {
+          if (bal.coinType === coinType) return balanceData;
+          else return bal;
+        });
+        await User.findOneAndUpdate(
+          { _id: player.id },
+          { balance: { data: newBalance } }
+        );
+        await user.save();
+        players[socket.id].balance += amount;
+      } else if (activeTab === "tournament") {
+        user.chipsAmount += amount;
+        await user.save();
+        players[socket.id].chipsAmount += amount;
+      }
       io.to(socket.id).emit(PLAYERS_UPDATED, getCurrentPlayers());
     } catch (error) {
       console.log("update bankroll", error);
