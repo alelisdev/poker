@@ -15,7 +15,8 @@ import config from "../../clientConfig";
 
 const WebSocketProvider = ({ children }) => {
   const { isLoggedIn } = useContext(authContext);
-  const { setTables, setPlayers, tables } = useContext(globalContext);
+  const { setTables, setTnTables, setPlayers, activeTab } =
+    useContext(globalContext);
   const [socket, setSocket] = useState(null);
   const [socketId, setSocketId] = useState(null);
 
@@ -39,12 +40,13 @@ const WebSocketProvider = ({ children }) => {
   }, [isLoggedIn]);
 
   function cleanUp() {
-    window.socket && window.socket.emit(DISCONNECT);
+    window.socket && window.socket.emit(DISCONNECT, activeTab);
     window.socket && window.socket.close();
     setSocket(null);
     setSocketId(null);
     setPlayers(null);
     setTables([]);
+    setTnTables([]);
   }
 
   function connect() {
@@ -61,17 +63,26 @@ const WebSocketProvider = ({ children }) => {
   function registerCallbacks(socket) {
     socket.on(RECEIVE_LOBBY_INFO, ({ tables, players, socketId }) => {
       setSocketId(socketId);
-      setTables(tables);
+      const cashes = tables.filter((table) => table.name.includes("Table"));
+      const tournaments = tables.filter((table) =>
+        table.name.includes("Tournament")
+      );
+      setTables(cashes);
+      setTnTables(tournaments);
       setPlayers(players);
     });
 
     socket.on(PLAYERS_UPDATED, (players) => {
-      // console.log(PLAYERS_UPDATED, players);
       setPlayers(players);
     });
 
     socket.on(TABLES_UPDATED, (tables) => {
-      setTables(tables);
+      const cashes = tables.filter((table) => table.name.includes("Table"));
+      const tournaments = tables.filter((table) =>
+        table.name.includes("Tournament")
+      );
+      setTables(cashes);
+      setTnTables(tournaments);
     });
   }
 

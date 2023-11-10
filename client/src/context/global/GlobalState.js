@@ -11,6 +11,7 @@ const GlobalState = ({ children }) => {
   const [chipsAmount, setChipsAmount] = useState(null);
   const [balance, setBalance] = useState(null);
   const [tables, setTables] = useState([]);
+  const [tnTables, setTnTables] = useState([]);
   const [players, setPlayers] = useState(null);
   const [openWalletModal, setOpenWalletModal] = useState(false);
   const [openTournamentModal, setOpenTournamentModal] = useState(false);
@@ -33,6 +34,8 @@ const GlobalState = ({ children }) => {
         setId,
         tables,
         setTables,
+        tnTables,
+        setTnTables,
         players,
         setPlayers,
         balance,

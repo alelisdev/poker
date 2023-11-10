@@ -68,7 +68,7 @@ const useAuth = () => {
     try {
       const res = await pokerClient.get("/api/auth");
       if (res.data) {
-        const { _id, name, email, balance } = res.data;
+        const { _id, name, email, balance, chipsAmount } = res.data;
         setIsLoggedIn(true);
         setId(_id);
         setUserName(name);
@@ -76,11 +76,7 @@ const useAuth = () => {
         setBalance(
           balance.data.find((coin) => coin.coinType === nativeToken).balance
         );
-        setChipsAmount(
-          parseFloat(
-            balance.data.find((coin) => coin.coinType === nativeToken).balance
-          ).toFixed(4)
-        );
+        setChipsAmount(chipsAmount);
       } else {
         localStorage.removeItem(token);
       }

@@ -1,4 +1,3 @@
-const config = require("../config");
 const mongoose = require("mongoose");
 
 const balanceObject = {
@@ -25,7 +24,7 @@ const UserSchema = new mongoose.Schema({
   },
   chipsAmount: {
     type: Number,
-    default: config.INITIAL_CHIPS_AMOUNT,
+    default: 0,
   },
   type: {
     type: Number,

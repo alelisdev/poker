@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import Container from "../components/layout/Container";
 import Header from "../layouts/Header";
 import Tabs from "../components/Tabs";
 import SearchIcon from "../components/icons/SearchIcon";
 import globalContext from "../context/global/globalContext";
+import modalContext from "../context/modal/modalContext";
 import {
   MainWrapper,
   SideWrapper,
@@ -88,100 +89,20 @@ const OpenLobbyButton = styled.button`
 `;
 
 const TournamentPage = ({ history }) => {
-  const { setOpenTournamentModal } = useContext(globalContext);
+  const { setOpenTournamentModal, setActiveTab, tnTables } =
+    useContext(globalContext);
 
-  const tournaments = [
-    {
-      checked: true,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: true,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-    {
-      checked: false,
-      name: "Mida Dao",
-      buyin: "10$ + 1$",
-      gtd: "100 $",
-      limits: "NL",
-      date: "May 18",
-      time: "07.41.44",
-    },
-  ];
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    setActiveTab("tournament");
+  }, []);
+
+  useEffect(() => {
+    if (tnTables !== null) {
+      setTableData(tnTables);
+    }
+  }, [tnTables]);
 
   return (
     <Container
@@ -201,7 +122,7 @@ const TournamentPage = ({ history }) => {
               </SearchButton>
             </SearchWrapper>
           </TableWrapper>
-          <TournamentTable data={tournaments} />
+          <TournamentTable tableData={tableData} />
         </SideWrapper>
         <SideWrapper width="25%" mt="105px" gap="20px">
           <ChamponShip>
