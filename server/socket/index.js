@@ -60,19 +60,6 @@ const tables = {
   25: new Table(25, "Tournament 10", 10000),
 };
 
-const tnTables = {
-  1: new Table(1, "Tournament 1", 10000),
-  2: new Table(2, "Tournament 2", 10000),
-  3: new Table(3, "Tournament 3", 10000),
-  4: new Table(4, "Tournament 4", 10000),
-  5: new Table(5, "Tournament 5", 10000),
-  6: new Table(6, "Tournament 6", 10000),
-  7: new Table(7, "Tournament 7", 10000),
-  8: new Table(8, "Tournament 8", 10000),
-  9: new Table(9, "Tournament 9", 10000),
-  10: new Table(10, "Tournament 10", 10000),
-};
-
 const players = {};
 const tnPlayers = {};
 
@@ -93,16 +80,18 @@ function getCurrentTnPlayers() {
 }
 
 function getCurrentTables() {
-  const fetchedTables = Object.values(tables).map((table) => ({
-    id: table.id,
-    name: table.name,
-    limit: table.limit,
-    players: table.players,
-    maxPlayers: table.maxPlayers,
-    currentNumberPlayers: table.players.length,
-    smallBlind: table.minBet,
-    bigBlind: table.minBet * 2,
-  }));
+  const fetchedTables = Object.values(tables)
+    .filter((table) => table.id < 16)
+    .map((table) => ({
+      id: table.id,
+      name: table.name,
+      limit: table.limit,
+      players: table.players,
+      maxPlayers: table.maxPlayers,
+      currentNumberPlayers: table.players.length,
+      smallBlind: table.minBet,
+      bigBlind: table.minBet * 2,
+    }));
   const result = [];
   fetchedTables.filter((table, id) => {
     // if (table.players) result.push(table);
@@ -112,16 +101,18 @@ function getCurrentTables() {
 }
 
 function getCurrentTnTables() {
-  const fetchedTables = Object.values(tnTables).map((table) => ({
-    id: table.id,
-    name: table.name,
-    limit: table.limit,
-    players: table.players,
-    maxPlayers: table.maxPlayers,
-    currentNumberPlayers: table.players.length,
-    smallBlind: table.minBet,
-    bigBlind: table.minBet * 2,
-  }));
+  const fetchedTables = Object.values(tables)
+    .filter((table) => table.id > 15)
+    .map((table) => ({
+      id: table.id,
+      name: table.name,
+      limit: table.limit,
+      players: table.players,
+      maxPlayers: table.maxPlayers,
+      currentNumberPlayers: table.players.length,
+      smallBlind: table.minBet,
+      bigBlind: table.minBet * 2,
+    }));
   const result = [];
   fetchedTables.filter((table, id) => {
     // if (table.players) result.push(table);
@@ -147,10 +138,12 @@ const init = (socket, io) => {
 
       if (found) {
         delete players[found.socketId];
-        Object.values(tables).map((table) => {
-          table.removePlayer(found.socketId);
-          broadcastToTable(table);
-        });
+        Object.values(tables)
+          .filter((table) => table.id < 16)
+          .map((table) => {
+            table.removePlayer(found.socketId);
+            broadcastToTable(table);
+          });
       }
 
       user = await User.findById(user.id).select("-password");
@@ -191,10 +184,12 @@ const init = (socket, io) => {
 
       if (found) {
         delete players[found.socketId];
-        Object.values(tnTables).map((table) => {
-          table.removePlayer(found.socketId);
-          tnBroadcastToTable(table);
-        });
+        Object.values(tables)
+          .filter((table) => table.id > 15)
+          .map((table) => {
+            table.removePlayer(found.socketId);
+            tnBroadcastToTable(table);
+          });
       }
 
       user = await User.findById(user.id).select("-password");
