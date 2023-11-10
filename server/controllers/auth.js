@@ -22,7 +22,6 @@ exports.getCurrentUser = async (req, res) => {
 // @desc    Authenticate user & get token
 // @access  Public
 exports.login = async (req, res) => {
-  console.log(req);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -31,10 +30,11 @@ exports.login = async (req, res) => {
   const { email, password } = req.body;
   try {
     let user = await User.findOne({ email });
-
+    console.log(user);
     if (!user) {
       return res.status(400).json({ errors: [{ msg: "Invalid credentials" }] });
     }
+
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {

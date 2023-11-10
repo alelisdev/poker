@@ -4,6 +4,8 @@ import { ReactComponent as IconChecked } from "../../assets/icons/checked-icon.s
 import { ReactComponent as IconNonChecked } from "../../assets/icons/nonchecked-icon.svg";
 import globalContext from "../../context/global/globalContext";
 import { useHistory } from "react-router-dom";
+import socketContext from "../../context/websocket/socketContext";
+import gameContext from "../../context/game/gameContext";
 
 const TableHeader = styled.div`
   margin-top: 10px;
@@ -116,7 +118,18 @@ const TableRow = styled.div`
 
 const TournamentTable = (props) => {
   const history = useHistory();
-  const { setOpenTournamentModal } = useContext(globalContext);
+  const { joinTable } = useContext(gameContext);
+  const { setOpenTournamentModal, chipsAmount } = useContext(globalContext);
+  const { socket } = useContext(socketContext);
+
+  const joinGame = (tableId) => {
+    if (socket && tableId && chipsAmount > 1000) {
+      joinTable(tableId);
+      history.push("/play");
+    } else {
+      setOpenTournamentModal(true);
+    }
+  };
 
   return (
     <>
@@ -130,9 +143,9 @@ const TournamentTable = (props) => {
         <span className="status">STATUS</span>
       </TableHeader>
       <TableBody>
-        {props.data.map((item, idx) => {
+        {props.tableData.map((item, idx) => {
           return (
-            <TableRow key={idx}>
+            <TableRow key={idx} onClick={() => joinGame(item.id)}>
               <div className="check">
                 {item.checked ? <IconChecked /> : <IconNonChecked />}
               </div>
@@ -140,22 +153,31 @@ const TournamentTable = (props) => {
                 <span>{`${item.name}`}</span>
               </div>
               <div className="buyin">
-                <span>10$ + 1$</span>
+                <span>{item.buyin ? item.buyin : "10$ + 1$"}</span>
               </div>
-              <span className="gtd">100 $</span>
-              <span className="limits">{item.limit}</span>
+              <span className="gtd">{item.gtd ? item.gtd : "100 $"}</span>
+              <span className="limits">{item.limits ? item.limits : "NL"}</span>
               <span className="scheduler">
-                <span className="data">May 18</span>
-                <p className="data">07.41.44</p>
+                <span className="data">{item.date ? item.date : "May 18"}</span>
+                <p className="data">{item.time ? item.time : "07.41.44"}</p>
               </span>
               <div className="status">
                 <span
                   className="btn"
-                  onClick={() => setOpenTournamentModal(true)}
+                  onClick={(e) => {
+                    setOpenTournamentModal(true);
+                    e.stopPropagation();
+                  }}
                 >
                   Registeration
                 </span>
-                <span className="btn" onClick={() => history.push("/lobby")}>
+                <span
+                  className="btn"
+                  onClick={(e) => {
+                    history.push("/lobby");
+                    e.stopPropagation();
+                  }}
+                >
                   open
                 </span>
               </div>

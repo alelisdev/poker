@@ -4,11 +4,8 @@ const Table = require("../pokergame/Table");
 const Player = require("../pokergame/Player");
 const {
   FETCH_LOBBY_INFO,
-  TN_FETCH_LOBBY_INFO,
   RECEIVE_LOBBY_INFO,
-  TN_RECEIVE_LOBBY_INFO,
   PLAYERS_UPDATED,
-  TN_PLAYERS_UPDATED,
   CREATE_TABLE,
   JOIN_TABLE,
   TABLE_JOINED,
@@ -27,7 +24,6 @@ const {
   SITTING_IN,
   DISCONNECT,
   TABLE_UPDATED,
-  TN_TABLE_UPDATED,
   WINNER,
 } = require("../pokergame/actions");
 const config = require("../config");
@@ -47,24 +43,20 @@ const tables = {
   12: new Table(12, "Table 12", 0.1),
   13: new Table(13, "Table 13", 0.1),
   14: new Table(14, "Table 14", 0.1),
-  14: new Table(15, "Table 15", 0.1),
-};
-
-const tnTables = {
-  1: new Table(1, "Tournament 1", 10000),
-  2: new Table(2, "Tournament 2", 10000),
-  3: new Table(3, "Tournament 3", 10000),
-  4: new Table(4, "Tournament 4", 10000),
-  5: new Table(5, "Tournament 5", 10000),
-  6: new Table(6, "Tournament 6", 10000),
-  7: new Table(7, "Tournament 7", 10000),
-  8: new Table(8, "Tournament 8", 10000),
-  9: new Table(9, "Tournament 9", 10000),
-  10: new Table(10, "Tournament 10", 10000),
+  15: new Table(15, "Table 15", 0.1),
+  16: new Table(16, "Tournament 1", 10000),
+  17: new Table(17, "Tournament 2", 10000),
+  18: new Table(18, "Tournament 3", 10000),
+  19: new Table(19, "Tournament 4", 10000),
+  20: new Table(20, "Tournament 5", 10000),
+  21: new Table(21, "Tournament 6", 10000),
+  22: new Table(22, "Tournament 7", 10000),
+  23: new Table(23, "Tournament 8", 10000),
+  24: new Table(24, "Tournament 9", 10000),
+  25: new Table(25, "Tournament 10", 10000),
 };
 
 const players = {};
-const tnPlayers = {};
 
 function getCurrentPlayers() {
   return Object.values(players).map((player) => ({
@@ -74,35 +66,8 @@ function getCurrentPlayers() {
   }));
 }
 
-function getCurrentTnPlayers() {
-  return Object.values(tnPlayers).map((player) => ({
-    socketId: player.socketId,
-    id: player.id,
-    name: player.name,
-  }));
-}
-
 function getCurrentTables() {
   const fetchedTables = Object.values(tables).map((table) => ({
-    id: table.id,
-    name: table.name,
-    limit: table.limit,
-    players: table.players,
-    maxPlayers: table.maxPlayers,
-    currentNumberPlayers: table.players.length,
-    smallBlind: table.minBet,
-    bigBlind: table.minBet * 2,
-  }));
-  const result = [];
-  fetchedTables.filter((table, id) => {
-    // if (table.players) result.push(table);
-    result.push(table);
-  });
-  return result;
-}
-
-function getCurrentTnTables() {
-  const fetchedTables = Object.values(tnTables).map((table) => ({
     id: table.id,
     name: table.name,
     limit: table.limit,
@@ -152,6 +117,7 @@ const init = (socket, io) => {
         socket.id,
         user._id,
         user.name,
+        user.chipsAmount,
         balanceData.balance
       );
       const data = {
@@ -161,45 +127,6 @@ const init = (socket, io) => {
       };
       socket.emit(RECEIVE_LOBBY_INFO, data);
       socket.broadcast.emit(PLAYERS_UPDATED, getCurrentPlayers());
-    }
-  });
-
-  socket.on(TN_FETCH_LOBBY_INFO, async (token) => {
-    let user;
-    jwt.verify(token, config.JWT_SECRET, (err, decoded) => {
-      if (err) console.log(err);
-      else {
-        user = decoded.user;
-      }
-    });
-
-    if (user) {
-      const found = Object.values(tnPlayers).find((player) => {
-        return player.id == user.id;
-      });
-
-      if (found) {
-        delete players[found.socketId];
-        Object.values(tnTables).map((table) => {
-          table.removePlayer(found.socketId);
-          tnBroadcastToTable(table);
-        });
-      }
-
-      user = await User.findById(user.id).select("-password");
-      players[socket.id] = new Player(
-        socket.id,
-        user._id,
-        user.name,
-        user.chipsAmount
-      );
-      const data = {
-        tables: getCurrentTnTables(),
-        players: getCurrentTnPlayers(),
-        socketId: socket.id,
-      };
-      socket.emit(TN_RECEIVE_LOBBY_INFO, data);
-      socket.broadcast.emit(TN_PLAYERS_UPDATED, getCurrentTnPlayers());
     }
   });
 
@@ -239,16 +166,15 @@ const init = (socket, io) => {
     }
   });
 
-  socket.on(LEAVE_TABLE, (tableId) => {
+  socket.on(LEAVE_TABLE, ({ tableId, activeTab }) => {
     const table = tables[tableId];
     if (table) {
       const player = players[socket.id];
       const seat = Object.values(table.seats).find(
         (seat) => seat && seat.player.socketId === socket.id
       );
-
       if (seat && player) {
-        updatePlayerBankroll(player, seat.stack);
+        updatePlayerBankroll(player, seat.stack, activeTab);
       }
 
       table.removePlayer(socket.id);
@@ -306,14 +232,14 @@ const init = (socket, io) => {
     broadcastToTable(table, message, from);
   });
 
-  socket.on(SIT_DOWN, ({ tableId, seatId, amount }) => {
+  socket.on(SIT_DOWN, ({ tableId, seatId, amount, activeTab }) => {
     const table = tables[tableId];
     const player = players[socket.id];
 
     if (player) {
       table.sitPlayer(player, seatId, amount);
       let message = `${player.name} sat down in Seat ${seatId}`;
-      updatePlayerBankroll(player, -amount);
+      updatePlayerBankroll(player, -amount, activeTab);
       broadcastToTable(table, message);
       if (table.activePlayers().length === 2) {
         initNewHand(table);
@@ -321,17 +247,17 @@ const init = (socket, io) => {
     }
   });
 
-  socket.on(REBUY, ({ tableId, seatId, amount }) => {
+  socket.on(REBUY, ({ tableId, seatId, amount, activeTab }) => {
     const table = tables[tableId];
     const player = players[socket.id];
 
     table.rebuyPlayer(seatId, amount);
-    updatePlayerBankroll(player, -amount);
+    updatePlayerBankroll(player, -amount, activeTab);
 
     broadcastToTable(table);
   });
 
-  socket.on(STAND_UP, (tableId) => {
+  socket.on(STAND_UP, ({ tableId, activeTab }) => {
     const table = tables[tableId];
     if (table) {
       const player = players[socket.id];
@@ -341,7 +267,7 @@ const init = (socket, io) => {
 
       let message = "";
       if (seat) {
-        updatePlayerBankroll(player, seat.stack);
+        updatePlayerBankroll(player, seat.stack, activeTab);
         message = `${player.name} left the table`;
       }
 
@@ -373,10 +299,10 @@ const init = (socket, io) => {
     }
   });
 
-  socket.on(DISCONNECT, () => {
+  socket.on(DISCONNECT, (activeTab) => {
     const seat = findSeatBySocketId(socket.id);
     if (seat) {
-      updatePlayerBankroll(seat.player, seat.stack);
+      updatePlayerBankroll(seat.player, seat.stack, activeTab);
     }
 
     delete players[socket.id];
@@ -386,24 +312,30 @@ const init = (socket, io) => {
     socket.broadcast.emit(PLAYERS_UPDATED, getCurrentPlayers());
   });
 
-  async function updatePlayerBankroll(player, amount) {
+  async function updatePlayerBankroll(player, amount, activeTab) {
     try {
       const user = await User.findById(player.id);
-      const coinType = "ETH";
-      let balanceData = user.balance.data.find(
-        (data) => data.coinType === coinType
-      );
-      balanceData.balance += Number(amount);
-      const newBalance = user.balance.data.map((bal) => {
-        if (bal.coinType === coinType) return balanceData;
-        else return bal;
-      });
-      await User.findOneAndUpdate(
-        { _id: player.id },
-        { balance: { data: newBalance } }
-      );
-      await user.save();
-      players[socket.id].bankroll += amount;
+      if (activeTab === "cash") {
+        const coinType = "ETH";
+        let balanceData = user.balance.data.find(
+          (data) => data.coinType === coinType
+        );
+        balanceData.balance += Number(amount);
+        const newBalance = user.balance.data.map((bal) => {
+          if (bal.coinType === coinType) return balanceData;
+          else return bal;
+        });
+        await User.findOneAndUpdate(
+          { _id: player.id },
+          { balance: { data: newBalance } }
+        );
+        await user.save();
+        players[socket.id].balance += amount;
+      } else if (activeTab === "tournament") {
+        user.chipsAmount += amount;
+        await user.save();
+        players[socket.id].chipsAmount += amount;
+      }
       io.to(socket.id).emit(PLAYERS_UPDATED, getCurrentPlayers());
     } catch (error) {
       console.log("update bankroll", error);
@@ -440,18 +372,6 @@ const init = (socket, io) => {
     }
   }
 
-  function tnBroadcastToTable(table, message = null, from = null) {
-    for (let i = 0; i < table.players.length; i++) {
-      let socketId = table.players[i]?.socketId;
-      let tableCopy = hideOpponentCards(table, socketId);
-      io.to(socketId).emit(TN_TABLE_UPDATED, {
-        table: tableCopy,
-        message,
-        from,
-      });
-    }
-  }
-
   function changeTurnAndBroadcast(table, seatId) {
     setTimeout(() => {
       table.changeTurn(seatId);
@@ -465,12 +385,12 @@ const init = (socket, io) => {
 
   function initNewHand(table) {
     if (table.activePlayers().length > 1) {
-      broadcastToTable(table, "---New hand starting in 5 seconds---");
+      broadcastToTable(table, "New hand starting in 5 seconds");
     }
     setTimeout(() => {
       table.clearWinMessages();
       table.startHand();
-      broadcastToTable(table, "--- New hand started ---");
+      broadcastToTable(table, "New hand started");
     }, 5000);
   }
 

@@ -152,6 +152,7 @@ const Header = (props) => {
   const {
     userName,
     chipsAmount,
+    balance,
     nativeToken,
     openWalletModal,
     setOpenWalletModal,
@@ -177,7 +178,7 @@ const Header = (props) => {
         {joined.map((item, idx) => {
           return (
             <LabelWrapper key={idx}>
-              {`Table ${item}`}
+              {item}
               <LabelBar />
             </LabelWrapper>
           );
@@ -214,11 +215,9 @@ const Header = (props) => {
           <ProfileWrapper>
             <NameWrapper>{userName}</NameWrapper>
             <AMDWrapper>
-              {parseFloat(chipsAmount).toFixed(4)} {nativeToken}
+              {parseFloat(balance).toFixed(4)} {nativeToken}
             </AMDWrapper>
-            <USDWrapper>
-              $ {parseFloat(chipsAmount * 1841.24).toFixed(3)}
-            </USDWrapper>
+            <USDWrapper>{chipsAmount} chips</USDWrapper>
           </ProfileWrapper>
           <IconArrow className="arrow-icon" />
         </FlexRightWrapper>

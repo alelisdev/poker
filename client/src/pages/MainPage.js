@@ -292,7 +292,7 @@ const MainPage = ({ history }) => {
                         player.name
                       }`}</span>
                       <span className="credit">
-                        {`${parseFloat(player.bankroll).toFixed(
+                        {`${parseFloat(player.balance).toFixed(
                           4
                         )} ${nativeToken}`}
                       </span>

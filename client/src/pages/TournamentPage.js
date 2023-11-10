@@ -5,6 +5,7 @@ import Header from "../layouts/Header";
 import Tabs from "../components/Tabs";
 import SearchIcon from "../components/icons/SearchIcon";
 import globalContext from "../context/global/globalContext";
+import modalContext from "../context/modal/modalContext";
 import {
   MainWrapper,
   SideWrapper,
@@ -88,12 +89,18 @@ const OpenLobbyButton = styled.button`
 `;
 
 const TournamentPage = ({ history }) => {
-  const { setOpenTournamentModal, tnTables } = useContext(globalContext);
-  const [tnTableData, setTnTableData] = useState([]);
+  const { setOpenTournamentModal, setActiveTab, tnTables } =
+    useContext(globalContext);
+
+  const [tableData, setTableData] = useState([]);
+
+  useEffect(() => {
+    setActiveTab("tournament");
+  }, []);
 
   useEffect(() => {
     if (tnTables !== null) {
-      setTnTableData(tnTables);
+      setTableData(tnTables);
     }
   }, [tnTables]);
 
@@ -115,7 +122,7 @@ const TournamentPage = ({ history }) => {
               </SearchButton>
             </SearchWrapper>
           </TableWrapper>
-          <TournamentTable data={tnTableData} />
+          <TournamentTable tableData={tableData} />
         </SideWrapper>
         <SideWrapper width="25%" mt="105px" gap="20px">
           <ChamponShip>

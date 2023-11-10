@@ -63,7 +63,8 @@ const BlanaceTag = styled.div`
 
 export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
   const { openModal, closeModal } = useContext(modalContext);
-  const { chipsAmount, nativeToken } = useContext(globalContext);
+  const { chipsAmount, balance, nativeToken, activeTab } =
+    useContext(globalContext);
   const { standUp, seatId, rebuy } = useContext(gameContext);
   const { getLocalizedString } = useContext(contentContext);
   const seat = currentTable?.seats && currentTable.seats[seatNumber];
@@ -79,7 +80,12 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
       seat.stack === 0 &&
       seat.sittingOut
     ) {
-      if (chipsAmount <= minBuyIn || chipsAmount === 0) {
+      if ((activeTab === "cash" && balance <= minBuyIn) || balance === 0) {
+        standUp();
+      } else if (
+        (activeTab === "tournament" && chipsAmount <= minBuyIn) ||
+        chipsAmount === 0
+      ) {
         standUp();
       } else {
         openModal(
@@ -148,7 +154,9 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                         if (
                           amount &&
                           amount >= minBuyIn &&
-                          amount <= chipsAmount &&
+                          (activeTab === "cash"
+                            ? amount <= balance
+                            : amount <= chipsAmount) &&
                           amount <= maxBuyin
                         ) {
                           sitDown(
@@ -165,7 +173,15 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                           id="amount"
                           type="number"
                           min={minBuyIn}
-                          max={chipsAmount <= maxBuyin ? chipsAmount : maxBuyin}
+                          max={
+                            activeTab === "cash"
+                              ? balance <= maxBuyin
+                                ? balance
+                                : maxBuyin
+                              : chipsAmount <= maxBuyin
+                              ? chipsAmount
+                              : maxBuyin
+                          }
                           defaultValue={minBuyIn}
                         />
                       </FormGroup>
@@ -202,7 +218,11 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
             <AccountItem>
               <NameTag>{seat.player.name}</NameTag>
               {seat.stack && (
-                <BlanaceTag>{parseFloat(seat.stack).toFixed(4)}ETH</BlanaceTag>
+                <BlanaceTag>
+                  {activeTab === "cash"
+                    ? parseFloat(seat.stack).toFixed(4) + "ETH"
+                    : seat.stack}
+                </BlanaceTag>
               )}
             </AccountItem>
           </PositionedUISlot>
