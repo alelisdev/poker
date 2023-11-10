@@ -4,11 +4,8 @@ const Table = require("../pokergame/Table");
 const Player = require("../pokergame/Player");
 const {
   FETCH_LOBBY_INFO,
-  TN_FETCH_LOBBY_INFO,
   RECEIVE_LOBBY_INFO,
-  TN_RECEIVE_LOBBY_INFO,
   PLAYERS_UPDATED,
-  TN_PLAYERS_UPDATED,
   CREATE_TABLE,
   JOIN_TABLE,
   TABLE_JOINED,
@@ -27,7 +24,6 @@ const {
   SITTING_IN,
   DISCONNECT,
   TABLE_UPDATED,
-  TN_TABLE_UPDATED,
   WINNER,
 } = require("../pokergame/actions");
 const config = require("../config");
@@ -61,7 +57,6 @@ const tables = {
 };
 
 const players = {};
-const tnPlayers = {};
 
 function getCurrentPlayers() {
   return Object.values(players).map((player) => ({
@@ -71,48 +66,17 @@ function getCurrentPlayers() {
   }));
 }
 
-function getCurrentTnPlayers() {
-  return Object.values(tnPlayers).map((player) => ({
-    socketId: player.socketId,
-    id: player.id,
-    name: player.name,
-  }));
-}
-
 function getCurrentTables() {
-  const fetchedTables = Object.values(tables)
-    .filter((table) => table.id < 16)
-    .map((table) => ({
-      id: table.id,
-      name: table.name,
-      limit: table.limit,
-      players: table.players,
-      maxPlayers: table.maxPlayers,
-      currentNumberPlayers: table.players.length,
-      smallBlind: table.minBet,
-      bigBlind: table.minBet * 2,
-    }));
-  const result = [];
-  fetchedTables.filter((table, id) => {
-    // if (table.players) result.push(table);
-    result.push(table);
-  });
-  return result;
-}
-
-function getCurrentTnTables() {
-  const fetchedTables = Object.values(tables)
-    .filter((table) => table.id > 15)
-    .map((table) => ({
-      id: table.id,
-      name: table.name,
-      limit: table.limit,
-      players: table.players,
-      maxPlayers: table.maxPlayers,
-      currentNumberPlayers: table.players.length,
-      smallBlind: table.minBet,
-      bigBlind: table.minBet * 2,
-    }));
+  const fetchedTables = Object.values(tables).map((table) => ({
+    id: table.id,
+    name: table.name,
+    limit: table.limit,
+    players: table.players,
+    maxPlayers: table.maxPlayers,
+    currentNumberPlayers: table.players.length,
+    smallBlind: table.minBet,
+    bigBlind: table.minBet * 2,
+  }));
   const result = [];
   fetchedTables.filter((table, id) => {
     // if (table.players) result.push(table);
@@ -138,12 +102,10 @@ const init = (socket, io) => {
 
       if (found) {
         delete players[found.socketId];
-        Object.values(tables)
-          .filter((table) => table.id < 16)
-          .map((table) => {
-            table.removePlayer(found.socketId);
-            broadcastToTable(table);
-          });
+        Object.values(tables).map((table) => {
+          table.removePlayer(found.socketId);
+          broadcastToTable(table);
+        });
       }
 
       user = await User.findById(user.id).select("-password");
@@ -165,47 +127,6 @@ const init = (socket, io) => {
       };
       socket.emit(RECEIVE_LOBBY_INFO, data);
       socket.broadcast.emit(PLAYERS_UPDATED, getCurrentPlayers());
-    }
-  });
-
-  socket.on(TN_FETCH_LOBBY_INFO, async (token) => {
-    let user;
-    jwt.verify(token, config.JWT_SECRET, (err, decoded) => {
-      if (err) console.log(err);
-      else {
-        user = decoded.user;
-      }
-    });
-
-    if (user) {
-      const found = Object.values(tnPlayers).find((player) => {
-        return player.id == user.id;
-      });
-
-      if (found) {
-        delete players[found.socketId];
-        Object.values(tables)
-          .filter((table) => table.id > 15)
-          .map((table) => {
-            table.removePlayer(found.socketId);
-            tnBroadcastToTable(table);
-          });
-      }
-
-      user = await User.findById(user.id).select("-password");
-      players[socket.id] = new Player(
-        socket.id,
-        user._id,
-        user.name,
-        user.chipsAmount
-      );
-      const data = {
-        tables: getCurrentTnTables(),
-        players: getCurrentTnPlayers(),
-        socketId: socket.id,
-      };
-      socket.emit(TN_RECEIVE_LOBBY_INFO, data);
-      socket.broadcast.emit(TN_PLAYERS_UPDATED, getCurrentTnPlayers());
     }
   });
 
@@ -444,18 +365,6 @@ const init = (socket, io) => {
       let socketId = table.players[i]?.socketId;
       let tableCopy = hideOpponentCards(table, socketId);
       io.to(socketId).emit(TABLE_UPDATED, {
-        table: tableCopy,
-        message,
-        from,
-      });
-    }
-  }
-
-  function tnBroadcastToTable(table, message = null, from = null) {
-    for (let i = 0; i < table.players.length; i++) {
-      let socketId = table.players[i]?.socketId;
-      let tableCopy = hideOpponentCards(table, socketId);
-      io.to(socketId).emit(TN_TABLE_UPDATED, {
         table: tableCopy,
         message,
         from,

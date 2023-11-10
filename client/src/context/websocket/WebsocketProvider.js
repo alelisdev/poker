@@ -5,13 +5,9 @@ import io from "socket.io-client";
 import {
   DISCONNECT,
   FETCH_LOBBY_INFO,
-  TN_FETCH_LOBBY_INFO,
   PLAYERS_UPDATED,
-  TN_PLAYERS_UPDATED,
   RECEIVE_LOBBY_INFO,
-  TN_RECEIVE_LOBBY_INFO,
   TABLES_UPDATED,
-  TN_TABLES_UPDATED,
 } from "../../pokergame/actions";
 import globalContext from "../global/globalContext";
 import config from "../../clientConfig";
@@ -35,7 +31,6 @@ const WebSocketProvider = ({ children }) => {
       const token = localStorage.token;
       const webSocket = socket || connect();
       token && webSocket && webSocket.emit(FETCH_LOBBY_INFO, token);
-      token && webSocket && webSocket.emit(TN_FETCH_LOBBY_INFO, token);
     } else {
       cleanUp();
     }
@@ -67,6 +62,7 @@ const WebSocketProvider = ({ children }) => {
   function registerCallbacks(socket) {
     socket.on(RECEIVE_LOBBY_INFO, ({ tables, players, socketId }) => {
       setSocketId(socketId);
+      console.log(tables);
       const cashes = tables.filter((table) => table.name.includes("Table"));
       const tournaments = tables.filter((table) =>
         table.name.includes("Tournament")
@@ -76,18 +72,8 @@ const WebSocketProvider = ({ children }) => {
       setPlayers(players);
     });
 
-    socket.on(TN_RECEIVE_LOBBY_INFO, ({ tables, players, socketId }) => {
-      setSocketId(socketId);
-      setTnTables(tables);
-      setTnPlayers(players);
-    });
-
     socket.on(PLAYERS_UPDATED, (players) => {
       setPlayers(players);
-    });
-
-    socket.on(TN_PLAYERS_UPDATED, (players) => {
-      setTnPlayers(players);
     });
 
     socket.on(TABLES_UPDATED, (tables) => {
@@ -97,10 +83,6 @@ const WebSocketProvider = ({ children }) => {
       );
       setTables(cashes);
       setTnTables(tournaments);
-    });
-
-    socket.on(TN_TABLES_UPDATED, (tables) => {
-      setTnTables(tables);
     });
   }
 
