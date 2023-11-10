@@ -385,12 +385,12 @@ const init = (socket, io) => {
 
   function initNewHand(table) {
     if (table.activePlayers().length > 1) {
-      broadcastToTable(table, "---New hand starting in 5 seconds---");
+      broadcastToTable(table, "New hand starting in 5 seconds");
     }
     setTimeout(() => {
       table.clearWinMessages();
       table.startHand();
-      broadcastToTable(table, "--- New hand started ---");
+      broadcastToTable(table, "New hand started");
     }, 5000);
   }
 

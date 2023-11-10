@@ -223,7 +223,7 @@ class Table {
     winner && winner.winHand(this.pot);
     winner &&
       this.winMessages.push(
-        `${winner.player.name} wins ETH${this.pot.toFixed(4)}`
+        `${winner.player.name} wins ${this.pot.toFixed(4)}`
       );
     this.endHand();
   }
@@ -508,7 +508,6 @@ class Table {
 
     if (seat) {
       seat.fold();
-
       return {
         seatId: seat.id,
         message: `${seat.player.name} folds`,

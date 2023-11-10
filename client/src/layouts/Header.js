@@ -178,7 +178,7 @@ const Header = (props) => {
         {joined.map((item, idx) => {
           return (
             <LabelWrapper key={idx}>
-              {`Table ${item}`}
+              {item}
               <LabelBar />
             </LabelWrapper>
           );

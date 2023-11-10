@@ -36,7 +36,6 @@ const GameState = ({ history, children }) => {
 
   useEffect(() => {
     currentTableRef.current = currentTable;
-
     isPlayerSeated &&
       seatId &&
       currentTable.seats[seatId] &&
@@ -87,7 +86,8 @@ const GameState = ({ history, children }) => {
   }, [socket]);
 
   const joinTable = (tableId) => {
-    setJoined([...joined, tableId]);
+    if (tableId > 16) setJoined([`Tournament ${tableId - 15}`]);
+    else setJoined([`Table ${tableId}`]);
     socket.emit(JOIN_TABLE, tableId);
   };
 
@@ -100,6 +100,7 @@ const GameState = ({ history, children }) => {
         tableId: currentTableRef.current.id,
         activeTab,
       });
+    setJoined([]);
     if (activeTab === "cash") history.push("/");
     else if (activeTab === "tournament") history.push("/tournament");
   };

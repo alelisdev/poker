@@ -154,7 +154,9 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                         if (
                           amount &&
                           amount >= minBuyIn &&
-                          amount <= chipsAmount &&
+                          (activeTab === "cash"
+                            ? amount <= balance
+                            : amount <= chipsAmount) &&
                           amount <= maxBuyin
                         ) {
                           sitDown(

@@ -164,11 +164,20 @@ const TournamentTable = (props) => {
               <div className="status">
                 <span
                   className="btn"
-                  onClick={() => setOpenTournamentModal(true)}
+                  onClick={(e) => {
+                    setOpenTournamentModal(true);
+                    e.stopPropagation();
+                  }}
                 >
                   Registeration
                 </span>
-                <span className="btn" onClick={() => history.push("/lobby")}>
+                <span
+                  className="btn"
+                  onClick={(e) => {
+                    history.push("/lobby");
+                    e.stopPropagation();
+                  }}
+                >
                   open
                 </span>
               </div>
