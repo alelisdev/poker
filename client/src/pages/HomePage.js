@@ -6,10 +6,6 @@ import authContext from "../context/auth/authContext";
 const HomePage = () => {
   const { isLoggedIn } = useContext(authContext);
 
-  useEffect(() => {
-    console.log(isLoggedIn);
-  }, [isLoggedIn]);
-
   if (!isLoggedIn) return <Landing />;
   else return <MainPage />;
 };
