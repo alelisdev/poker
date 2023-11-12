@@ -1,9 +1,11 @@
 import React, { useContext } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
 import globalContext from "../../context/global/globalContext";
 import GradientButton from "../GradientButton";
 import modalContext from "../../context/modal/modalContext";
 import pokerClient from "../../helpers/axios";
+import { toast } from "react-toastify";
 
 const ModalContainer = styled.div`
   position: fixed;
@@ -89,6 +91,7 @@ const CancelButton = styled.button`
 `;
 
 const TournamentModal = () => {
+  const history = useHistory();
   const {
     setOpenTournamentModal,
     setActiveTab,
@@ -99,6 +102,8 @@ const TournamentModal = () => {
     setChipsAmount,
     setIsLoading,
     nativeToken,
+    tnRegisterId,
+    setTns,
   } = useContext(globalContext);
   const { openModal, closeModal } = useContext(modalContext);
 
@@ -117,29 +122,51 @@ const TournamentModal = () => {
   };
 
   const handleFreeChipsRequest = async () => {
-    setIsLoading(true);
     try {
-      const token = localStorage.token;
-      const res = await pokerClient.get("/api/chips/free", {
-        headers: {
-          "x-auth-token": token,
-        },
+      console.log("here");
+      const res = await pokerClient.post("/api/chips/free", {
+        tableId: tnRegisterId,
       });
       if (res.data.errors) {
         console.log(res.data.errors);
       } else {
-        const { chipsAmount, balance } = res.data;
+        const { chipsAmount, balance, tournaments } = res.data;
+        setTns(tournaments);
         setBalance(
           balance.data.find((coin) => coin.coinType === nativeToken).balance
         );
         setChipsAmount(chipsAmount);
+        toast.success("🦄 Registration is successful.", {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       }
     } catch (error) {
       console.log(error);
+      toast.warn("🦄 Sorry, Something went wrong.", {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     } finally {
-      closeModal();
+      setOpenTournamentModal(false);
     }
-    setIsLoading(false);
+  };
+
+  const handleRegister = async () => {
+    await handleFreeChipsRequest();
+    history.push("/tournament");
   };
 
   return (
@@ -168,10 +195,7 @@ const TournamentModal = () => {
               width="147px"
               height="42px"
               radius="8px"
-              onClick={() => {
-                showFreeChipsModal();
-                setOpenTournamentModal(false);
-              }}
+              onClick={() => handleRegister()}
             >
               Register
             </GradientButton>

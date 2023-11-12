@@ -32,6 +32,10 @@ const UserSchema = new mongoose.Schema({
   },
   balance: { type: Object, default: balanceObject },
   currency: { type: Object, default: { coinType: "ETH", type: "native" } },
+  tournaments: {
+    type: Array,
+    default: [],
+  },
   created: {
     type: Date,
     default: Date.now,

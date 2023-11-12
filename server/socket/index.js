@@ -2,6 +2,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const Table = require("../pokergame/Table");
 const Player = require("../pokergame/Player");
+const moment = require("moment");
 const {
   FETCH_LOBBY_INFO,
   RECEIVE_LOBBY_INFO,
@@ -28,6 +29,8 @@ const {
 } = require("../pokergame/actions");
 const config = require("../config");
 
+const monday = moment().startOf("isoWeek").format("YYYY-MM-DD HH:mm:ss");
+
 const tables = {
   1: new Table(1, "Table 1", 0.1),
   2: new Table(2, "Table 2", 0.1),
@@ -53,7 +56,7 @@ const tables = {
   22: new Table(22, "Tournament 7", 10000),
   23: new Table(23, "Tournament 8", 10000),
   24: new Table(24, "Tournament 9", 10000),
-  25: new Table(25, "Tournament 10", 10000),
+  25: new Table(25, "Tournament 10", 1000),
 };
 
 const players = {};
@@ -76,6 +79,8 @@ function getCurrentTables() {
     currentNumberPlayers: table.players.length,
     smallBlind: table.minBet,
     bigBlind: table.minBet * 2,
+    registers: table.registers,
+    start: table.start,
   }));
   const result = [];
   fetchedTables.filter((table, id) => {

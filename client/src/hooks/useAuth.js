@@ -13,6 +13,7 @@ const useAuth = () => {
     nativeToken,
     setChipsAmount,
     setBalance,
+    setTns,
   } = useContext(globalContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -53,6 +54,7 @@ const useAuth = () => {
         password,
       });
       const token = res.data.token;
+      console.log(token);
       if (token) {
         localStorage.setItem("token", token);
         setAuthToken(token);
@@ -68,7 +70,9 @@ const useAuth = () => {
     try {
       const res = await pokerClient.get("/api/auth");
       if (res.data) {
-        const { _id, name, email, balance, chipsAmount } = res.data;
+        const { _id, name, email, balance, chipsAmount, tournaments } =
+          res.data;
+        setTns(tournaments);
         setIsLoggedIn(true);
         setId(_id);
         setUserName(name);
@@ -92,6 +96,7 @@ const useAuth = () => {
     setUserName(null);
     setEmail(null);
     setChipsAmount(null);
+    setTns([]);
   };
 
   return [isLoggedIn, login, logout, register, loadUser];
