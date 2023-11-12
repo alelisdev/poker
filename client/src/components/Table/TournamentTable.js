@@ -61,7 +61,6 @@ const TableRow = styled.div`
   display: flex;
   align-items: center;
   width: 98.9%;
-  cursor: pointer;
   color: #fff;
 
   & .check {
@@ -99,6 +98,13 @@ const TableRow = styled.div`
     cursor: pointer;
   }
 
+  & .registered {
+    color: #94ecfb;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 15.6px;
+  }
+
   & p {
     font-size: 10px;
     line-height: 13px;
@@ -119,7 +125,8 @@ const TableRow = styled.div`
 const TournamentTable = (props) => {
   const history = useHistory();
   const { joinTable } = useContext(gameContext);
-  const { setOpenTournamentModal, chipsAmount } = useContext(globalContext);
+  const { setOpenTournamentModal, chipsAmount, setTnRegisterId, tns } =
+    useContext(globalContext);
   const { socket } = useContext(socketContext);
 
   const joinGame = (tableId) => {
@@ -145,9 +152,9 @@ const TournamentTable = (props) => {
       <TableBody>
         {props.tableData.map((item, idx) => {
           return (
-            <TableRow key={idx} onClick={() => joinGame(item.id)}>
+            <TableRow key={idx}>
               <div className="check">
-                {item.checked ? <IconChecked /> : <IconNonChecked />}
+                {tns.includes(item.id) ? <IconChecked /> : <IconNonChecked />}
               </div>
               <div className="name">
                 <span>{`${item.name}`}</span>
@@ -158,23 +165,32 @@ const TournamentTable = (props) => {
               <span className="gtd">{item.gtd ? item.gtd : "100 $"}</span>
               <span className="limits">{item.limits ? item.limits : "NL"}</span>
               <span className="scheduler">
-                <span className="data">{item.date ? item.date : "May 18"}</span>
-                <p className="data">{item.time ? item.time : "07.41.44"}</p>
+                <span className="data">{item.start.split(" ")[0]}</span>
+                <p className="data">{item.start.split(" ")[1]}</p>
               </span>
               <div className="status">
+                {tns.includes(item.id) ? (
+                  <span className="registered">Registered</span>
+                ) : (
+                  <span
+                    className="btn"
+                    onClick={(e) => {
+                      setOpenTournamentModal(true);
+                      setTnRegisterId(item.id);
+                      e.stopPropagation();
+                    }}
+                  >
+                    Registeration
+                  </span>
+                )}
                 <span
                   className="btn"
                   onClick={(e) => {
-                    setOpenTournamentModal(true);
-                    e.stopPropagation();
-                  }}
-                >
-                  Registeration
-                </span>
-                <span
-                  className="btn"
-                  onClick={(e) => {
-                    history.push("/lobby");
+                    if (tns.includes(item.id)) joinGame(item.id);
+                    else {
+                      setTnRegisterId(item.id);
+                      history.push("/lobby");
+                    }
                     e.stopPropagation();
                   }}
                 >

@@ -28,11 +28,9 @@ if (
   rootElement.style.display = "block";
 } else {
   ReactDOM.render(
-    <React.StrictMode>
-      <Providers>
-        <App />
-      </Providers>
-    </React.StrictMode>,
+    <Providers>
+      <App />
+    </Providers>,
     rootElement
   );
 

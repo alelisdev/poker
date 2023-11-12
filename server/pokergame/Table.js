@@ -4,6 +4,7 @@ const Hand = require("pokersolver").Hand;
 const Seat = require("./Seat");
 const Deck = require("./Deck");
 const SidePot = require("./SidePot");
+const moment = require("moment");
 
 class Table {
   constructor(id, name, limit, maxPlayers = 5) {
@@ -29,6 +30,8 @@ class Table {
     this.wentToShowdown = false;
     this.sidePots = [];
     this.history = [];
+    this.registers = [];
+    this.start = moment().startOf("isoWeek").format("YYYY-MM-DD HH:mm:ss");
   }
 
   initSeats(maxPlayers) {

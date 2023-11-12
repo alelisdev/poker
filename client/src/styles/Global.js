@@ -6,6 +6,10 @@ const GlobalStyles = createGlobalStyle`
     font-size: ${(props) => props.theme.fonts.fontSizeRoot};
   }
 
+  .Toastify__toast {
+    border-radius: 4px;
+  }
+
   *,
   *::before,
   *::after {
