@@ -97,8 +97,9 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                 if (
                   amount &&
                   amount >= minBuyIn &&
-                  amount <= chipsAmount &&
-                  amount <= maxBuyin
+                  (activeTab === "cash"
+                    ? amount <= balance
+                    : amount <= chipsAmount)
                 ) {
                   rebuy(currentTable.id, seatNumber, parseInt(amount));
                   closeModal();
@@ -110,7 +111,8 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                   id="amount"
                   type="number"
                   min={minBuyIn}
-                  max={chipsAmount <= maxBuyin ? chipsAmount : maxBuyin}
+                  step={minBuyIn}
+                  max={activeTab === "cash" ? balance : chipsAmount}
                   defaultValue={minBuyIn}
                 />
               </FormGroup>
@@ -156,8 +158,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                           amount >= minBuyIn &&
                           (activeTab === "cash"
                             ? amount <= balance
-                            : amount <= chipsAmount) &&
-                          amount <= maxBuyin
+                            : amount <= chipsAmount)
                         ) {
                           sitDown(
                             currentTable.id,
@@ -169,19 +170,16 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                       }}
                     >
                       <FormGroup>
+                        {console.log("balance", balance)}
+                        {console.log("minBuyIn", minBuyIn)}
+                        {console.log("maxBuyin", maxBuyin)}
+                        {console.log("balance", balance)}
                         <Input
                           id="amount"
                           type="number"
                           min={minBuyIn}
-                          max={
-                            activeTab === "cash"
-                              ? balance <= maxBuyin
-                                ? balance
-                                : maxBuyin
-                              : chipsAmount <= maxBuyin
-                              ? chipsAmount
-                              : maxBuyin
-                          }
+                          step={minBuyIn}
+                          max={activeTab === "cash" ? balance : chipsAmount}
                           defaultValue={minBuyIn}
                         />
                       </FormGroup>
