@@ -226,7 +226,7 @@ class Table {
     winner && winner.winHand(this.pot);
     winner &&
       this.winMessages.push(
-        `${winner.player.name} wins ${this.pot.toFixed(4)}`
+        `${winner.player.name} wins ${this.pot.toFixed(2)}`
       );
     this.endHand();
   }
@@ -248,8 +248,8 @@ class Table {
   }
   updateHistory() {
     this.history.push({
-      pot: +this.pot.toFixed(4),
-      mainPot: +this.mainPot.toFixed(4),
+      pot: +this.pot.toFixed(2),
+      mainPot: +this.mainPot.toFixed(2),
       sidePots: this.sidePots.slice(),
       board: this.board.slice(),
       seats: this.cleanSeatsForHistory(),
@@ -267,8 +267,8 @@ class Table {
           id: seat.player.id,
           username: seat.player.name,
         };
-        seat.bet = +seat.bet.toFixed(4);
-        seat.stack = +seat.stack.toFixed(4);
+        seat.bet = +seat.bet.toFixed(2);
+        seat.stack = +seat.stack.toFixed(2);
       }
     }
     return cleanSeats;
@@ -319,7 +319,7 @@ class Table {
       if (seat && !seat.folded && seat.stack > 0) {
         if (
           (this.callAmount &&
-            seat.bet.toFixed(4) !== this.callAmount.toFixed(4)) ||
+            seat.bet.toFixed(2) !== this.callAmount.toFixed(2)) ||
           (!this.callAmount && !seat.checked)
         ) {
           return false;
@@ -449,7 +449,7 @@ class Table {
       seat.winHand(winAmount);
       if (winAmount > 0) {
         this.winMessages.push(
-          `${seat.player.name} wins ETH${winAmount.toFixed(4)} with ${handDesc}`
+          `${seat.player.name} wins ETH${winAmount.toFixed(2)} with ${handDesc}`
         );
       }
     }
@@ -538,7 +538,7 @@ class Table {
 
       return {
         seatId: seat.id,
-        message: `${seat.player.name} calls ETH${addedToPot.toFixed(4)}`,
+        message: `${seat.player.name} calls ETH${addedToPot.toFixed(2)}`,
       };
     } else {
       return null;
@@ -578,7 +578,7 @@ class Table {
 
       return {
         seatId: seat.id,
-        message: `${seat.player.name} raises to ETH${amount.toFixed(4)}`,
+        message: `${seat.player.name} raises to ETH${amount.toFixed(2)}`,
       };
     } else {
       return null;

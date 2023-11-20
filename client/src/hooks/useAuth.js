@@ -2,6 +2,7 @@ import { useEffect, useState, useContext } from "react";
 import pokerClient from "../helpers/axios";
 import setAuthToken from "../helpers/setAuthToken";
 import globalContext from "../context/global/globalContext";
+import axios from "axios";
 
 const useAuth = () => {
   localStorage.token && setAuthToken(localStorage.token);
@@ -77,8 +78,13 @@ const useAuth = () => {
         setId(_id);
         setUserName(name);
         setEmail(email);
+        // const res = await axios.get(
+        //   "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd"
+        // );
+        // console.log(res);
         setBalance(
-          balance.data.find((coin) => coin.coinType === nativeToken).balance
+          balance.data.find((coin) => coin.coinType === nativeToken).balance *
+            2023.84
         );
         setChipsAmount(chipsAmount);
       } else {

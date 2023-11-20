@@ -94,12 +94,23 @@ const InputWrapper = styled.div`
   }
 `;
 
+const StyledSelect = styled.select`
+  width: 100%;
+  margin-top: 10px;
+  border-radius: 4px;
+  background: #333541;
+  color: #fff;
+  padding: 8px;
+  border: solid 1px #fff;
+`;
+
 const WalletModal = () => {
   const [depositAddress, setDepositeAddress] = useState("");
   const [amount, setAmount] = useState(0.1);
   const {
     id,
     nativeToken,
+    setNativeToken,
     setOpenWalletModal,
     chipsAmount,
     balance,
@@ -220,9 +231,26 @@ const WalletModal = () => {
 
   const handleCopyClipboard = () => {};
 
+  const handleChange = (e) => {
+    setNativeToken(e.target.value);
+  };
+
   return (
     <ModalContainer>
       <div className="modal">
+        <AddressWrapper>
+          <span>Select Token</span>
+          <InputWrapper>
+            <StyledSelect
+              name="tokens"
+              onChange={handleChange}
+              defaultValue={nativeToken}
+            >
+              <option value="ETH">ETH</option>
+              <option value="SOL">SOL</option>
+            </StyledSelect>
+          </InputWrapper>
+        </AddressWrapper>
         <AddressWrapper>
           <span>Deposit Address</span>
           <InputWrapper>

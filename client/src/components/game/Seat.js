@@ -218,7 +218,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
               {seat.stack && (
                 <BlanaceTag>
                   {activeTab === "cash"
-                    ? parseFloat(seat.stack).toFixed(4) + "ETH"
+                    ? parseFloat(seat.stack).toFixed(2) + "USD"
                     : seat.stack}
                 </BlanaceTag>
               )}

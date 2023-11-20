@@ -32,21 +32,21 @@ const config = require("../config");
 const monday = moment().startOf("isoWeek").format("YYYY-MM-DD HH:mm:ss");
 
 const tables = {
-  1: new Table(1, "Table 1", 0.1),
-  2: new Table(2, "Table 2", 0.1),
-  3: new Table(3, "Table 3", 0.1),
-  4: new Table(4, "Table 4", 0.1),
-  5: new Table(5, "Table 5", 0.1),
-  6: new Table(6, "Table 6", 0.1),
-  7: new Table(7, "Table 7", 0.1),
-  8: new Table(8, "Table 8", 0.1),
-  9: new Table(9, "Table 9", 0.1),
-  10: new Table(10, "Table 10", 0.1),
-  11: new Table(11, "Table 11", 0.1),
-  12: new Table(12, "Table 12", 0.1),
-  13: new Table(13, "Table 13", 0.1),
-  14: new Table(14, "Table 14", 0.1),
-  15: new Table(15, "Table 15", 0.1),
+  1: new Table(1, "Table 1", 100),
+  2: new Table(2, "Table 2", 100),
+  3: new Table(3, "Table 3", 100),
+  4: new Table(4, "Table 4", 100),
+  5: new Table(5, "Table 5", 100),
+  6: new Table(6, "Table 6", 100),
+  7: new Table(7, "Table 7", 100),
+  8: new Table(8, "Table 8", 100),
+  9: new Table(9, "Table 9", 100),
+  10: new Table(10, "Table 10", 100),
+  11: new Table(11, "Table 11", 100),
+  12: new Table(12, "Table 12", 100),
+  13: new Table(13, "Table 13", 100),
+  14: new Table(14, "Table 14", 100),
+  15: new Table(15, "Table 15", 100),
   16: new Table(16, "Tournament 1", 10000),
   17: new Table(17, "Tournament 2", 10000),
   18: new Table(18, "Tournament 3", 10000),
@@ -318,6 +318,8 @@ const init = (socket, io) => {
   });
 
   async function updatePlayerBankroll(player, amount, activeTab) {
+    const ethPrice = 2023.84;
+
     try {
       const user = await User.findById(player.id);
       if (activeTab === "cash") {
@@ -325,7 +327,7 @@ const init = (socket, io) => {
         let balanceData = user.balance.data.find(
           (data) => data.coinType === coinType
         );
-        balanceData.balance += Number(amount);
+        balanceData.balance += Number(amount / ethPrice);
         const newBalance = user.balance.data.map((bal) => {
           if (bal.coinType === coinType) return balanceData;
           else return bal;
@@ -335,7 +337,7 @@ const init = (socket, io) => {
           { balance: { data: newBalance } }
         );
         await user.save();
-        players[socket.id].balance += amount;
+        players[socket.id].balance += amount / ethPrice;
       } else if (activeTab === "tournament") {
         user.chipsAmount += amount;
         await user.save();
