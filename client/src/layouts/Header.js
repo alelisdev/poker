@@ -18,6 +18,7 @@ import TournamentModal from "../components/TournamentModal";
 import socketContext from "../context/websocket/socketContext";
 import authContext from "../context/auth/authContext";
 import gameContext from "../context/game/gameContext";
+import axios from "axios";
 
 const HeaderWrapper = styled.div`
   max-width: 1440px;
@@ -214,9 +215,7 @@ const Header = (props) => {
           <IconAvatar />
           <ProfileWrapper>
             <NameWrapper>{userName}</NameWrapper>
-            <AMDWrapper>
-              {parseFloat(balance).toFixed(4)} {nativeToken}
-            </AMDWrapper>
+            <AMDWrapper>{parseFloat(balance).toFixed(2)}USD</AMDWrapper>
             <USDWrapper>{chipsAmount} chips</USDWrapper>
           </ProfileWrapper>
           <IconArrow className="arrow-icon" />

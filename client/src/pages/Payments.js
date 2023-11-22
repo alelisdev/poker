@@ -188,7 +188,7 @@ const Payments = () => {
                   <span className="text">BALANCE :</span>
                   <span className="amount">
                     {" "}
-                    {parseFloat(chipsAmount).toFixed(4)} ETH
+                    {parseFloat(chipsAmount).toFixed(2)} USD
                   </span>
                 </span>
                 <ButtonGroup>
