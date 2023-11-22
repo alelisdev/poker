@@ -233,6 +233,7 @@ const WalletModal = () => {
 
   const handleChange = (e) => {
     setNativeToken(e.target.value);
+    
   };
 
   return (

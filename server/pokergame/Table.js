@@ -449,7 +449,7 @@ class Table {
       seat.winHand(winAmount);
       if (winAmount > 0) {
         this.winMessages.push(
-          `${seat.player.name} wins ETH${winAmount.toFixed(2)} with ${handDesc}`
+          `${seat.player.name} wins ${winAmount.toFixed(2)} with ${handDesc}`
         );
       }
     }
@@ -538,7 +538,7 @@ class Table {
 
       return {
         seatId: seat.id,
-        message: `${seat.player.name} calls ETH${addedToPot.toFixed(2)}`,
+        message: `${seat.player.name} calls ${addedToPot.toFixed(2)}`,
       };
     } else {
       return null;
@@ -578,7 +578,7 @@ class Table {
 
       return {
         seatId: seat.id,
-        message: `${seat.player.name} raises to ETH${amount.toFixed(2)}`,
+        message: `${seat.player.name} raises to ${amount.toFixed(2)}`,
       };
     } else {
       return null;

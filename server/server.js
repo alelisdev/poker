@@ -6,8 +6,10 @@ const connectDB = require("./config/db");
 const configureMiddleware = require("./middleware");
 const configureRoutes = require("./routes");
 const socketio = require("socket.io");
+const cron = require("node-cron");
 const gameSocket = require("./socket/index");
 const { initTatumETH, initTatumSOL } = require("./helpers/initTatum");
+const UserModel = require("./models/User");
 
 // Connect and get reference to mongodb instance
 let db;
@@ -46,6 +48,24 @@ configureRoutes(app);
 
 initTatumETH();
 initTatumSOL();
+
+cron.schedule("0 23 * * 0", () => {
+  UserModel.updateMany(
+    {},
+    {
+      $set: {
+        tournaments: [],
+      },
+    },
+    (err, res) => {
+      if (err) {
+        console.error(err);
+      } else {
+        console.log(`${res.modifiedCount} documents updated successfully.`);
+      }
+    }
+  );
+});
 
 // Start server and listen for connections
 const server = app.listen(config.PORT, () => {

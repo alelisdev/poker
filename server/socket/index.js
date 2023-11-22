@@ -2,7 +2,6 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 const Table = require("../pokergame/Table");
 const Player = require("../pokergame/Player");
-const moment = require("moment");
 const {
   FETCH_LOBBY_INFO,
   RECEIVE_LOBBY_INFO,
@@ -29,8 +28,6 @@ const {
 } = require("../pokergame/actions");
 const config = require("../config");
 
-const monday = moment().startOf("isoWeek").format("YYYY-MM-DD HH:mm:ss");
-
 const tables = {
   1: new Table(1, "Table 1", 100),
   2: new Table(2, "Table 2", 100),
@@ -55,6 +52,8 @@ const tables = {
   21: new Table(21, "Tournament 6", 10000),
   22: new Table(22, "Tournament 7", 10000),
   23: new Table(23, "Tournament 8", 10000),
+  24: new Table(24, "Tournament 8", 10000),
+  25: new Table(25, "Tournament 8", 10000),
 };
 
 const players = {};
@@ -316,8 +315,7 @@ const init = (socket, io) => {
   });
 
   async function updatePlayerBankroll(player, amount, activeTab) {
-    const ethPrice = 2023.84;
-
+    const ethPrice = 2032.22;
     try {
       const user = await User.findById(player.id);
       if (activeTab === "cash") {

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import GlobalContext from "./globalContext";
 
 const GlobalState = ({ children }) => {
+  const ethPrice = 2032.22;
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("cash");
   const [id, setId] = useState(null);
@@ -54,6 +55,7 @@ const GlobalState = ({ children }) => {
         setTnRegisterId,
         tns,
         setTns,
+        ethPrice,
       }}
     >
       {children}

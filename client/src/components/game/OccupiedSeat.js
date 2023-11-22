@@ -114,16 +114,5 @@ export const OccupiedSeat = ({ hasTurn, seatNumber }) => (
     hasTurn={hasTurn}
     seatNumber={seatNumber}
     className={hasTurn ? "hasTurn" : ""}
-  >
-    {hasTurn && (
-      <div className="circle-timer">
-        <div className="timer-slot">
-          <div className="timer-lt"></div>
-        </div>
-        <div className="timer-slot">
-          <div className="timer-rt"></div>
-        </div>
-      </div>
-    )}
-  </StyledOccupiedSeat>
+  ></StyledOccupiedSeat>
 );

@@ -15,6 +15,7 @@ const useAuth = () => {
     setChipsAmount,
     setBalance,
     setTns,
+    ethPrice,
   } = useContext(globalContext);
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -84,7 +85,7 @@ const useAuth = () => {
         // console.log(res);
         setBalance(
           balance.data.find((coin) => coin.coinType === nativeToken).balance *
-            2023.84
+            ethPrice
         );
         setChipsAmount(chipsAmount);
       } else {
