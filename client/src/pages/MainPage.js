@@ -15,7 +15,6 @@ import GameTable from "../components/Table/GameTable";
 import Tabs from "../components/Tabs";
 import BottomCard from "../components/BottomCard";
 import SearchIcon from "../components/icons/SearchIcon";
-import socketContext from "../context/websocket/socketContext";
 import {
   SideWrapper,
   MainWrapper,
@@ -23,21 +22,9 @@ import {
   SearchInput,
   SearchWrapper,
   SearchButton,
+  CardContainer,
+  BoounsItem,
 } from "../components/styledcompoents";
-
-const CardContainer = styled.div`
-  width: 98.5%;
-  display: flex;
-  gap: 12px;
-`;
-
-const BoounsItem = styled.div`
-  border: 2px solid #333541;
-  position: relative;
-  border-radius: 12px;
-  background: linear-gradient(90deg, #da367f, #f95e42);
-  height: 123px;
-`;
 
 const PlayerNames = styled.div`
   height: 264px;

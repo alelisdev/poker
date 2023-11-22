@@ -13,6 +13,7 @@ export const GameUI = ({
   fold,
   check,
   call,
+  activeTab,
 }) => {
   return (
     <UIWrapper>
@@ -68,7 +69,7 @@ export const GameUI = ({
           height="48.03px"
           fill={false}
           radius="7px"
-          // onClick={() => raise(bet + currentTable.seats[seatId].bet)}
+          onClick={() => raise(bet + currentTable.seats[seatId].bet)}
         >
           MIN
         </GameUIButton>
@@ -77,7 +78,7 @@ export const GameUI = ({
           height="40.47px"
           fill={true}
           radius="98px"
-          // onClick={() => raise(bet + currentTable.seats[seatId].bet)}
+          onClick={() => raise(bet + currentTable.seats[seatId].bet)}
         >
           -
         </GameUIButton>
@@ -86,13 +87,14 @@ export const GameUI = ({
           seatId={seatId}
           bet={bet}
           setBet={setBet}
+          activeTab={activeTab}
         />
         <GameUIButton
           width="40.47px"
           height="40.47px"
           fill={true}
           radius="98px"
-          // onClick={() => raise(bet + currentTable.seats[seatId].bet)}
+          onClick={() => raise(bet + currentTable.seats[seatId].bet)}
         >
           +
         </GameUIButton>
@@ -101,7 +103,7 @@ export const GameUI = ({
           height="48.03px"
           fill={false}
           radius="7px"
-          // onClick={() => raise(bet + currentTable.seats[seatId].bet)}
+          onClick={() => raise(bet + currentTable.seats[seatId].bet)}
         >
           MAX
         </GameUIButton>
@@ -124,6 +126,15 @@ export const GameUI = ({
           onClick={check}
         >
           Check
+        </GameUIButton>
+        <GameUIButton
+          width="33%"
+          height="48.03px"
+          fill={true}
+          radius="7px"
+          onClick={() => raise(bet + currentTable.seats[seatId].bet)}
+        >
+          Raise
         </GameUIButton>
         <GameUIButton
           width="33%"

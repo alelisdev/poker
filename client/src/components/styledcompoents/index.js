@@ -1,8 +1,21 @@
 import styled from "styled-components";
 
+export const BoounsItem = styled.div`
+  border: 2px solid #333541;
+  position: relative;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #da367f, #f95e42);
+  height: 123px;
+`;
 export const SearchWrapper = styled.div`
   margin-top: 22px;
   position: relative;
+`;
+
+export const CardContainer = styled.div`
+  width: 98.5%;
+  display: flex;
+  gap: 12px;
 `;
 
 export const TableWrapper = styled.div`

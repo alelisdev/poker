@@ -104,6 +104,7 @@ const TournamentModal = () => {
     nativeToken,
     tnRegisterId,
     setTns,
+    ethPrice,
   } = useContext(globalContext);
   const { openModal, closeModal } = useContext(modalContext);
 
@@ -133,7 +134,8 @@ const TournamentModal = () => {
         const { chipsAmount, balance, tournaments } = res.data;
         setTns(tournaments);
         setBalance(
-          balance.data.find((coin) => coin.coinType === nativeToken).balance
+          balance.data.find((coin) => coin.coinType === nativeToken).balance *
+            ethPrice
         );
         setChipsAmount(chipsAmount);
         toast.success("🦄 Registration is successful.", {

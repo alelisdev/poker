@@ -29,7 +29,8 @@ const AccountItem = styled.div`
   text-align: center;
   width: 115px;
   position: absolute;
-  border: 2px solid #181a26;
+  border: ${(props) =>
+    props.hasTurn ? "2px solid #ffffff" : "2px solid #181a26"};
   background: #212531;
   border-radius: 4px;
   z-index: 55;
@@ -59,6 +60,29 @@ const BlanaceTag = styled.div`
   font-style: normal;
   font-weight: 500;
   line-height: 30px;
+`;
+
+const ProgressBar = styled.div`
+  position: absolute;
+  width: 100%;
+  background: #5c3315;
+  height: 2px;
+
+  & .bar {
+    animation: load 15s normal forwards;
+    width: 0;
+    height: 2px;
+    background-color: #ff6b00;
+  }
+
+  @keyframes load {
+    0% {
+      width: 0;
+    }
+    100% {
+      width: 100%;
+    }
+  }
 `;
 
 export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
@@ -213,7 +237,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
           }}
         >
           <PositionedUISlot right="3.5rem" bottom="-1.5rem">
-            <AccountItem>
+            <AccountItem hasTurn={seat.turn}>
               <NameTag>{seat.player.name}</NameTag>
               {seat.stack && (
                 <BlanaceTag>
@@ -221,6 +245,11 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                     ? "$" + parseFloat(seat.stack).toFixed(2)
                     : seat.stack}
                 </BlanaceTag>
+              )}
+              {seat.turn && (
+                <ProgressBar>
+                  <div className="bar"></div>
+                </ProgressBar>
               )}
             </AccountItem>
           </PositionedUISlot>

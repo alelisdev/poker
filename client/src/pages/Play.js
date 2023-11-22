@@ -198,7 +198,6 @@ const Play = ({ history }) => {
     currentTable,
     isPlayerSeated,
     seatId,
-    joinTable,
     leaveTable,
     sitDown,
     standUp,
@@ -208,7 +207,7 @@ const Play = ({ history }) => {
     raise,
   } = useContext(gameContext);
   const { getLocalizedString } = useContext(contentContext);
-  const { tables, nativeToken } = useContext(globalContext);
+  const { activeTab, nativeToken } = useContext(globalContext);
   const [slValue, setSlValue] = useState(40);
   const [bet, setBet] = useState(0);
 
@@ -316,6 +315,7 @@ const Play = ({ history }) => {
                 scale="0.55"
                 origin="bottom right"
               >
+                {console.log(currentTable)}
                 <Seat
                   seatNumber={4}
                   currentTable={currentTable}
@@ -458,6 +458,7 @@ const Play = ({ history }) => {
             label="set straddle"
           />
         </GameMiddleWrapper>
+        {console.log(bet)}
         {currentTable &&
           isPlayerSeated &&
           currentTable.seats[seatId] &&
@@ -472,6 +473,7 @@ const Play = ({ history }) => {
               fold={fold}
               check={check}
               call={call}
+              activeTab={activeTab}
             />
           )}
       </GameInfoContainer>
