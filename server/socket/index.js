@@ -55,8 +55,6 @@ const tables = {
   21: new Table(21, "Tournament 6", 10000),
   22: new Table(22, "Tournament 7", 10000),
   23: new Table(23, "Tournament 8", 10000),
-  24: new Table(24, "Tournament 9", 10000),
-  25: new Table(25, "Tournament 10", 1000),
 };
 
 const players = {};

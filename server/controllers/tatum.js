@@ -148,10 +148,11 @@ const getDepositAddressFromAccount = async (data) => {
     });
     if (accountInfo) {
       const chain = getNetworkFromCoinType(coinType);
-      console.log(chain, accountInfo.dataObject.virtualAccount.id);
+      console.log(accountInfo.dataObject.virtualAccount.id);
       const addressData = await TatumAxios.post(
         `/offchain/account/${accountInfo.dataObject.virtualAccount.id}/address`
       );
+      console.log(addressData);
       const privateKey = await generatePrivateKey({
         index: addressData.data.derivationKey,
         chain,

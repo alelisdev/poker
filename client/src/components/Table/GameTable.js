@@ -151,7 +151,8 @@ const GameTable = (props) => {
                 <IconFive />
               </div>
               <div className="name">
-                <span>{item.name}</span>
+                <span>.50/1 NLH</span>
+                {/* <span>{item.name}</span> */}
                 <p>{item.mode ? item.mode : "TexasHoldEm, NL"}</p>
               </div>
               <span className="speeds">

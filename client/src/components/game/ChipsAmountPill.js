@@ -34,7 +34,7 @@ const ChipsAmountPill = ({ chipsAmount, nativeToken }) => {
       </IconWrapper>
       {activeTab === "cash" && (
         <span>
-          {parseFloat(chipsAmount).toFixed(2)} USD
+          ${parseFloat(chipsAmount).toFixed(2)}
           {/* {nativeToken} */}
         </span>
       )}

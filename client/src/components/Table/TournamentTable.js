@@ -157,7 +157,8 @@ const TournamentTable = (props) => {
                 {tns.includes(item.id) ? <IconChecked /> : <IconNonChecked />}
               </div>
               <div className="name">
-                <span>{`${item.name}`}</span>
+                <span>Mida Dao</span>
+                {/* <span>{`${item.name}`}</span> */}
               </div>
               <div className="buyin">
                 <span>{item.buyin ? item.buyin : "10$ + 1$"}</span>
