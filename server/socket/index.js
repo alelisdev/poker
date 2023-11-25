@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Tournaments = require("../models/Tournaments");
 const jwt = require("jsonwebtoken");
 const Table = require("../pokergame/Table");
 const Player = require("../pokergame/Player");
@@ -44,16 +45,6 @@ const tables = {
   13: new Table(13, "Table 13", 100),
   14: new Table(14, "Table 14", 100),
   15: new Table(15, "Table 15", 100),
-  16: new Table(16, "Tournament 1", 10000),
-  17: new Table(17, "Tournament 2", 10000),
-  18: new Table(18, "Tournament 3", 10000),
-  19: new Table(19, "Tournament 4", 10000),
-  20: new Table(20, "Tournament 5", 10000),
-  21: new Table(21, "Tournament 6", 10000),
-  22: new Table(22, "Tournament 7", 10000),
-  23: new Table(23, "Tournament 8", 10000),
-  24: new Table(24, "Tournament 8", 10000),
-  25: new Table(25, "Tournament 8", 10000),
 };
 
 const players = {};
@@ -66,7 +57,15 @@ function getCurrentPlayers() {
   }));
 }
 
-function getCurrentTables() {
+const getCurrentTables = async () => {
+  const tns = await Tournaments.find({});
+  if (Object.values(tables).length < 16 && tns && tns.length > 0) {
+    tns.map((tn) => {
+      const tableId = Object.values(tables).length + 1;
+      tables[tableId] = new Table(tableId, tn.name, 10000, 5, tn.start, tn.end);
+    });
+  }
+
   const fetchedTables = Object.values(tables).map((table) => ({
     id: table.id,
     name: table.name,
@@ -80,12 +79,13 @@ function getCurrentTables() {
     start: table.start,
   }));
   const result = [];
+
   fetchedTables.filter((table, id) => {
-    // if (table.players) result.push(table);
     result.push(table);
   });
+
   return result;
-}
+};
 
 const init = (socket, io) => {
   socket.on(FETCH_LOBBY_INFO, async (token) => {
@@ -123,7 +123,7 @@ const init = (socket, io) => {
         balanceData.balance
       );
       const data = {
-        tables: getCurrentTables(),
+        tables: await getCurrentTables(),
         players: getCurrentPlayers(),
         socketId: socket.id,
       };
@@ -132,13 +132,13 @@ const init = (socket, io) => {
     }
   });
 
-  socket.on(CREATE_TABLE, () => {
+  socket.on(CREATE_TABLE, async () => {
     const tableId = Object.values(tables).length + 1;
     tables[tableId] = new Table(tableId, `Table ${tableId}`, 0.1);
     const player = players[socket.id];
     if (player) tables[tableId].addPlayer(player);
-    socket.emit(TABLE_JOINED, { tables: getCurrentTables(), tableId });
-    socket.broadcast.emit(TABLES_UPDATED, getCurrentTables());
+    socket.emit(TABLE_JOINED, { tables: await getCurrentTables(), tableId });
+    socket.broadcast.emit(TABLES_UPDATED, await getCurrentTables());
     if (
       tables[tableId].players &&
       tables[tableId].players.length > 0 &&
@@ -149,13 +149,13 @@ const init = (socket, io) => {
     }
   });
 
-  socket.on(JOIN_TABLE, (tableId) => {
+  socket.on(JOIN_TABLE, async (tableId) => {
     const table = tables[tableId];
     if (table) {
       const player = players[socket.id];
       table.addPlayer(player);
-      socket.emit(TABLE_JOINED, { tables: getCurrentTables(), tableId });
-      socket.broadcast.emit(TABLES_UPDATED, getCurrentTables());
+      socket.emit(TABLE_JOINED, { tables: await getCurrentTables(), tableId });
+      socket.broadcast.emit(TABLES_UPDATED, await getCurrentTables());
 
       if (
         tables[tableId].players &&
@@ -168,7 +168,7 @@ const init = (socket, io) => {
     }
   });
 
-  socket.on(LEAVE_TABLE, ({ tableId, activeTab }) => {
+  socket.on(LEAVE_TABLE, async ({ tableId, activeTab }) => {
     const table = tables[tableId];
     if (table) {
       const player = players[socket.id];
@@ -181,8 +181,8 @@ const init = (socket, io) => {
 
       table.removePlayer(socket.id);
 
-      socket.broadcast.emit(TABLES_UPDATED, getCurrentTables());
-      socket.emit(TABLE_LEFT, { tables: getCurrentTables(), tableId });
+      socket.broadcast.emit(TABLES_UPDATED, await getCurrentTables());
+      socket.emit(TABLE_LEFT, { tables: await getCurrentTables(), tableId });
 
       if (
         tables[tableId].players &&
@@ -301,7 +301,7 @@ const init = (socket, io) => {
     }
   });
 
-  socket.on(DISCONNECT, (activeTab) => {
+  socket.on(DISCONNECT, async (activeTab) => {
     const seat = findSeatBySocketId(socket.id);
     if (seat) {
       updatePlayerBankroll(seat.player, seat.stack, activeTab);
@@ -310,8 +310,8 @@ const init = (socket, io) => {
     delete players[socket.id];
     removeFromTables(socket.id);
 
-    socket.broadcast.emit(TABLES_UPDATED, getCurrentTables());
-    socket.broadcast.emit(PLAYERS_UPDATED, getCurrentPlayers());
+    socket.broadcast.emit(TABLES_UPDATED, await getCurrentTables());
+    socket.broadcast.emit(PLAYERS_UPDATED, await getCurrentPlayers());
   });
 
   async function updatePlayerBankroll(player, amount, activeTab) {

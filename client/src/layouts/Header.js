@@ -19,6 +19,7 @@ import socketContext from "../context/websocket/socketContext";
 import authContext from "../context/auth/authContext";
 import gameContext from "../context/game/gameContext";
 import axios from "axios";
+import NewTnModal from "../components/newTnModal";
 
 const HeaderWrapper = styled.div`
   max-width: 1440px;
@@ -135,12 +136,12 @@ const Navbar = styled.div`
   border-radius: 4px;
   padding: 20px;
 
-  & span {
+  & div {
     color: #fff;
     cursor: pointer;
   }
 
-  & span:hover {
+  & div:hover {
     color: #006dff;
     cursor: pointer;
   }
@@ -158,6 +159,7 @@ const Header = (props) => {
     openWalletModal,
     setOpenWalletModal,
     openTournamentModal,
+    showNewTnModal,
   } = useContext(globalContext);
   const { cleanUp } = useContext(socketContext);
   const { logout } = useContext(authContext);
@@ -226,7 +228,7 @@ const Header = (props) => {
       {showNav && (
         <Navbar>
           <div>
-            <span
+            <div
               onClick={() => {
                 cleanUp();
                 setShowNav(false);
@@ -234,7 +236,14 @@ const Header = (props) => {
               }}
             >
               Logout
-            </span>
+            </div>
+            <div
+              onClick={() => {
+                history.push("/admin/tournaments");
+              }}
+            >
+              Admin Panel
+            </div>
           </div>
         </Navbar>
       )}

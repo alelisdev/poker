@@ -7,7 +7,7 @@ const SidePot = require("./SidePot");
 const moment = require("moment");
 
 class Table {
-  constructor(id, name, limit, maxPlayers = 5) {
+  constructor(id, name, limit, maxPlayers = 5, start = null, end = null) {
     this.id = id;
     this.name = name;
     this.limit = limit;
@@ -31,7 +31,8 @@ class Table {
     this.sidePots = [];
     this.history = [];
     this.registers = [];
-    this.start = moment().startOf("isoWeek").format("YYYY-MM-DD HH:mm:ss");
+    this.start = start;
+    this.end = end;
   }
 
   initSeats(maxPlayers) {
