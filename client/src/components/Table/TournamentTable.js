@@ -151,6 +151,7 @@ const TournamentTable = (props) => {
       </TableHeader>
       <TableBody>
         {props.tableData.map((item, idx) => {
+          const datetime = new Date(item.start).toLocaleString();
           return (
             <TableRow key={idx}>
               <div className="check">
@@ -165,9 +166,14 @@ const TournamentTable = (props) => {
               </div>
               <span className="gtd">{item.gtd ? item.gtd : "100 $"}</span>
               <span className="limits">{item.limits ? item.limits : "NL"}</span>
+              {console.log(
+                new Date("2023-11-25T21:21:46.183Z").toLocaleString()
+              )}
               <span className="scheduler">
-                <span className="data">{item.start.split(" ")[0]}</span>
-                <p className="data">{item.start.split(" ")[1]}</p>
+                <span className="data">
+                  {datetime.split(" ")[0].slice(0, -1)}
+                </span>
+                <p className="data">{datetime.split(" ")[1]}</p>
               </span>
               <div className="status">
                 {tns.includes(item.id) ? (

@@ -62,6 +62,7 @@ const WebSocketProvider = ({ children }) => {
   function registerCallbacks(socket) {
     socket.on(RECEIVE_LOBBY_INFO, ({ tables, players, socketId }) => {
       setSocketId(socketId);
+      console.log(tables);
       const cashes = tables.filter((table) => table.name.includes("Table"));
       const tournaments = tables.filter((table) =>
         table.name.includes("Tournament")

@@ -16,6 +16,7 @@ const GlobalState = ({ children }) => {
   const [players, setPlayers] = useState(null);
   const [openWalletModal, setOpenWalletModal] = useState(false);
   const [openTournamentModal, setOpenTournamentModal] = useState(false);
+  const [showNewTnModal, setShowNewTnModal] = useState(false);
   const [previewTable, setPreviewTable] = useState(null);
   const [tnRegisterId, setTnRegisterId] = useState(null);
   const [tns, setTns] = useState([]);
@@ -56,6 +57,8 @@ const GlobalState = ({ children }) => {
         tns,
         setTns,
         ethPrice,
+        showNewTnModal,
+        setShowNewTnModal,
       }}
     >
       {children}
