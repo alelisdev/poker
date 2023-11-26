@@ -69,7 +69,7 @@ const TournamentTableContainer = styled.div`
 `;
 
 const useAPi = (url) => {
-  const { setShowNewTnModal } = useContext(globalContext);
+  const { setShowNewTnModal, setTns, tns } = useContext(globalContext);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -78,31 +78,31 @@ const useAPi = (url) => {
 
   const getData = async () => {
     const response = await pokerClient.get(url);
-    setData(response.data.data);
+    setTns(response.data.data);
   };
 
   const removeData = (id) => {
     pokerClient.delete(`${url}/${id}`).then(() => {
-      const del = data.filter((item) => id !== item._id);
-      setData(del);
+      const del = tns.filter((item) => id !== item._id);
+      setTns(del);
     });
   };
 
   const createNew = async (val) => {
     const res = await pokerClient.post(`${url}/new`, {
-      name: `Tournament${data.length + 1}`,
+      name: `Tournament${tns.length + 1}`,
       start: val.startDate,
       end: val.endDate,
     });
-    setData([...data, res.data.data]);
+    setTns([...tns, res.data.data]);
     setShowNewTnModal(false);
   };
-  return { data, removeData, createNew };
+  return { removeData, createNew };
 };
 
 const AdminTournaments = () => {
-  const { showNewTnModal, setShowNewTnModal } = useContext(globalContext);
-  const { data, removeData, createNew } = useAPi("/api/tournaments");
+  const { showNewTnModal, setShowNewTnModal, tns } = useContext(globalContext);
+  const { removeData, createNew } = useAPi("/api/tournaments");
 
   const renderHeader = () => {
     let headerElement = ["id", "name", "start", "end", "operation"];
@@ -113,8 +113,8 @@ const AdminTournaments = () => {
 
   const renderBody = () => {
     return (
-      data &&
-      data.map(({ _id, name, start, end }, index) => {
+      tns &&
+      tns.map(({ _id, name, start, end }, index) => {
         return (
           <tr key={index}>
             <td>{index + 1}</td>

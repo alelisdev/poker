@@ -10,6 +10,7 @@ const GlobalState = ({ children }) => {
   const [nativeToken, setNativeToken] = useState("ETH");
   const [email, setEmail] = useState(null);
   const [chipsAmount, setChipsAmount] = useState(null);
+  const [chip, setChip] = useState(0);
   const [balance, setBalance] = useState(null);
   const [tables, setTables] = useState([]);
   const [tnTables, setTnTables] = useState([]);
@@ -18,7 +19,7 @@ const GlobalState = ({ children }) => {
   const [openTournamentModal, setOpenTournamentModal] = useState(false);
   const [showNewTnModal, setShowNewTnModal] = useState(false);
   const [previewTable, setPreviewTable] = useState(null);
-  const [tnRegisterId, setTnRegisterId] = useState(null);
+  const [tnRegisterName, setTnRegisterName] = useState(null);
   const [tns, setTns] = useState([]);
 
   return (
@@ -52,13 +53,15 @@ const GlobalState = ({ children }) => {
         setActiveTab,
         previewTable,
         setPreviewTable,
-        tnRegisterId,
-        setTnRegisterId,
+        tnRegisterName,
+        setTnRegisterName,
         tns,
         setTns,
         ethPrice,
         showNewTnModal,
         setShowNewTnModal,
+        chip,
+        setChip,
       }}
     >
       {children}

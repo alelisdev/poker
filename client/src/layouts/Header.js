@@ -153,13 +153,10 @@ const Header = (props) => {
   const { joined } = useContext(gameContext);
   const {
     userName,
-    chipsAmount,
     balance,
-    nativeToken,
     openWalletModal,
     setOpenWalletModal,
     openTournamentModal,
-    showNewTnModal,
   } = useContext(globalContext);
   const { cleanUp } = useContext(socketContext);
   const { logout } = useContext(authContext);
@@ -218,7 +215,7 @@ const Header = (props) => {
           <ProfileWrapper>
             <NameWrapper>{userName}</NameWrapper>
             <AMDWrapper>{parseFloat(balance).toFixed(2)}USD</AMDWrapper>
-            <USDWrapper>{chipsAmount} chips</USDWrapper>
+            <USDWrapper>$ 2.09</USDWrapper>
           </ProfileWrapper>
           <IconArrow className="arrow-icon" />
         </FlexRightWrapper>

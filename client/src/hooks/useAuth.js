@@ -14,7 +14,6 @@ const useAuth = () => {
     nativeToken,
     setChipsAmount,
     setBalance,
-    setTns,
     ethPrice,
   } = useContext(globalContext);
 
@@ -72,9 +71,7 @@ const useAuth = () => {
     try {
       const res = await pokerClient.get("/api/auth");
       if (res.data) {
-        const { _id, name, email, balance, chipsAmount, tournaments } =
-          res.data;
-        setTns(tournaments);
+        const { _id, name, email, balance, chipsAmount } = res.data;
         setIsLoggedIn(true);
         setId(_id);
         setUserName(name);
@@ -103,7 +100,6 @@ const useAuth = () => {
     setUserName(null);
     setEmail(null);
     setChipsAmount(null);
-    setTns([]);
   };
 
   return [isLoggedIn, login, logout, register, loadUser];

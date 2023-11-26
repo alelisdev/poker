@@ -1,9 +1,7 @@
 const { INITIAL_CHIPS_AMOUNT } = require("../config");
 const User = require("../models/User");
+const Tournament = require("../models/Tournaments");
 
-// @route   POST api/chips/free
-// @desc    Get free chips if user has zero chips left
-// @access  Private
 exports.handleFreeChipsRequest = async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select("-password");
@@ -19,15 +17,27 @@ exports.handleFreeChipsRequest = async (req, res) => {
         if (bal.coinType === coinType) return balanceData;
         else return bal;
       });
-      await User.findOneAndUpdate(
+      const updateUser = await User.findOneAndUpdate(
         { _id: req.user.id },
-        { balance: { data: newBalance } }
+        {
+          $set: { balance: { data: newBalance } },
+          $push: {
+            chipsAmount: {
+              name: req.body.tnRegisterName,
+              amount: INITIAL_CHIPS_AMOUNT,
+            },
+          },
+        },
+        { returnOriginal: false }
       );
-      user.tournaments = [...user.tournaments, req.body.tableId];
-      user.chipsAmount += INITIAL_CHIPS_AMOUNT;
-      await user.save();
+      const update = { $push: { registers: user._id } };
+      const result = await Tournament.findOneAndUpdate(
+        { name: req.body.tnRegisterName },
+        update,
+        { returnOriginal: false }
+      );
+      return res.status(200).json({ user: updateUser, tournament: result });
     }
-    return res.status(200).json(user);
   } catch (err) {
     console.error("POST api/chips/free", err.message);
     return res.status(500).send("Internal server error");

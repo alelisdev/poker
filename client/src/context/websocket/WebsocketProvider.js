@@ -14,7 +14,7 @@ import config from "../../clientConfig";
 
 const WebSocketProvider = ({ children }) => {
   const { isLoggedIn } = useContext(authContext);
-  const { setTables, setTnTables, setPlayers, activeTab } =
+  const { setTables, setTnTables, setPlayers, activeTab, tnRegisterName } =
     useContext(globalContext);
   const [socket, setSocket] = useState(null);
   const [socketId, setSocketId] = useState(null);
@@ -39,7 +39,8 @@ const WebSocketProvider = ({ children }) => {
   }, [isLoggedIn]);
 
   function cleanUp() {
-    window.socket && window.socket.emit(DISCONNECT, activeTab);
+    window.socket &&
+      window.socket.emit(DISCONNECT, { activeTab, tnRegisterName });
     window.socket && window.socket.close();
     setSocket(null);
     setSocketId(null);
@@ -62,7 +63,6 @@ const WebSocketProvider = ({ children }) => {
   function registerCallbacks(socket) {
     socket.on(RECEIVE_LOBBY_INFO, ({ tables, players, socketId }) => {
       setSocketId(socketId);
-      console.log(tables);
       const cashes = tables.filter((table) => table.name.includes("Table"));
       const tournaments = tables.filter((table) =>
         table.name.includes("Tournament")

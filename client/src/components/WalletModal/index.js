@@ -112,10 +112,8 @@ const WalletModal = () => {
     nativeToken,
     setNativeToken,
     setOpenWalletModal,
-    chipsAmount,
     balance,
     setBalance,
-    setChipsAmount,
   } = useContext(globalContext);
 
   const handleClickETHDeposit = async () => {
@@ -233,7 +231,6 @@ const WalletModal = () => {
 
   const handleChange = (e) => {
     setNativeToken(e.target.value);
-    
   };
 
   return (

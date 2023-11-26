@@ -23,8 +23,8 @@ const UserSchema = new mongoose.Schema({
     required: true,
   },
   chipsAmount: {
-    type: Number,
-    default: 0,
+    type: Array,
+    default: [],
   },
   type: {
     type: Number,
