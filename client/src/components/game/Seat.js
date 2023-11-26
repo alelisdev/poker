@@ -173,7 +173,6 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                       onSubmit={(e) => {
                         e.preventDefault();
                         const amount = +document.getElementById("amount").value;
-                        console.log(amount);
                         if (
                           amount &&
                           amount >= minBuyIn &&
@@ -191,10 +190,6 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                       }}
                     >
                       <FormGroup>
-                        {console.log("balance", balance)}
-                        {console.log("minBuyIn", minBuyIn)}
-                        {console.log("maxBuyin", maxBuyin)}
-                        {console.log("balance", balance)}
                         <Input
                           id="amount"
                           type="number"

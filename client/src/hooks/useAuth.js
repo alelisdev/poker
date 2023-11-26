@@ -55,7 +55,6 @@ const useAuth = () => {
         password,
       });
       const token = res.data.token;
-      console.log(token);
       if (token) {
         localStorage.setItem("token", token);
         setAuthToken(token);
