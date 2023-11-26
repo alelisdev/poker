@@ -5,11 +5,14 @@ const {
   getCurrentTounaments,
   createNewTournament,
   deleteTournament,
+  allocateReward,
 } = require("../../controllers/tournaments");
 
 router.get("/", getCurrentTounaments);
 
 router.post("/new", createNewTournament);
+
+router.post("/reward", allocateReward);
 
 router.delete("/:id", deleteTournament);
 

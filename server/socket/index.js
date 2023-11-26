@@ -63,10 +63,14 @@ const getCurrentTables = async () => {
     tns.map((tn) => {
       let exist = false;
       Object.values(tables).forEach((table) => {
-        if (table.name === tn.name) {
+        if (
+          table.name === tn.name ||
+          new Date(tn.end).toISOString() < new Date().toISOString()
+        ) {
           exist = true;
         }
       });
+      console.log(exist);
       if (!exist) {
         const tableId = Object.values(tables).length + 1;
         tables[tableId] = new Table(
