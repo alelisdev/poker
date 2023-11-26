@@ -94,7 +94,7 @@ const useAPi = (url) => {
     setTns(response.data.data);
   };
 
-  const removeData = (id) => {
+  const removeData = async (id) => {
     pokerClient.delete(`${url}/${id}`).then(() => {
       const del = tns.filter((item) => id !== item._id);
       setTns(del);
@@ -142,13 +142,16 @@ const AdminTournaments = () => {
             <td>{end}</td>
             <td className="operation">
               {new Date(end).toISOString() < new Date().toISOString() && (
-                <button className="reward" onClick={() => reward(_id)}>
+                <button
+                  className="reward"
+                  onClick={async () => {
+                    await reward(_id);
+                    await removeData(_id);
+                  }}
+                >
                   Reward
                 </button>
               )}
-              <button className="button" onClick={() => removeData(_id)}>
-                Delete
-              </button>
             </td>
           </tr>
         );
