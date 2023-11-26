@@ -94,50 +94,35 @@ const TournamentModal = () => {
   const history = useHistory();
   const {
     setOpenTournamentModal,
-    setActiveTab,
-    tnTables,
-    isLoading,
-    chipsAmount,
     setBalance,
     setChipsAmount,
-    setIsLoading,
-    nativeToken,
-    tnRegisterId,
     setTns,
+    tns,
+    nativeToken,
+    tnRegisterName,
     ethPrice,
   } = useContext(globalContext);
-  const { openModal, closeModal } = useContext(modalContext);
-
-  const showFreeChipsModal = () => {
-    openModal(
-      () => (
-        <span>
-          For the Register to Tournament, you should get the chips by 30 USD of
-          your Balance.
-        </span>
-      ),
-      ``,
-      `OK`,
-      handleFreeChipsRequest
-    );
-  };
 
   const handleFreeChipsRequest = async () => {
     try {
-      console.log("here");
       const res = await pokerClient.post("/api/chips/free", {
-        tableId: tnRegisterId,
+        tnRegisterName: tnRegisterName,
       });
       if (res.data.errors) {
         console.log(res.data.errors);
       } else {
-        const { chipsAmount, balance, tournaments } = res.data;
-        setTns(tournaments);
+        const { chipsAmount, balance } = res.data.user;
         setBalance(
           balance.data.find((coin) => coin.coinType === nativeToken).balance *
             ethPrice
         );
         setChipsAmount(chipsAmount);
+        const updatedTns = tns.map((item) => {
+          if (item.name === res.data.tournament.name)
+            return res.data.tournament;
+          return item;
+        });
+        setTns(updatedTns);
         toast.success("🦄 Registration is successful.", {
           position: "top-center",
           autoClose: 3000,

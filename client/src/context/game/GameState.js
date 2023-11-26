@@ -22,7 +22,8 @@ import globalContext from "../global/globalContext";
 const GameState = ({ history, children }) => {
   const { socket } = useContext(socketContext);
   const { loadUser } = useContext(authContext);
-  const { setTables, setTnTables, activeTab } = useContext(globalContext);
+  const { setTables, setTnTables, activeTab, tnRegisterName } =
+    useContext(globalContext);
 
   const [joined, setJoined] = useState([]);
   const [messages, setMessages] = useState([]);
@@ -99,6 +100,7 @@ const GameState = ({ history, children }) => {
       socket.emit(LEAVE_TABLE, {
         tableId: currentTableRef.current.id,
         activeTab,
+        tnRegisterName,
       });
     setJoined([]);
     if (activeTab === "cash") history.push("/");
@@ -106,19 +108,29 @@ const GameState = ({ history, children }) => {
   };
 
   const sitDown = (tableId, seatId, amount) => {
-    socket.emit(SIT_DOWN, { tableId, seatId, amount, activeTab });
+    socket.emit(SIT_DOWN, {
+      tableId,
+      seatId,
+      amount,
+      activeTab,
+      tnRegisterName,
+    });
     setIsPlayerSeated(true);
     setSeatId(seatId);
   };
 
   const rebuy = (tableId, seatId, amount) => {
-    socket.emit(REBUY, { tableId, seatId, amount, activeTab });
+    socket.emit(REBUY, { tableId, seatId, amount, activeTab, tnRegisterName });
   };
 
   const standUp = () => {
     currentTableRef &&
       currentTableRef.current &&
-      socket.emit(STAND_UP, { tableId: currentTableRef.current.id, activeTab });
+      socket.emit(STAND_UP, {
+        tableId: currentTableRef.current.id,
+        activeTab,
+        tnRegisterName,
+      });
     setIsPlayerSeated(false);
     setSeatId(null);
   };

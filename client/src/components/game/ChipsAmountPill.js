@@ -33,10 +33,7 @@ const ChipsAmountPill = ({ chipsAmount, nativeToken }) => {
         <PokerChip width="30" height="30" />
       </IconWrapper>
       {activeTab === "cash" && (
-        <span>
-          ${parseFloat(chipsAmount).toFixed(2)}
-          {/* {nativeToken} */}
-        </span>
+        <span>$ {parseFloat(chipsAmount).toFixed(2)}</span>
       )}
       {activeTab === "tournament" && <span>{chipsAmount}</span>}
     </Wrapper>

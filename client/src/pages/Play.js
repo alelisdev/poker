@@ -315,7 +315,6 @@ const Play = ({ history }) => {
                 scale="0.55"
                 origin="bottom right"
               >
-                {console.log(currentTable)}
                 <Seat
                   seatNumber={4}
                   currentTable={currentTable}
@@ -458,7 +457,6 @@ const Play = ({ history }) => {
             label="set straddle"
           />
         </GameMiddleWrapper>
-        {console.log(bet)}
         {currentTable &&
           isPlayerSeated &&
           currentTable.seats[seatId] &&

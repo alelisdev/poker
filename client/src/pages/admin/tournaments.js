@@ -47,6 +47,19 @@ const TournamentTableContainer = styled.div`
     background-color: transparent;
   }
 
+  & .reward {
+    border: none;
+    outline: none;
+    font-size: 11px;
+    font-family: "Quicksand", sans-serif;
+    color: #4caf50;
+    padding: 3px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #4caf50;
+    background-color: transparent;
+  }
+
   & .create-btn {
     position: absolute;
     top: 56px;
@@ -69,7 +82,7 @@ const TournamentTableContainer = styled.div`
 `;
 
 const useAPi = (url) => {
-  const { setShowNewTnModal } = useContext(globalContext);
+  const { setShowNewTnModal, setTns, tns } = useContext(globalContext);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -78,31 +91,37 @@ const useAPi = (url) => {
 
   const getData = async () => {
     const response = await pokerClient.get(url);
-    setData(response.data.data);
+    setTns(response.data.data);
   };
 
-  const removeData = (id) => {
+  const removeData = async (id) => {
     pokerClient.delete(`${url}/${id}`).then(() => {
-      const del = data.filter((item) => id !== item._id);
-      setData(del);
+      const del = tns.filter((item) => id !== item._id);
+      setTns(del);
     });
   };
 
   const createNew = async (val) => {
     const res = await pokerClient.post(`${url}/new`, {
-      name: `Tournament${data.length + 1}`,
+      name: `Tournament${tns.length + 1}`,
       start: val.startDate,
       end: val.endDate,
     });
-    setData([...data, res.data.data]);
+    setTns([...tns, res.data.data]);
     setShowNewTnModal(false);
   };
-  return { data, removeData, createNew };
+
+  const reward = async (id) => {
+    await pokerClient.post(`${url}/reward`, {
+      id: id,
+    });
+  };
+  return { removeData, createNew, reward };
 };
 
 const AdminTournaments = () => {
-  const { showNewTnModal, setShowNewTnModal } = useContext(globalContext);
-  const { data, removeData, createNew } = useAPi("/api/tournaments");
+  const { showNewTnModal, setShowNewTnModal, tns } = useContext(globalContext);
+  const { reward, removeData, createNew } = useAPi("/api/tournaments");
 
   const renderHeader = () => {
     let headerElement = ["id", "name", "start", "end", "operation"];
@@ -113,8 +132,8 @@ const AdminTournaments = () => {
 
   const renderBody = () => {
     return (
-      data &&
-      data.map(({ _id, name, start, end }, index) => {
+      tns &&
+      tns.map(({ _id, name, start, end }, index) => {
         return (
           <tr key={index}>
             <td>{index + 1}</td>
@@ -122,9 +141,17 @@ const AdminTournaments = () => {
             <td>{start}</td>
             <td>{end}</td>
             <td className="operation">
-              <button className="button" onClick={() => removeData(_id)}>
-                Delete
-              </button>
+              {new Date(end).toISOString() < new Date().toISOString() && (
+                <button
+                  className="reward"
+                  onClick={async () => {
+                    await reward(_id);
+                    await removeData(_id);
+                  }}
+                >
+                  Reward
+                </button>
+              )}
             </td>
           </tr>
         );

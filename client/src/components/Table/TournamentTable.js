@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { ReactComponent as IconChecked } from "../../assets/icons/checked-icon.svg";
 import { ReactComponent as IconNonChecked } from "../../assets/icons/nonchecked-icon.svg";
@@ -6,6 +6,7 @@ import globalContext from "../../context/global/globalContext";
 import { useHistory } from "react-router-dom";
 import socketContext from "../../context/websocket/socketContext";
 import gameContext from "../../context/game/gameContext";
+import pokerClient from "../../helpers/axios";
 
 const TableHeader = styled.div`
   margin-top: 10px;
@@ -125,12 +126,30 @@ const TableRow = styled.div`
 const TournamentTable = (props) => {
   const history = useHistory();
   const { joinTable } = useContext(gameContext);
-  const { setOpenTournamentModal, chipsAmount, setTnRegisterId, tns } =
-    useContext(globalContext);
+  const {
+    setOpenTournamentModal,
+    chipsAmount,
+    setTnRegisterName,
+    tns,
+    setTns,
+    id,
+    setChip,
+  } = useContext(globalContext);
   const { socket } = useContext(socketContext);
 
-  const joinGame = (tableId) => {
-    if (socket && tableId && chipsAmount > 1000) {
+  useEffect(() => {
+    const getTns = async () => {
+      const res = await pokerClient.get("/api/tournaments");
+      setTns(res.data.data);
+    };
+    getTns();
+  }, []);
+
+  const joinGame = (tableId, tableName) => {
+    const currentChip = chipsAmount.find((chip) => chip.name === tableName);
+    setTnRegisterName(tableName);
+    setChip(currentChip.amount);
+    if (socket && tableId && currentChip.amount > 1000) {
       joinTable(tableId);
       history.push("/play");
     } else {
@@ -155,7 +174,13 @@ const TournamentTable = (props) => {
           return (
             <TableRow key={idx}>
               <div className="check">
-                {tns.includes(item.id) ? <IconChecked /> : <IconNonChecked />}
+                {tns
+                  .find((tn) => tn.name === item.name)
+                  ?.registers.includes(id) ? (
+                  <IconChecked />
+                ) : (
+                  <IconNonChecked />
+                )}
               </div>
               <div className="name">
                 <span>Mida Dao</span>
@@ -166,44 +191,52 @@ const TournamentTable = (props) => {
               </div>
               <span className="gtd">{item.gtd ? item.gtd : "100 $"}</span>
               <span className="limits">{item.limits ? item.limits : "NL"}</span>
-              {console.log(
-                new Date("2023-11-25T21:21:46.183Z").toLocaleString()
-              )}
               <span className="scheduler">
                 <span className="data">
                   {datetime.split(" ")[0].slice(0, -1)}
                 </span>
                 <p className="data">{datetime.split(" ")[1]}</p>
               </span>
-              <div className="status">
-                {tns.includes(item.id) ? (
-                  <span className="registered">Registered</span>
-                ) : (
+              {item.end < new Date().toISOString() ? (
+                <div className="status">Ended</div>
+              ) : (
+                <div className="status">
+                  {tns
+                    .find((tn) => tn.name === item.name)
+                    ?.registers.includes(id) ? (
+                    <span className="registered">Registered</span>
+                  ) : (
+                    <span
+                      className="btn"
+                      onClick={(e) => {
+                        setOpenTournamentModal(true);
+                        setTnRegisterName(item.name);
+                        e.stopPropagation();
+                      }}
+                    >
+                      Registeration
+                    </span>
+                  )}
                   <span
                     className="btn"
                     onClick={(e) => {
-                      setOpenTournamentModal(true);
-                      setTnRegisterId(item.id);
+                      if (
+                        tns
+                          .find((tn) => tn.name === item.name)
+                          ?.registers.includes(id)
+                      ) {
+                        joinGame(item.id, item.name);
+                      } else {
+                        setTnRegisterName(item.name);
+                        history.push("/lobby");
+                      }
                       e.stopPropagation();
                     }}
                   >
-                    Registeration
+                    open
                   </span>
-                )}
-                <span
-                  className="btn"
-                  onClick={(e) => {
-                    if (tns.includes(item.id)) joinGame(item.id);
-                    else {
-                      setTnRegisterId(item.id);
-                      history.push("/lobby");
-                    }
-                    e.stopPropagation();
-                  }}
-                >
-                  open
-                </span>
-              </div>
+                </div>
+              )}
             </TableRow>
           );
         })}

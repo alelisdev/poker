@@ -87,8 +87,7 @@ const ProgressBar = styled.div`
 
 export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
   const { openModal, closeModal } = useContext(modalContext);
-  const { chipsAmount, balance, nativeToken, activeTab } =
-    useContext(globalContext);
+  const { chip, balance, nativeToken, activeTab } = useContext(globalContext);
   const { standUp, seatId, rebuy } = useContext(gameContext);
   const { getLocalizedString } = useContext(contentContext);
   const seat = currentTable?.seats && currentTable.seats[seatNumber];
@@ -107,8 +106,8 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
       if ((activeTab === "cash" && balance <= minBuyIn) || balance === 0) {
         standUp();
       } else if (
-        (activeTab === "tournament" && chipsAmount <= minBuyIn) ||
-        chipsAmount === 0
+        (activeTab === "tournament" && chip <= minBuyIn) ||
+        chip === 0
       ) {
         standUp();
       } else {
@@ -121,9 +120,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                 if (
                   amount &&
                   amount >= minBuyIn &&
-                  (activeTab === "cash"
-                    ? amount <= balance
-                    : amount <= chipsAmount)
+                  (activeTab === "cash" ? amount <= balance : amount <= chip)
                 ) {
                   rebuy(currentTable.id, seatNumber, parseInt(amount));
                   closeModal();
@@ -136,7 +133,7 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                   type="number"
                   min={minBuyIn}
                   step={minBuyIn}
-                  max={activeTab === "cash" ? balance : chipsAmount}
+                  max={activeTab === "cash" ? balance : chip}
                   defaultValue={minBuyIn}
                 />
               </FormGroup>
@@ -176,13 +173,12 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                       onSubmit={(e) => {
                         e.preventDefault();
                         const amount = +document.getElementById("amount").value;
-                        console.log(amount);
                         if (
                           amount &&
                           amount >= minBuyIn &&
                           (activeTab === "cash"
                             ? amount <= balance
-                            : amount <= chipsAmount)
+                            : amount <= chip)
                         ) {
                           sitDown(
                             currentTable.id,
@@ -194,16 +190,12 @@ export const Seat = ({ currentTable, seatNumber, isPlayerSeated, sitDown }) => {
                       }}
                     >
                       <FormGroup>
-                        {console.log("balance", balance)}
-                        {console.log("minBuyIn", minBuyIn)}
-                        {console.log("maxBuyin", maxBuyin)}
-                        {console.log("balance", balance)}
                         <Input
                           id="amount"
                           type="number"
                           min={minBuyIn}
                           step={minBuyIn}
-                          max={activeTab === "cash" ? balance : chipsAmount}
+                          max={activeTab === "cash" ? balance : chip}
                           defaultValue={minBuyIn}
                         />
                       </FormGroup>
