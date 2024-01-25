@@ -7,8 +7,9 @@
     "start": "node ./server/server",
     "start:server": "node ./server/server",
     "dev:server": "nodemon ./server/server",
+    "devel:server": "node ./server/server",
     "start:client": "npm start --prefix client",
-    "dev": "concurrently \"npm run dev:server\" \"npm run start:client\""
+    "dev": "NODE_OPTIONS=--openssl-legacy-provider concurrently \"npm run devel:server\" \"npm run start:client\""
   },
   "author": "",
   "private": "true",
